@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "twitch": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string",
+      "default": ""
+    },
+    "youtube": {
+      "type": "string",
+      "default": ""
+    },
+    "facebook": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "required": ["id", "twitch"]
+}

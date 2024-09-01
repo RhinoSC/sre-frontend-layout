@@ -31,6 +31,8 @@
     "watch:extension": "tsc -b tsconfig.extension.json -w"
   },
   "dependencies": {
+    "axios": "^1.7.7",
+    "livesplit-core": "^0.10.2",
     "module-alias": "^2.2.2"
   },
   "devDependencies": {

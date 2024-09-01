@@ -1,5 +1,5 @@
-import type { ExampleType } from '@nodecg-vue-ts-template/types';
-import type { Configschema } from '@nodecg-vue-ts-template/types/schemas/configschema';
+import type { ExampleType } from '@sre-frontend-layout/types';
+import type { Configschema } from '@sre-frontend-layout/types/schemas/configschema';
 import { get as nodecg } from './util/nodecg';
 import { exampleReplicant } from './util/replicants';
 

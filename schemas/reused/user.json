@@ -3,18 +3,19 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "API_URL": {
+    "id": {
       "type": "string"
     },
-    "API_TOKEN": {
+    "name": {
       "type": "string"
     },
-    "API_USERNAME": {
+    "username": {
       "type": "string"
     },
-    "API_PASSWORD": {
-      "type": "string"
+    "socials": {
+      "type": "object",
+      "$ref": "./socials.json"
     }
   },
-  "required": ["API_URL", "API_USERNAME", "API_PASSWORD"]
+  "required": ["id", "name", "username", "socials"]
 }

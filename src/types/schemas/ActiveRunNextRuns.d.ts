@@ -5,9 +5,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Configschema {
-	API_URL: string;
-	API_TOKEN?: string;
-	API_USERNAME: string;
-	API_PASSWORD: string;
-}
+/**
+ * @minItems 0
+ * @maxItems 4
+ */
+export type ActiveRunNextRuns =
+	| []
+	| [string]
+	| [string, unknown]
+	| [string, unknown, unknown]
+	| [string, unknown, unknown, unknown];

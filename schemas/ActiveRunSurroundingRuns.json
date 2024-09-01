@@ -3,18 +3,14 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "API_URL": {
+    "previous": {
       "type": "string"
     },
-    "API_TOKEN": {
+    "current": {
       "type": "string"
     },
-    "API_USERNAME": {
-      "type": "string"
-    },
-    "API_PASSWORD": {
+    "next": {
       "type": "string"
     }
-  },
-  "required": ["API_URL", "API_USERNAME", "API_PASSWORD"]
+  }
 }

@@ -5,9 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Configschema {
-	API_URL: string;
-	API_TOKEN?: string;
-	API_USERNAME: string;
-	API_PASSWORD: string;
+export interface ActiveRunSurroundingRuns {
+	previous?: string;
+	current?: string;
+	next?: string;
 }

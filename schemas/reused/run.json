@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "start_time_mili": {
+      "type": "number"
+    },
+    "estimate_string": {
+      "type": "string"
+    },
+    "estimate_mili": {
+      "type": "number"
+    },
+    "setup_time_mili": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string"
+    },
+    "run_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "twitch_game_name": {
+          "type": "string"
+        },
+        "twitch_game_id": {
+          "type": "string"
+        },
+        "run_name": {
+          "type": "string",
+          "default": ""
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "teams": {
+      "type": "array",
+      "default": [],
+      "$ref": "./team.json"
+    },
+    "externalID": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "name", "start_time_mili", "estimate_mili", "setup_time_mili", "status", "run_metadata", "teams"]
+}
