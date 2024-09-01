@@ -6,7 +6,7 @@
     "time": {
       "type": "string",
       "default": "00:00:00",
-      "pattern": "^([0-9]{2}:[0-9]{2}:[0-9]{2})*$"
+      "pattern": "^([0-9]{2,}:[0-9]{2}:[0-9]{2}){0,1}$"
     },
     "state": {
       "type": "string",
@@ -32,7 +32,7 @@
         "properties": {
           "time": {
             "type": "string",
-            "pattern": "^([0-9]{2}:[0-9]{2}:[0-9]{2})*$"
+            "pattern": "^([0-9]{2,}:[0-9]{2}:[0-9]{2}){0,1}$"
           },
           "state": {
             "type": "string",
@@ -49,5 +49,5 @@
       }
     }
   },
-  "required": ["time", "state", "milliseconds", "timestamp", "team_finish_times"]
+  "required": ["time", "state", "milliseconds", "timestamp", "teamFinishTimes"]
 }

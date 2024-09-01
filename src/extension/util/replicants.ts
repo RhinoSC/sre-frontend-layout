@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 
-import type { ActiveRun, ActiveRunNextRuns, ActiveRunSurroundingRuns, ExampleReplicant, RunArray, Timer, TimerChangesDisabled } from '@sre-frontend-layout/types/schemas';
+import type { ActiveRun, ActiveRunNextRuns, ActiveRunSurroundingRuns, DefaultSetupTime, ExampleReplicant, RunArray, Timer, TimerChangesDisabled } from '@sre-frontend-layout/types/schemas';
+import type NodeCG from '@nodecg/types';
 import { get as nodecg } from './nodecg';
 import { Bid, Prize, RunFinishTimes } from '@sre-frontend-layout/types';
 
@@ -12,13 +13,14 @@ import { Bid, Prize, RunFinishTimes } from '@sre-frontend-layout/types';
 // YOU CAN REMOVE THIS RULE WHEN YOU GET MULTIPLE REPLICANTS!
 // eslint-disable-next-line import/prefer-default-export
 export const exampleReplicant = nodecg().Replicant<ExampleReplicant>('exampleReplicant');
-export const activeRun = nodecg().Replicant<ActiveRun>('activeRun');
-export const activeRunSurroundingRuns = nodecg().Replicant<ActiveRunSurroundingRuns>('activeRunSurroundingRuns');
-export const activeRunNextRuns = nodecg().Replicant<ActiveRunNextRuns>('activeRunNextRuns');
-export const runArray = nodecg().Replicant<RunArray>('runArray');
-export const runFinishTimes = nodecg().Replicant<RunFinishTimes>('runFinishTimes');
-export const timer = nodecg().Replicant<Timer>('timer', { persistenceInterval: 100 });
-export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled');
+export const defaultSetupTime = nodecg().Replicant<DefaultSetupTime>('defaultSetupTime') as unknown as NodeCG.ServerReplicantWithSchemaDefault<DefaultSetupTime>;
+export const activeRun = nodecg().Replicant<ActiveRun>('activeRun') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRun>;
+export const activeRunSurroundingRuns = nodecg().Replicant<ActiveRunSurroundingRuns>('activeRunSurroundingRuns') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRunSurroundingRuns>;
+export const activeRunNextRuns = nodecg().Replicant<ActiveRunNextRuns>('activeRunNextRuns') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRunNextRuns>;
+export const runArray = nodecg().Replicant<RunArray>('runArray') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunArray>;
+export const runFinishTimes = nodecg().Replicant<RunFinishTimes>('runFinishTimes') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunFinishTimes>;
+export const timer = nodecg().Replicant<Timer>('timer', { persistenceInterval: 100 }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<Timer>;
+export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled')  as unknown as NodeCG.ServerReplicantWithSchemaDefault<TimerChangesDisabled>;
 export const totalDonated = nodecg().Replicant<number>('totalDonated');
 export const bids = nodecg().Replicant<Bid[]>('bids');
 export const prizes = nodecg().Replicant<Prize[]>('prizes');
