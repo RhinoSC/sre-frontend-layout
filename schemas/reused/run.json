@@ -13,7 +13,8 @@
       "type": "number"
     },
     "estimate_string": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "estimate_mili": {
       "type": "number"
@@ -47,16 +48,34 @@
         "note": {
           "type": "string"
         }
-      }
+      },
+      "required": ["category", "platform", "twitch_game_name", "twitch_game_id", "run_name", "note"]
     },
     "teams": {
       "type": "array",
       "default": [],
       "$ref": "./team.json"
     },
-    "externalID": {
+    "bids": {
+      "type": "array",
+      "default": [],
+      "$ref": "./bid.json"
+    },
+    "schedule_id": {
       "type": "string"
     }
   },
-  "required": ["id", "name", "start_time_mili", "estimate_mili", "setup_time_mili", "status", "run_metadata", "teams"]
+  "required": [
+    "id",
+    "name",
+    "start_time_mili",
+    "estimate_string",
+    "estimate_mili",
+    "setup_time_mili",
+    "status",
+    "run_metadata",
+    "teams",
+    "bids",
+    "schedule_id"
+  ]
 }

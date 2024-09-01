@@ -17,25 +17,42 @@ export type User = {
 	username: string;
 	socials: Socials;
 } & unknown[];
+export type Bid = {
+	id: string;
+	bidname: string;
+	goal: number;
+	current_amount: number;
+	description: string;
+	type: string;
+	create_new_options: boolean;
+	status: string;
+	bid_options: {
+		id?: string;
+		name?: string;
+		current_amount?: number;
+	};
+	run_id: string;
+} & unknown[];
 
 export interface Run {
 	id: string;
 	name: string;
 	start_time_mili: number;
-	estimate_string?: string;
+	estimate_string: string;
 	estimate_mili: number;
 	setup_time_mili: number;
 	status: string;
 	run_metadata: {
-		category?: string;
-		platform?: string;
-		twitch_game_name?: string;
-		twitch_game_id?: string;
-		run_name?: string;
-		note?: string;
+		category: string;
+		platform: string;
+		twitch_game_name: string;
+		twitch_game_id: string;
+		run_name: string;
+		note: string;
 	};
 	teams: Team;
-	externalID?: string;
+	bids: Bid;
+	schedule_id: string;
 }
 export interface Socials {
 	id: string;

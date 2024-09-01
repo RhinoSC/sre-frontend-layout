@@ -11,7 +11,7 @@ export interface Run {
   status: string;
   run_metadata: RunMetadata;
   teams: Team[];
-  bids?: Bid[];
+  bids: Bid[];
   schedule_id: string;
 }
 
