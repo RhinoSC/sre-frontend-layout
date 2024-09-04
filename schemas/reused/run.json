@@ -53,13 +53,16 @@
     },
     "teams": {
       "type": "array",
-      "default": [],
-      "$ref": "./team.json"
+      "items": {
+        "$ref": "./team.json"
+      },
+      "default": []
     },
     "bids": {
       "type": "array",
-      "default": [],
-      "$ref": "./bid.json"
+      "items": {
+        "$ref": "./bid.json"
+      }
     },
     "schedule_id": {
       "type": "string"

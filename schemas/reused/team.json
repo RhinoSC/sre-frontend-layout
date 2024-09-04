@@ -12,7 +12,9 @@
     },
     "players": {
       "type": "array",
-      "$ref": "./user.json"
+      "items": {
+        "$ref": "./user.json"
+      }
     }
   },
   "required": ["id", "name", "players"]

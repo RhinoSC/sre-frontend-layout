@@ -1,5 +1,5 @@
 import { Run, User, Team } from "@sre-frontend-layout/types";
-import { ActiveRunNextRuns } from "@sre-frontend-layout/types/schemas";
+import { ActiveRun, ActiveRunNextRuns } from "@sre-frontend-layout/types/schemas";
 import clone from "clone";
 import _ from "lodash";
 import { resetTimer } from "./timer";
@@ -51,8 +51,8 @@ function changeSurroundingRuns(): void {
 
     // Try to find currently set runs in the run data array.
     const currentIndex = findRunIndexFromId(current.id);
-    const previousIndex = findRunIndexFromId(runDataActiveRunSurrounding.value.previous);
-    const nextIndex = findRunIndexFromId(runDataActiveRunSurrounding.value.next);
+    const previousIndex = findRunIndexFromId(activeRunSurroundingRuns.value.previous);
+    const nextIndex = findRunIndexFromId(activeRunSurroundingRuns.value.next);
 
     if (currentIndex >= 0) { // Found current run in array.
       if (currentIndex > 0) {
@@ -67,7 +67,7 @@ function changeSurroundingRuns(): void {
     }
   }
 
-  runDataActiveRunSurrounding.value = {
+  activeRunSurroundingRuns.value = {
     previous: (previous) ? previous.id : undefined,
     current: (current) ? current.id : undefined,
     next: (next) ? next.id : undefined,
@@ -84,9 +84,9 @@ async function updateTwitchInformation(runData: Run): Promise<boolean> {
 
 
   // Attempts to find the correct Twitch game directory.
-  let { gameTwitch } = runData;
+  let { run_metadata } = runData;
 
-  return !gameTwitch;
+  return !run_metadata.twitch_game_name;
 }
 
 /**
@@ -151,10 +151,15 @@ async function modifyRun(runData: Run, prevID?: string, twitch = false): Promise
     // Loops through data, removes any keys that are falsey.
     const data = _.pickBy(runData, _.identity) as Run;
     data.teams = data.teams.map((team) => {
-      const teamData = _.pickBy(team, _.identity) as RunDataTeam;
+      const teamData = _.pickBy(team, _.identity) as Team;
       teamData.players = teamData.players.map((player) => {
-        const playerData = _.pickBy(player, _.identity) as RunDataPlayer;
-        playerData.social = _.pickBy(playerData.social, _.identity);
+        const playerData = _.pickBy(player, _.identity) as User;
+        const socials = _.pickBy(playerData.socials, _.identity);
+        playerData.socials.id = socials.id!
+        playerData.socials.twitch = socials.twitch!
+        playerData.socials.twitter = socials.twitter
+        playerData.socials.youtube = socials.youtube
+        playerData.socials.facebook = socials.facebook
         return playerData;
       });
       return teamData;
@@ -174,41 +179,41 @@ async function modifyRun(runData: Run, prevID?: string, twitch = false): Promise
     }
 
     // If set as relay, set any missing indexes if needed. If the opposite, delete them.
-    if (runData.relay) {
-      data.teams = data.teams.map((team) => ({ relayPlayerID: team.players[0]?.id, ...team }));
-    } else {
-      for (const team of data.teams) {
-        delete team.relayPlayerID;
-      }
-    }
+    // if (runData.relay) {
+    //   data.teams = data.teams.map((team) => ({ relayPlayerID: team.players[0]?.id, ...team }));
+    // } else {
+    //   for (const team of data.teams) {
+    //     delete team.relayPlayerID;
+    //   }
+    // }
 
     // Verify and convert estimate.
-    if (data.estimate) {
-      if (data.estimate.match(/^(\d+:)?(?:\d{1}|\d{2}):\d{2}$/)) {
-        const ms = timeStrToMS(data.estimate);
-        data.estimate = msToTimeStr(ms);
-        data.estimateS = ms / 1000;
-      } else { // Throw error if format is incorrect.
-        throw new Error('Estimate is in incorrect format');
-      }
-    } else {
-      delete data.estimate;
-      delete data.estimateS;
-    }
+    // if (data.estimate) {
+    //   if (data.estimate.match(/^(\d+:)?(?:\d{1}|\d{2}):\d{2}$/)) {
+    //     const ms = timeStrToMS(data.estimate);
+    //     data.estimate = msToTimeStr(ms);
+    //     data.estimateS = ms / 1000;
+    //   } else { // Throw error if format is incorrect.
+    //     throw new Error('Estimate is in incorrect format');
+    //   }
+    // } else {
+    //   delete data.estimate;
+    //   delete data.estimateS;
+    // }
 
-    // Verify and convert setup time.
-    if (data.setupTime) {
-      if (data.setupTime.match(/^(\d+:)?(?:\d{1}|\d{2}):\d{2}$/)) {
-        const ms = timeStrToMS(data.setupTime);
-        data.setupTime = msToTimeStr(ms);
-        data.setupTimeS = ms / 1000;
-      } else { // Throw error if format is incorrect.
-        throw new Error('Setup time is in incorrect format');
-      }
-    } else {
-      delete data.setupTime;
-      delete data.setupTimeS;
-    }
+    // // Verify and convert setup time.
+    // if (data.setupTime) {
+    //   if (data.setupTime.match(/^(\d+:)?(?:\d{1}|\d{2}):\d{2}$/)) {
+    //     const ms = timeStrToMS(data.setupTime);
+    //     data.setupTime = msToTimeStr(ms);
+    //     data.setupTimeS = ms / 1000;
+    //   } else { // Throw error if format is incorrect.
+    //     throw new Error('Setup time is in incorrect format');
+    //   }
+    // } else {
+    //   delete data.setupTime;
+    //   delete data.setupTimeS;
+    // }
 
     const index = findRunIndexFromId(data.id);
     if (index >= 0) { // Run already exists, edit it.
@@ -235,30 +240,30 @@ async function modifyRun(runData: Run, prevID?: string, twitch = false): Promise
  * @param teamID ID of the team inside of the run you wish to modify.
  * @param playerID ID of the player you wish to set as the one currently playing.
  */
-async function modifyRelayPlayerID(runID: string, teamID: string, playerID: string): Promise<void> {
-  try {
-    const run = clone(runArray.value.find((r) => r.id === runID));
-    if (!run) {
-      throw new Error(`Run with ID ${runID} was not found`);
-    }
-    if (!run.relay) {
-      throw new Error(`Run with ID ${runID} is not set as a relay`);
-    }
-    const teamIndex = run.teams.findIndex((t) => t.id === teamID);
-    if (teamIndex < 0) {
-      throw new Error(`Team with ID ${runID} was not found`);
-    }
-    const player = run.teams[teamIndex].players.find((p) => p.id === playerID);
-    if (!player) {
-      throw new Error(`Player with ID ${playerID} was not found`);
-    }
-    run.teams[teamIndex].relayPlayerID = player.id;
-    await modifyRun(run);
-  } catch (err) {
-    nodecg.log.debug('[Run Control] Could not successfully modify relay player ID:', err);
-    throw err;
-  }
-}
+// async function modifyRelayPlayerID(runID: string, teamID: string, playerID: string): Promise<void> {
+//   try {
+//     const run = clone(runArray.value.find((r) => r.id === runID));
+//     if (!run) {
+//       throw new Error(`Run with ID ${runID} was not found`);
+//     }
+//     if (!run.relay) {
+//       throw new Error(`Run with ID ${runID} is not set as a relay`);
+//     }
+//     const teamIndex = run.teams.findIndex((t) => t.id === teamID);
+//     if (teamIndex < 0) {
+//       throw new Error(`Team with ID ${runID} was not found`);
+//     }
+//     const player = run.teams[teamIndex].players.find((p) => p.id === playerID);
+//     if (!player) {
+//       throw new Error(`Player with ID ${playerID} was not found`);
+//     }
+//     run.teams[teamIndex].relayPlayerID = player.id;
+//     await modifyRun(run);
+//   } catch (err) {
+//     nodecg.log.debug('[Run Control] Could not successfully modify relay player ID:', err);
+//     throw err;
+//   }
+// }
 
 /**
  * Removes the active run from the relevant replicant.
@@ -268,7 +273,7 @@ async function removeActiveRun(): Promise<void> {
     if (['running', 'paused'].includes(timer.value.state)) {
       throw new Error('Timer is running/paused');
     }
-    (activeRun.value as RunDataActiveRun) = undefined;
+    (activeRun.value as ActiveRun | undefined) = undefined;
     to(resetTimer(true));
     nodecg.log.debug('[Run Control] Successfully removed active run');
   } catch (err) {
@@ -310,13 +315,13 @@ nodecg.listenFor('modifyRun', (data, ack: any) => {
     .then((noTwitchGame) => ack(null, noTwitchGame))
     .catch((err) => ack(err));
 });
-nodecg.listenFor('modifyRelayPlayerID', (data, ack: any) => {
-  modifyRelayPlayerID(data.runID, data.teamID, data.playerID)
-    .then(() => ack(null))
-    .catch((err) => ack(err));
-});
+// nodecg.listenFor('modifyRelayPlayerID', (data, ack: any) => {
+//   modifyRelayPlayerID(data.runID, data.teamID, data.playerID)
+//     .then(() => ack(null))
+//     .catch((err) => ack(err));
+// });
 nodecg.listenFor('changeToNextRun', async (data, ack: any) => {
-  await changeActiveRun(runDataActiveRunSurrounding.value.next)
+  await changeActiveRun(activeRunSurroundingRuns.value.next)
     .then((noTwitchGame) => ack(null, noTwitchGame))
     .catch((err) => ack(err));
 });

@@ -6,33 +6,6 @@
  */
 
 export type ActiveRun = Run;
-export type Team = {
-	id: string;
-	name: string;
-	players: User;
-} & unknown[];
-export type User = {
-	id: string;
-	name: string;
-	username: string;
-	socials: Socials;
-} & unknown[];
-export type Bid = {
-	id: string;
-	bidname: string;
-	goal: number;
-	current_amount: number;
-	description: string;
-	type: string;
-	create_new_options: boolean;
-	status: string;
-	bid_options: {
-		id?: string;
-		name?: string;
-		current_amount?: number;
-	};
-	run_id: string;
-} & unknown[];
 
 export interface Run {
 	id: string;
@@ -50,9 +23,20 @@ export interface Run {
 		run_name: string;
 		note: string;
 	};
-	teams: Team;
-	bids: Bid;
+	teams: Team[];
+	bids: Bid[];
 	schedule_id: string;
+}
+export interface Team {
+	id: string;
+	name: string;
+	players: User[];
+}
+export interface User {
+	id: string;
+	name: string;
+	username: string;
+	socials: Socials;
 }
 export interface Socials {
 	id: string;
@@ -60,4 +44,20 @@ export interface Socials {
 	twitter?: string;
 	youtube?: string;
 	facebook?: string;
+}
+export interface Bid {
+	id: string;
+	bidname: string;
+	goal: number;
+	current_amount: number;
+	description: string;
+	type: string;
+	create_new_options: boolean;
+	status: string;
+	bid_options: {
+		id: string;
+		name: string;
+		current_amount: number;
+	}[];
+	run_id: string;
 }

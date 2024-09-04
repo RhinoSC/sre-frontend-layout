@@ -7,7 +7,7 @@ export interface User {
 
 export interface Socials {
   id: string;
-  twitch?: string;
+  twitch: string;
   twitter?: string;
   youtube?: string;
   facebook?: string;
