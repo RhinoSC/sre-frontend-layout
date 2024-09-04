@@ -10,4 +10,5 @@ export interface Configschema {
 	API_TOKEN?: string;
 	API_USERNAME: string;
 	API_PASSWORD: string;
+	API_SCHEDULE_ID: string;
 }

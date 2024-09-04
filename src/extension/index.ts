@@ -15,4 +15,7 @@ export = (nodecg: NodeCG): void => {
    */
   set(nodecg);
   require('./example');
+  require('./run-control');
+  require('./timer');
+  require('./api')
 };

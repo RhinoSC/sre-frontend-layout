@@ -14,7 +14,10 @@
     },
     "API_PASSWORD": {
       "type": "string"
+    },
+    "API_SCHEDULE_ID": {
+      "type": "string"
     }
   },
-  "required": ["API_URL", "API_USERNAME", "API_PASSWORD"]
+  "required": ["API_URL", "API_USERNAME", "API_PASSWORD", "API_SCHEDULE_ID"]
 }

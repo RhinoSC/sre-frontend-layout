@@ -9,9 +9,6 @@ const config = nodecg.bundleConfig as Configschema;
 
 export const api = axios.create({
   baseURL: config.API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  },
 });
 
 api.interceptors.request.use(
@@ -31,11 +28,12 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
 
     if (error.response?.status === 401) {
       // Token ha expirado o no es válido
-
+      const response = await login(config.API_USERNAME, config.API_PASSWORD)
+      apiToken.value = response.data.token
     }
 
     return Promise.reject(error);
@@ -59,6 +57,7 @@ export const login = async (username: string, password: string) => {
 export const setAuthToken = (token: string | null) => {
   if (token) {
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    nodecg.log.info('[Axios] set api authorization header')
   } else {
     delete api.defaults.headers['Authorization'];
   }

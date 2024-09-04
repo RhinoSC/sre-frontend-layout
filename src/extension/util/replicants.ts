@@ -25,7 +25,7 @@ export const totalDonated = nodecg().Replicant<number>('totalDonated');
 export const bids = nodecg().Replicant<Bid[]>('bids');
 export const prizes = nodecg().Replicant<Prize[]>('prizes');
 export const currentSong = nodecg().Replicant<string>('currentSong');
-export const apiToken = nodecg().Replicant<string>('apiToken')
+export const apiToken = nodecg().Replicant<string>('apiToken', {persistent: true, persistenceInterval: 8.64e+7})
 
 
 

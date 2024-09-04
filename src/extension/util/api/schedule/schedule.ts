@@ -20,6 +20,7 @@ export const apiGetScheduleByID = async <T>(id: string): Promise<APIResponse<Sch
     const apiResponse: APIResponse = response.data
     return apiResponse
   } catch (error) {
+    console.log(error)
     throw new Error(`Failed to get schedule by id: ${id}`);
   }
 }
