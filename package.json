@@ -33,7 +33,8 @@
   "dependencies": {
     "axios": "^1.7.7",
     "livesplit-core": "^0.10.2",
-    "module-alias": "^2.2.2"
+    "module-alias": "^2.2.2",
+    "oh-vue-icons": "^1.0.0-rc3"
   },
   "devDependencies": {
     "@nodecg/types": "^2.1.12",
@@ -44,6 +45,7 @@
     "@typescript-eslint/parser": "^5.54.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vueuse/head": "^1.1.15",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.35.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -54,7 +56,9 @@
     "nodecg-types": "^1.9.0",
     "nodecg-vue-composable": "^1.1.0",
     "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.45",
     "quasar": "^2.11.7",
+    "tailwindcss": "^3.4.10",
     "trash-cli": "^5.0.0",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
@@ -71,6 +75,12 @@
         "name": "example",
         "title": "Example",
         "file": "example.html"
+      },
+      {
+        "name": "run_player",
+        "title": "Run Player",
+        "file": "run_player.html",
+        "width": 2
       }
     ],
     "graphics": [
