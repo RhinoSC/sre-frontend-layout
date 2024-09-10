@@ -74,11 +74,6 @@ function nextRunStr(): string {
   return "?";
 }
 
-const switchToRun = (runId: string) => {
-  nodecg.sendMessage('switchToRun', runId);
-};
-
-
 const goToNextRun = async () => {
   if (surroundingRunsReplicant) {
     if (surroundingRunsReplicant.data?.next) {
