@@ -15,10 +15,10 @@ function changeNextRuns(): void {
   if (!activeRun.value) {
     // No current run set, we must be at the start an get 4 runs.
     // console.log(runArray.value)
-    if(!runArray.value){
-      // console.log(runArray.value)
-      return
-    }
+    // if(!runArray.value){
+    //   console.log(runArray.value)
+    //   return
+    // }
     for (let i = 0; i < quantity && i < runArray.value.length; i++) {
       nextRunsArray.push(runArray.value[i].id)
     }

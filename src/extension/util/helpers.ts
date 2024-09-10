@@ -1,5 +1,6 @@
 import { Run } from "@sre-frontend-layout/types";
 import { get } from "./nodecg";
+import { RunArray } from "@sre-frontend-layout/types/schemas";
 
 const nodecg = get();
 
@@ -28,7 +29,7 @@ export function timeStrToMS(time: string): number {
 export function findRunIndexFromId(id?: string): number {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore: readReplicant not in NodeCGServer typings
-  const arr = nodecg.readReplicant('runDataArray') as RunDataArray;
+  const arr = nodecg.readReplicant('runArray') as RunArray;
   return arr.findIndex((run: Run) => run.id === id);
 }
 
