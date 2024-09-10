@@ -1,4 +1,4 @@
-import type { Dialog } from '@sre-frontend-layout/types';
+import type { Dialog, Run, Team, User } from '@sre-frontend-layout/types';
 
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
@@ -40,4 +40,13 @@ export function getDialog(name: string): Window | null {
       + ' are using a standalone version of a dashboard panel, this is not yet supported).');
   }
   return null;
+}
+
+export const getRunnerString = (item: Run) => {
+  const runnerArr = item.teams.map((team: Team) => {
+    let teamString = team.players.map((player: User) => { return player.name })
+    const teamAsString = teamString.join(', ')
+    return teamAsString
+  })
+  return runnerArr.join(', ')
 }

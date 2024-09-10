@@ -58,6 +58,7 @@ export interface Bid {
 		id: string;
 		name: string;
 		current_amount: number;
+		bid_id: string;
 	}[];
 	run_id: string;
 }

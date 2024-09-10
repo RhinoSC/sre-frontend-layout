@@ -1,7 +1,8 @@
-import { Configschema } from "@sre-frontend-layout/types/schemas";
+import { Configschema, RunArray } from "@sre-frontend-layout/types/schemas";
 import { login } from "./util/api/axios";
 import { get } from "./util/nodecg";
 import { apiGetScheduleByID, apiGetSchedules } from "./util/api/schedule/schedule";
+import { runArray } from "./util/replicants";
 
 
 const nodecg = get();
@@ -19,16 +20,22 @@ start().then(() => {
     // nodecg.sendMessage("apiSetSchedule")
     // const response = await apiGetScheduleByID(`${config.API_SCHEDULE_ID}`)
     // nodecg.log.info('[api]', response.data)
+    await loadSchedule()
   }, 3000);
 })
 
-async function setSchedule() {
-  const response = await apiGetScheduleByID(`${config.API_SCHEDULE_ID}`)
-  
-  nodecg.log.info('[api] setted schedule from api: ', response)
-}
-// nodecg.listenFor('apiSetSchedule', async (data: any, ack: any) => {
-//   nodecg.log.info('[api] setted schedule from api: ', config.API_SCHEDULE_ID)
+async function loadSchedule(): Promise<RunArray> {
+  const response = await apiGetScheduleByID("schedule1")
 
-//   ack(null, true)
-// })
+  runArray.value = response.data.ordered_runs
+  // console.log(runArray.value)
+
+  return response.data.ordered_runs
+}
+
+nodecg.listenFor('importSchedule', (data: any, ack: any) => {
+  nodecg.log.info("[schedule] imported")
+  loadSchedule()
+    .then((data_) => ack(null, data_))
+    .catch((err) => ack(err));
+});

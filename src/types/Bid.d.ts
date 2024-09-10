@@ -15,4 +15,5 @@ export interface BidOption {
   id: string;
   name: string;
   current_amount: number;
+  bid_id: string;
 }

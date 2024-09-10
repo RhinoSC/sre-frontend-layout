@@ -14,8 +14,8 @@ export = (nodecg: NodeCG): void => {
    * things to be loaded *after* the NodeCG context is set.
    */
   set(nodecg);
-  require('./example');
+  // require('./example');
   require('./run-control');
-  require('./timer');
+  // require('./timer');
   require('./api')
 };

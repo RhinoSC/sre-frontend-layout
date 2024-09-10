@@ -41,9 +41,12 @@
           },
           "current_amount": {
             "type": "number"
+          },
+          "bid_id": {
+            "type": "string"
           }
         },
-        "required": ["id", "name", "current_amount"]
+        "required": ["id", "name", "current_amount", "bid_id"]
       },
       "default": []
     },

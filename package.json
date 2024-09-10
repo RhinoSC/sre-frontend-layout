@@ -34,7 +34,8 @@
     "axios": "^1.7.7",
     "livesplit-core": "^0.10.2",
     "module-alias": "^2.2.2",
-    "oh-vue-icons": "^1.0.0-rc3"
+    "oh-vue-icons": "^1.0.0-rc3",
+    "vue-material-design-icons": "^5.3.0"
   },
   "devDependencies": {
     "@nodecg/types": "^2.1.12",
@@ -80,7 +81,7 @@
         "name": "run_player",
         "title": "Run Player",
         "file": "run_player.html",
-        "width": 2
+        "width": 3
       }
     ],
     "graphics": [
