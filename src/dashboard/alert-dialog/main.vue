@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { ref, markRaw, onMounted } from 'vue';
 import ReturnToStartConfirm from './components/ReturnToStartConfirm.vue';
+import RefreshScheduleConfirm from './components/RefreshScheduleConfirm.vue';
 import { Alert, Run } from '@sre-frontend-layout/types';
 import { NodeCGAPIClient } from '@nodecg/types/client/api/api.client';
 
@@ -34,6 +35,8 @@ function open(opts: { name: Alert.Name, data?: { runData?: Run }, func?: (confir
       switch (name) {
         case 'ReturnToStartConfirm':
           return ReturnToStartConfirm
+        case 'RefreshScheduleConfirm':
+          return RefreshScheduleConfirm
         default:
           return undefined;
       }

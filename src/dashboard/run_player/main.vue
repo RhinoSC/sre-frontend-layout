@@ -3,7 +3,8 @@
     <!-- Botones para avanzar y volver al inicio -->
     <div class="flex flex-col gap-2 mb-4">
       <div class="flex flex-row w-full gap-2">
-        <button @click="reloadSchedule" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
+        <button @click="reloadScheduleConfirm"
+          class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
           <ReloadIcon></ReloadIcon>
         </button>
         <button @click="returnToStartConfirm"
@@ -51,7 +52,20 @@ const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-la
 const surroundingRunsReplicant = useReplicant<ActiveRunSurroundingRuns>('activeRunSurroundingRuns', 'sre-frontend-layout');
 
 // Funciones
-const reloadSchedule = () => {
+
+const reloadScheduleConfirm = () => {
+  checkDialog('alert_dialog').then(() => {
+    const dialog = getDialog('alert_dialog') as Alert.Dialog;
+    if (dialog) {
+      dialog.openDialog({
+        name: 'RefreshScheduleConfirm',
+        func: reloadSchedule,
+      });
+    }
+  });
+}
+const reloadSchedule = (confirm: boolean) => {
+  if (!confirm) return
   nodecg.sendMessage('importSchedule', (error, data: any) => {
     console.log(data)
   });
@@ -101,7 +115,6 @@ const goToStart = async (confirm: boolean) => {
   if (!confirm) return
   if (runArrayReplicant) {
     if (runArrayReplicant.data?.length) {
-      // switchToRun(runArrayReplicant.data[0].id);
       await nodecg.sendMessage('returnToStart');
     }
   }

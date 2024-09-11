@@ -2,12 +2,8 @@ import { Run } from './Run';
 
 export namespace Alert {
   type Name =
-    'ImportConfirm' |
     'ReturnToStartConfirm' |
-    'RemoveAllRunsConfirm' |
-    'RemoveRunConfirm' |
-    'TwitchLogoutConfirm' |
-    'NoTwitchGame';
+    'RefreshScheduleConfirm'
 
   interface Dialog extends Window {
     openDialog: (
