@@ -84,6 +84,12 @@
         "width": 3
       },
       {
+        "name": "timer",
+        "title": "Timer",
+        "file": "timer.html",
+        "width": 3
+      },
+      {
         "name": "alert_dialog",
         "title": "",
         "width": 3,

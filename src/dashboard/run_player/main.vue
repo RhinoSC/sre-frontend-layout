@@ -1,14 +1,15 @@
 <template>
   <div class="flex flex-col w-full gap-2">
     <!-- Botones para avanzar y volver al inicio -->
-    <div class="flex flex-col gap-2 mb-4">
+    <div class="flex flex-col gap-2 mb-4 font-bold">
       <div class="flex flex-row w-full gap-2">
         <button @click="reloadScheduleConfirm"
-          class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
-          <ReloadIcon></ReloadIcon>
+          class="flex flex-row items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
+          <ReloadIcon></ReloadIcon> Refresh Schedule
         </button>
         <button @click="returnToStartConfirm"
-          class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
+          class="flex flex-row items-center justify-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
+          <HomeIcon></HomeIcon>
           Go to Start
         </button>
       </div>
@@ -33,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import HomeIcon from 'vue-material-design-icons/Home.vue';
 import ReloadIcon from 'vue-material-design-icons/Reload.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import { useReplicant } from 'nodecg-vue-composable';
