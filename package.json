@@ -82,6 +82,13 @@
         "title": "Run Player",
         "file": "run_player.html",
         "width": 3
+      },
+      {
+        "name": "alert_dialog",
+        "title": "",
+        "width": 3,
+        "file": "alert_dialog.html",
+        "dialog": true
       }
     ],
     "graphics": [

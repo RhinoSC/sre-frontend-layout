@@ -1,4 +1,4 @@
-import type { Dialog, Run, Team, User } from '@sre-frontend-layout/types';
+import type { Alert, Dialog, Run, Team, User } from '@sre-frontend-layout/types';
 
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
@@ -21,14 +21,40 @@ export function msToTimeStr(ms: number): string {
     }:${padTimeNumber(seconds)}`;
 }
 
+export function checkDialog(name: string): Promise<void> {
+  return new Promise<void>((res) => {
+    const dialog: (HTMLElement & {
+      opened: boolean;
+      close: () => void;
+      open: () => void;
+    }) | undefined = nodecg.getDialog(name) as any;
+    const iframe = dialog?.querySelector('iframe');
+    if (iframe && dialog) {
+      // We check if it's loaded or not if our custom "openDialog" function exists.
+      const openDialog = (iframe.contentWindow as Alert.Dialog | null)?.openDialog;
+      if (openDialog) {
+        res();
+      } else {
+        iframe.addEventListener('load', () => {
+          dialog.close();
+          res();
+        }, { once: true });
+        dialog.open();
+      }
+    } else {
+      res();
+    }
+  });
+}
+
 /**
  * Gets dialog's contentWindow based on name, if possible.
  * @param name Name of dialog.
  */
 export function getDialog(name: string): Window | null {
   try {
-    const dialog = nodecg.getDialog(name) as Dialog;
-    const iframe = dialog.querySelector('iframe')?.contentWindow || null;
+    const dialog = nodecg.getDialog(name);
+    const iframe = dialog?.querySelector('iframe')?.contentWindow || null;
     if (!iframe) {
       throw new Error('Could not find the iFrame');
     }

@@ -1,4 +1,4 @@
-import { RunData } from './RunData';
+import { Run } from './Run';
 
 export namespace Alert {
   type Name =
@@ -11,7 +11,7 @@ export namespace Alert {
 
   interface Dialog extends Window {
     openDialog: (
-      opts: { name: Name, data?: { runData?: RunData }, func?: (confirm: boolean) => void }
+      opts: { name: Name, data?: { runData?: Run }, func?: (confirm: boolean) => void }
     ) => void;
   }
 }

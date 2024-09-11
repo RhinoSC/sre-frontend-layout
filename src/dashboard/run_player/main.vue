@@ -6,7 +6,8 @@
         <button @click="reloadSchedule" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
           <ReloadIcon></ReloadIcon>
         </button>
-        <button @click="goToStart" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
+        <button @click="returnToStartConfirm"
+          class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
           Go to Start
         </button>
       </div>
@@ -37,8 +38,9 @@ import { useReplicant } from 'nodecg-vue-composable';
 import { ActiveRun, ActiveRunSurroundingRuns, RunArray } from '@sre-frontend-layout/types/schemas';
 import { useHead } from '@vueuse/head';
 import RunList from '../_misc/components/RunList.vue';
-import { msToTimeStr, getRunnerString } from '../_misc/helpers';
+import { msToTimeStr, getRunnerString, checkDialog, getDialog } from '../_misc/helpers';
 import { computed } from 'vue';
+import { Alert } from '@sre-frontend-layout/types';
 
 // Set the title of this page.
 useHead({ title: 'run-player' });
@@ -83,7 +85,20 @@ const goToNextRun = async () => {
   }
 };
 
-const goToStart = async () => {
+const returnToStartConfirm = () => {
+  checkDialog('alert_dialog').then(() => {
+    const dialog = getDialog('alert_dialog') as Alert.Dialog;
+    if (dialog) {
+      dialog.openDialog({
+        name: 'ReturnToStartConfirm',
+        func: goToStart,
+      });
+    }
+  });
+}
+
+const goToStart = async (confirm: boolean) => {
+  if (!confirm) return
   if (runArrayReplicant) {
     if (runArrayReplicant.data?.length) {
       // switchToRun(runArrayReplicant.data[0].id);
