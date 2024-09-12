@@ -4,20 +4,23 @@
     <div class="flex flex-col gap-2 mb-4 font-bold">
       <div class="flex flex-row w-full gap-2">
         <button @click="reloadScheduleConfirm"
-          class="flex flex-row items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 shrink-0">
+          class="flex flex-row items-center gap-2 px-4 py-2 text-white bg-gray-900 rounded hover:bg-gray-800">
           <ReloadIcon></ReloadIcon> Refresh Schedule
         </button>
         <button @click="returnToStartConfirm"
-          class="flex flex-row items-center justify-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
+          class="flex flex-row items-center justify-center gap-2 px-4 py-2 text-white bg-gray-900 rounded hover:bg-gray-800 grow">
           <HomeIcon></HomeIcon>
           Go to Start
         </button>
       </div>
       <button @click="goToNextRun"
-        class="flex items-center px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-500 grow">
+        class="flex items-center px-4 py-2 font-bold text-white bg-gray-900 rounded hover:bg-gray-800 grow">
         <PlayIcon class="mr-2"></PlayIcon>
         {{ nextRunStr() }}
       </button>
+      <div v-if="disableChange" class="flex flex-row items-center justify-center h-5 pt-2">
+        <p class="font-bold text-red-500">You cannot change run while timer is running.</p>
+      </div>
     </div>
 
     <!-- Nombre de la run actual -->
@@ -42,8 +45,9 @@ import { ActiveRun, ActiveRunSurroundingRuns, RunArray } from '@sre-frontend-lay
 import { useHead } from '@vueuse/head';
 import RunList from '../_misc/components/RunList.vue';
 import { msToTimeStr, getRunnerString, checkDialog, getDialog } from '../_misc/helpers';
-import { computed } from 'vue';
-import { Alert } from '@sre-frontend-layout/types';
+import { computed, onMounted, ref } from 'vue';
+import { Alert, Timer } from '@sre-frontend-layout/types';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
 
 // Set the title of this page.
 useHead({ title: 'run-player' });
@@ -52,7 +56,10 @@ useHead({ title: 'run-player' });
 const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
 const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
 const surroundingRunsReplicant = useReplicant<ActiveRunSurroundingRuns>('activeRunSurroundingRuns', 'sre-frontend-layout');
+const timerReplicant = ref<ReplicantBrowser<Timer>>()
 
+
+const disableChange = ref<boolean>(false)
 // Funciones
 
 const reloadScheduleConfirm = () => {
@@ -121,6 +128,16 @@ const goToStart = async (confirm: boolean) => {
     }
   }
 };
+
+onMounted(() => {
+  timerReplicant.value = nodecg.Replicant<Timer>('timer');
+
+  NodeCG.waitForReplicants(timerReplicant.value).then(() => {
+    timerReplicant.value?.on('change', (newValue, oldValue) => {
+      disableChange.value = ['running', 'paused'].includes(newValue.state);
+    });
+  });
+})
 </script>
 
 <style scoped>

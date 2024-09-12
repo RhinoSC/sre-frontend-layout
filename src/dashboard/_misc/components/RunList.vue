@@ -9,7 +9,8 @@
     <div class="w-full overflow-y-auto max-h-96" v-if="filteredRuns && filteredRuns.length">
       <ul class="space-y-2">
         <li v-for="run in filteredRuns" :key="run.id">
-          <div class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 shadow-md cursor-pointer rounded-t-md"
+          <div
+            class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 shadow-md cursor-pointer rounded-t-md"
             @click="toggleAccordion(run.id)">
             <h3 class="text-lg font-bold">{{ run.name }}</h3>
             <ChevronDownIcon :class="isOpen(run.id) ? 'rotate-180' : 'rotate-0'" />
@@ -22,7 +23,7 @@
               <p class="text-sm text-gray-300">Twitch Game: {{ run.run_metadata.twitch_game_name }}</p>
               <p class="text-sm text-gray-300">Players: {{ getRunnerString(run) }}</p>
               <button @click="switchToRun(run.id)"
-                class="flex items-center px-2 py-1 mt-2 text-white bg-gray-800 rounded-md hover:bg-gray-600">
+                class="flex items-center px-2 py-1 mt-2 text-white bg-gray-900 rounded hover:bg-gray-800">
                 <PlayIcon />
               </button>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="">
     <div @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative">
       <button :disabled="isDisabled" @click="handleButtonClick"
         class="flex items-center justify-center w-full p-2 text-white bg-gray-900 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed">

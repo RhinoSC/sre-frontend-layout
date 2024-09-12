@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full">
+  <div class="relative">
     <button @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" :disabled="state === 'stopped'"
       @click="resetTimer"
       class="flex items-center justify-center w-full p-2 text-white bg-gray-900 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed">
