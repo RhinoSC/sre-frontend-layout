@@ -24,7 +24,7 @@ export interface Run {
 		note: string;
 	};
 	teams: Team[];
-	bids: Bid[];
+	bids?: Bid[];
 	schedule_id: string;
 }
 export interface Team {

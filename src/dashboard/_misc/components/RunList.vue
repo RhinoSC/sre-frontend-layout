@@ -9,17 +9,17 @@
 
     <!-- Lista de runs -->
     <div class="w-full overflow-y-auto max-h-96" v-if="filteredRuns && filteredRuns.length" ref="runsContainer">
-      <ul class="space-y-2">
+      <ul class="space-y-2 shadow-lg">
         <li v-for="run in filteredRuns" :key="run.id" :ref="el => runRefs[run.id] = el as HTMLElement">
           <div
-            class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 shadow-md cursor-pointer rounded-t-md"
+            class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 shadow-lg cursor-pointer rounded-t-md"
             :class="{ 'bg-teal-600': run.id === activeRunReplicant?.data?.id }" @click="toggleAccordion(run.id)">
             <h3 class="text-lg font-bold">{{ run.name }}</h3>
-            <ChevronDownIcon :class="isOpen(run.id) ? 'rotate-180' : 'rotate-0'" />
+            <ChevronDownIcon :class="isOpen(run.id) ? 'rotate-180' : 'rotate-0'" class="transition-transform" />
           </div>
 
           <div v-show="isOpen(run.id)" class="overflow-hidden transition-all duration-300">
-            <div class="p-4 text-white bg-gray-700 shadow-md rounded-b-md">
+            <div class="p-4 text-white bg-gray-700 shadow-xl rounded-b-md">
               <p class="text-sm text-gray-300">Estimate: {{ msToTimeStr(run.estimate_mili) }}</p>
               <p class="text-sm text-gray-300">Category: {{ run.run_metadata.category }}</p>
               <p class="text-sm text-gray-300">Twitch Game: {{ run.run_metadata.twitch_game_name }}</p>
@@ -33,7 +33,6 @@
         </li>
       </ul>
     </div>
-
     <!-- Mensaje si no hay resultados -->
     <div v-else class="text-gray-400">
       No se encontraron runs.
@@ -56,8 +55,9 @@ import { ReplicantBrowser } from 'nodecg-types/types/browser';
 const runRefs = ref<Record<string, HTMLElement | null>>({});
 const runsContainer = ref<HTMLElement | null>(null);
 
-const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
+// const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
 const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
+const runArrayReplicant = ref<ReplicantBrowser<RunArray>>()
 const activeRunRep1 = ref<ReplicantBrowser<ActiveRun>>()
 
 // Estado para rastrear el acordeón actualmente abierto
@@ -82,10 +82,13 @@ const switchToRun = (runId: string) => {
 };
 
 // Computed para filtrar las runs basado en la búsqueda
+const runsServer = ref<RunArray>()
+
 const filteredRuns = computed(() => {
-  if (runArrayReplicant) {
-    if (!runArrayReplicant.data) return [];
-    return runArrayReplicant.data.filter(run =>
+
+  if (runsServer.value) {
+    if (!runsServer.value) return [];
+    return runsServer.value.filter(run =>
       run.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
@@ -93,21 +96,31 @@ const filteredRuns = computed(() => {
 
 onMounted(() => {
   activeRunRep1.value = nodecg.Replicant<ActiveRun>('activeRun');
+  runArrayReplicant.value = nodecg.Replicant<RunArray>('runArray');
 
   // const list = document.getElementById("list")
-  NodeCG.waitForReplicants(activeRunRep1.value).then(() => {
+  NodeCG.waitForReplicants(activeRunRep1.value,).then(() => {
     activeRunRep1.value?.on('change', (newValue, oldValue) => {
-      if (newValue && newValue.id && runRefs.value[newValue.id]) {
-        const runElement = runRefs.value[newValue.id];
-        runElement?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      if (newValue) {
+        if (newValue.id && runRefs.value[newValue.id]) {
+          const runElement = runRefs.value[newValue.id];
+          runElement?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+        }
       }
-      // runArrayReplicant?.data?.find
-      // if (list) {
-      //   list.scrollTop = 
-      // }
+    });
+
+    runArrayReplicant.value?.on('change', (newValue, oldValue) => {
+      if (!newValue) return [];
+      runsServer.value = newValue.filter(run =>
+        run.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+      );
     });
   });
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.rotate-180 {
+  transform: rotate(180deg);
+}
+</style>

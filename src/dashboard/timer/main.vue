@@ -85,7 +85,9 @@ onMounted(() => {
 
   NodeCG.waitForReplicants(activeRunReplicant.value, timerChangesDisabledReplicant.value).then(() => {
     activeRunReplicant.value?.on('change', (newValue, oldValue) => {
-      teams.value = newValue.teams
+      if (newValue) {
+        teams.value = newValue.teams
+      }
       tempEnable.value = false
     });
 

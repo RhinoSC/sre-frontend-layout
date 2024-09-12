@@ -76,6 +76,7 @@ const reloadScheduleConfirm = () => {
 const reloadSchedule = (confirm: boolean) => {
   if (!confirm) return
   nodecg.sendMessage('importSchedule', (error, data: any) => {
+    console.log(error)
     console.log(data)
   });
 };

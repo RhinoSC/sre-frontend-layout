@@ -91,6 +91,12 @@
         "width": 3
       },
       {
+        "name": "bids",
+        "title": "Bids",
+        "file": "bids.html",
+        "width": 4
+      },
+      {
         "name": "alert_dialog",
         "title": "",
         "width": 3,

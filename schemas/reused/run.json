@@ -78,7 +78,6 @@
     "status",
     "run_metadata",
     "teams",
-    "bids",
     "schedule_id"
   ]
 }
