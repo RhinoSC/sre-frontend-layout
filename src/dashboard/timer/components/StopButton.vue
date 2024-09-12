@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="!isDisabled" class="relative">
+    <div @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" v-if="!isDisabled" class="relative">
       <button :disabled="isDisabled" @click="handleButtonClick"
         class="flex items-center justify-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
         <CloseIcon v-if="forfeit" class="w-6 h-6" />
         <CheckIcon v-else class="w-6 h-6" />
       </button>
-      <div v-if="!isDisabled"
-        class="absolute px-2 py-1 text-xs text-white transform -translate-x-1/2 bg-black rounded opacity-75 -top-8 left-1/2">
+      <div v-if="!isDisabled" :class="showTooltip ? 'opacity-100 visible' : 'opacity-0 invisible'"
+        class="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 transform -translate-x-1/2 bg-gray-900 rounded-lg shadow-sm -top-10 left-1/2 dark:bg-gray-700">
         <span v-if="forfeit">Forfeit</span>
         <span v-else>Stop</span>
       </div>
@@ -18,9 +18,10 @@
 <script setup lang="ts">
 import { useReplicant } from 'nodecg-vue-composable';
 import { Timer, Team } from '@sre-frontend-layout/types/schemas';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import CloseIcon from 'vue-material-design-icons/Close.vue';
 import CheckIcon from 'vue-material-design-icons/Check.vue';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
 
 // Props
 const props = defineProps<{
@@ -28,17 +29,16 @@ const props = defineProps<{
   forfeit?: boolean;
 }>();
 
+// State to control tooltip visibility
+const showTooltip = ref(false);
+
 // Replicants
-const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
+// const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
+const timerReplicant = ref<ReplicantBrowser<Timer>>()
 
 // Computed: Estado del timer
 const state = ref<Timer['state']>('stopped');
 const teamFinishTimes = ref<Record<string, any>>({});
-
-if (timerReplicant && timerReplicant.data) {
-  state.value = timerReplicant.data.state;
-  teamFinishTimes.value = timerReplicant.data.teamFinishTimes;
-}
 
 // Computed: Habilitar/Deshabilitar botón
 const isDisabled = computed(() => {
@@ -60,6 +60,18 @@ const handleButtonClick = async () => {
     console.error('Error stopping timer:', err);
   }
 };
+
+onMounted(() => {
+  timerReplicant.value = nodecg.Replicant<Timer>('timer');
+
+  NodeCG.waitForReplicants(timerReplicant.value).then(() => {
+    timerReplicant.value?.on('change', (newValue, oldValue) => {
+      state.value = newValue.state;
+      teamFinishTimes.value = newValue.teamFinishTimes;
+
+    });
+  });
+})
 </script>
 
 <style scoped>

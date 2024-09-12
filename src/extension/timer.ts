@@ -2,7 +2,8 @@ import livesplitCore from 'livesplit-core';
 import { activeRun, runFinishTimes, timer as timerRep, timerChangesDisabled } from './util/replicants';
 import { get } from './util/nodecg';
 import { msToTimeStr, timeStrToMS } from './util/helpers';
-import clone from 'clone';
+// import clone from 'clone';
+import { klona } from 'klona';
 import { Timer } from '@sre-frontend-layout/types/schemas';
 const nodecg = get();
 
@@ -159,7 +160,7 @@ async function stopTimer(id?: string, forfeit?: boolean): Promise<void> {
     // If we have a UUID and an active run, set that team as finished.
     if (id && activeRun.value) {
       const timerRepCopy = {
-        ...clone(timerRep.value),
+        ...klona(timerRep.value),
         teamFinishTimes: undefined,
         state: undefined,
       };
@@ -185,8 +186,8 @@ async function stopTimer(id?: string, forfeit?: boolean): Promise<void> {
       timer.split();
       timerRep.value.state = 'finished';
       if (activeRun.value) {
-        // runFinishTimes.value[activeRun.value.id] = clone(timerRep.value);
-        runFinishTimes.value[activeRun.value.id] = timerRep.value;
+        runFinishTimes.value[activeRun.value.id] = klona(timerRep.value);
+        // runFinishTimes.value[activeRun.value.id] = timerRep.value;
       }
       nodecg.log.debug('[Timer] Finished');
     }

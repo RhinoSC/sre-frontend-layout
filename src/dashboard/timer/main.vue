@@ -1,15 +1,15 @@
 <template>
   <div :class="{ 'pointer-events-none opacity-50': disableChanges }">
-    <TimerTime class="mt-10"/>
-    <div id="Controls" class="flex justify-center pt-2">
+    <TimerTime class="mt-2" />
+    <div id="Controls" class="flex justify-center gap-2 pt-2">
       <StartButton />
       <ResetButton />
       <!-- Will not show if more than 1 team -->
-      <!-- <template v-if="teams.length <= 1">
+      <template v-if="teams.length <= 1">
         <StopButton :info="teams[0]" />
         <StopButton :info="teams[0]" forfeit />
-        <UndoButton :info="teams[0]" />
-      </template> -->
+        <!-- <UndoButton :info="teams[0]" /> -->
+      </template>
     </div>
     <!-- Will only show if more than 1 team -->
     <!-- <div v-if="teams.length > 1" class="pt-2">
@@ -50,26 +50,30 @@ import TeamComponent from './components/Team.vue';
 import { useReplicant } from 'nodecg-vue-composable';
 import type { TimerChangesDisabled, ActiveRun } from '@sre-frontend-layout/types/schemas';
 import type { Team } from '@sre-frontend-layout/types';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
 
 // Replicants
-const activeRunReplicant = useReplicant<ActiveRun>('runDataActiveRun', 'sre-frontend-layout');
-const timerChangesDisabledReplicant = useReplicant<TimerChangesDisabled>('timerChangesDisabled', 'sre-frontend-layout');
+// const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
+// const timerChangesDisabledReplicant = useReplicant<TimerChangesDisabled>('timerChangesDisabled', 'sre-frontend-layout');
+const activeRunReplicant = ref<ReplicantBrowser<ActiveRun>>()
+const timerChangesDisabledReplicant = ref<ReplicantBrowser<TimerChangesDisabled>>()
 
 // State
 const tempEnable = ref(false);
-const disableChanges = computed({
-  get: () => { return timerChangesDisabledReplicant?.data || false },
-  set: (val: boolean) => {
-    // Assuming `storeModule.updateDisabledToggle` is available in your setup
-    if (timerChangesDisabledReplicant && timerChangesDisabledReplicant.data) {
-      timerChangesDisabledReplicant.data = val
-      timerChangesDisabledReplicant.save()
-    }
-  },
-});
+// const disableChanges = computed({
+//   get: () => { return timerChangesDisabledReplicant.value?.value || false },
+//   set: (val: boolean) => {
+//     if (timerChangesDisabledReplicant && timerChangesDisabledReplicant.value?.value) {
+//       timerChangesDisabledReplicant.value.value = val
+//     }
+//   },
+// });
+
+const disableChanges = ref<boolean>(false)
 
 // Computed
-const teams = computed(() => activeRunReplicant?.data?.teams || []);
+// const teams = computed(() => activeRunReplicant?.value?.value?.teams || []);
+const teams = ref<Team[]>([])
 
 // Watchers
 watch(disableChanges, (val) => {
@@ -89,6 +93,23 @@ const enableChanges = () => {
   disableChanges.value = false;
   tempEnable.value = true;
 };
+
+onMounted(() => {
+  activeRunReplicant.value = nodecg.Replicant<ActiveRun>('activeRun');
+  timerChangesDisabledReplicant.value = nodecg.Replicant<TimerChangesDisabled>('timerChangesDisabled');
+
+  NodeCG.waitForReplicants(activeRunReplicant.value, timerChangesDisabledReplicant.value).then(() => {
+    activeRunReplicant.value?.on('change', (newValue, oldValue) => {
+      teams.value = newValue.teams
+    });
+
+    timerChangesDisabledReplicant.value?.on('change', (newValue, oldValue) => {
+      disableChanges.value = newValue
+    });
+
+
+  });
+})
 </script>
 
 <style scoped>

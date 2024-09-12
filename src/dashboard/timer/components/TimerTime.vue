@@ -2,11 +2,11 @@
   <div class="relative w-full group">
     <!-- Tooltip activator -->
     <input v-model="time" type="text"
-      class="w-full p-2 text-xl text-center bg-gray-800 border border-gray-300 rounded-md shadow-sm text-white-smoke focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+      class="w-full p-2 text-xl text-center bg-gray-700 border rounded-md shadow-xl outline-none focus:outline-none text-white-smoke focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
       :class="bgColour" :readonly="disableEditing" @blur="abandonEdit" @keyup.enter="finishEdit" />
     <!-- Tooltip -->
     <div
-      class="absolute p-2 mb-2 text-xs text-white transition-opacity transform -translate-x-1/2 bg-gray-700 rounded opacity-0 bottom-full left-1/2 group-hover:opacity-100"
+      class="absolute p-2 mb-2 text-xs text-white transition-opacity transform -translate-x-1/2 bg-gray-700 rounded opacity-0 bottom-1/3 left-1/4 group-hover:opacity-100"
       v-if="!disableEditing">
       Click to edit, Enter to save
     </div>
@@ -32,19 +32,7 @@ if (timerReplicant && timerReplicant.value) {
   timerReplicant.value.time || '00:00:00'
 }
 
-const bgColour = computed(() => {
-  if (timerReplicant && timerReplicant.value)
-    switch (timerReplicant.value.state) {
-      case 'running':
-        return '';
-      case 'finished':
-        return '#388E3C';
-      case 'stopped':
-      case 'paused':
-      default:
-        return '#455A64';
-    }
-});
+const bgColour = ref<string>("")
 
 const disableEditing = computed(() => {
   if (timerReplicant && timerReplicant.value)
@@ -54,6 +42,7 @@ const disableEditing = computed(() => {
 // Watchers
 watch(serverTime, (newVal) => {
   time.value = newVal;
+
 }, { immediate: true });
 
 // Methods
@@ -72,12 +61,27 @@ const abandonEdit = () => {
   time.value = serverTime.value as any;
 };
 
+
 onMounted(() => {
   timerReplicant.value = nodecg.Replicant<Timer>('timer');
 
   NodeCG.waitForReplicants(timerReplicant.value).then(() => {
     timerReplicant.value?.on('change', (newValue, oldValue) => {
       serverTime.value = newValue.time
+
+      switch (newValue.state) {
+        case 'running':
+          bgColour.value = '1';
+          break
+        case 'finished':
+          bgColour.value = 'bg-gray-600';
+          break
+        case 'stopped':
+        case 'paused':
+        default:
+          bgColour.value = 'bg-gray-800';
+          break
+      }
     });
   });
 })
