@@ -94,7 +94,8 @@
         "name": "bids",
         "title": "Bids",
         "file": "bids.html",
-        "width": 4
+        "width": 6,
+        "workspace": "Bids & Prizes"
       },
       {
         "name": "alert_dialog",
