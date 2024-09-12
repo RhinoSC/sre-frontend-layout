@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" v-if="!isDisabled" class="relative">
+  <div class="w-full">
+    <div @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" class="relative">
       <button :disabled="isDisabled" @click="handleButtonClick"
-        class="flex items-center justify-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
+        class="flex items-center justify-center w-full p-2 text-white bg-gray-900 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed">
         <CloseIcon v-if="forfeit" class="w-6 h-6" />
         <CheckIcon v-else class="w-6 h-6" />
       </button>
@@ -41,13 +41,15 @@ const state = ref<Timer['state']>('stopped');
 const teamFinishTimes = ref<Record<string, any>>({});
 
 // Computed: Habilitar/Deshabilitar botón
-const isDisabled = computed(() => {
+const isDisabled = ref<boolean>(false)
+
+const calculateIsDisable = (newVal: Timer): boolean => {
   return (
     !!props.info?.id &&
     !!teamFinishTimes.value[props.info.id] ||
-    !['running', 'paused'].includes(state.value)
+    !['running', 'paused'].includes(newVal.state)
   );
-});
+}
 
 // Función para manejar el botón de stop
 const handleButtonClick = async () => {
@@ -68,7 +70,7 @@ onMounted(() => {
     timerReplicant.value?.on('change', (newValue, oldValue) => {
       state.value = newValue.state;
       teamFinishTimes.value = newValue.teamFinishTimes;
-
+      isDisabled.value = calculateIsDisable(newValue)
     });
   });
 })

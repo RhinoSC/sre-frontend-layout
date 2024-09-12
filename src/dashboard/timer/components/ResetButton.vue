@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <button @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" :disabled="state === 'stopped'"
       @click="resetTimer"
-      class="flex items-center justify-center p-2 text-white bg-red-500 rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
+      class="flex items-center justify-center w-full p-2 text-white bg-gray-900 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed">
       <ReloadIcon class="w-6 h-6" />
     </button>
     <div v-if="state !== 'stopped'" :class="showTooltip ? 'opacity-100 visible' : 'opacity-0 invisible'"

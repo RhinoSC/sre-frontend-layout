@@ -1,21 +1,21 @@
 <template>
   <div :class="{ 'pointer-events-none opacity-50': disableChanges }">
     <TimerTime class="mt-2" />
-    <div id="Controls" class="flex justify-center gap-2 pt-2">
-      <StartButton />
-      <ResetButton />
+    <div id="Controls" class="flex flex-row items-center justify-between gap-1 pt-2">
+      <StartButton class="w-1/6 grow" />
+      <ResetButton class="w-1/6 grow" />
       <!-- Will not show if more than 1 team -->
       <template v-if="teams.length <= 1">
-        <StopButton :info="teams[0]" />
-        <StopButton :info="teams[0]" forfeit />
-        <!-- <UndoButton :info="teams[0]" /> -->
+        <StopButton :info="teams[0]" class="w-1/6 grow" />
+        <StopButton :info="teams[0]" forfeit class="w-1/6 grow" />
+        <UndoButton :info="teams[0]" class="w-1/6 grow" />
       </template>
     </div>
     <!-- Will only show if more than 1 team -->
-    <!-- <div v-if="teams.length > 1" class="pt-2">
+    <div v-if="teams.length > 1" class="pt-2">
       <TeamComponent v-for="(team, index) in teams" :key="team.id" :info="team" :index="index" />
-    </div> -->
-    <!-- <div v-if="disableChanges || tempEnable" class="pt-2">
+    </div>
+    <div v-if="disableChanges || tempEnable" class="pt-2">
       <button v-if="disableChanges" @click="enableChanges"
         class="block w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
         Enable Changes
@@ -27,7 +27,7 @@
       <div class="mt-1">
         <em>Only use this button if needed.</em>
       </div>
-    </div> -->
+    </div>
     <!-- Hidden toggle for testing -->
     <!--
     <input
@@ -47,7 +47,6 @@ import ResetButton from './components/ResetButton.vue';
 import StopButton from './components/StopButton.vue';
 import UndoButton from './components/UndoButton.vue';
 import TeamComponent from './components/Team.vue';
-import { useReplicant } from 'nodecg-vue-composable';
 import type { TimerChangesDisabled, ActiveRun } from '@sre-frontend-layout/types/schemas';
 import type { Team } from '@sre-frontend-layout/types';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
@@ -60,14 +59,6 @@ const timerChangesDisabledReplicant = ref<ReplicantBrowser<TimerChangesDisabled>
 
 // State
 const tempEnable = ref(false);
-// const disableChanges = computed({
-//   get: () => { return timerChangesDisabledReplicant.value?.value || false },
-//   set: (val: boolean) => {
-//     if (timerChangesDisabledReplicant && timerChangesDisabledReplicant.value?.value) {
-//       timerChangesDisabledReplicant.value.value = val
-//     }
-//   },
-// });
 
 const disableChanges = ref<boolean>(false)
 
@@ -82,12 +73,6 @@ watch(disableChanges, (val) => {
   }
 });
 
-if (activeRunReplicant) {
-  watch(activeRunReplicant, () => {
-    tempEnable.value = false;
-  });
-}
-
 // Methods
 const enableChanges = () => {
   disableChanges.value = false;
@@ -101,6 +86,7 @@ onMounted(() => {
   NodeCG.waitForReplicants(activeRunReplicant.value, timerChangesDisabledReplicant.value).then(() => {
     activeRunReplicant.value?.on('change', (newValue, oldValue) => {
       teams.value = newValue.teams
+      tempEnable.value = false
     });
 
     timerChangesDisabledReplicant.value?.on('change', (newValue, oldValue) => {

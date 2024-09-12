@@ -1,13 +1,15 @@
 <template>
-  <div class="flex items-center p-2">
-    <stop-button :info="info" />
-    <stop-button :info="info" forfeit />
-    <undo-button :info="info" />
+  <div class="flex flex-row items-center px-2 py-1">
+    <div class="flex flex-row gap-2">
+      <StopButton class="w-1/6 grow" :info="info" />
+      <StopButton class="w-1/6 grow" :info="info" forfeit />
+      <UndoButton class="w-1/6 grow" :info="info" />
+    </div>
     <div class="flex flex-col ml-2">
       <!-- Mostrar nombre del equipo si existe -->
-      <span v-if="info.name" class="text-lg font-semibold">{{ info.name }}</span>
+      <span v-if="info.players.length === 1" class="text-lg">{{ info.players[0].name }}</span>
       <!-- Mostrar nombre del jugador si solo hay 1 jugador en el equipo -->
-      <span v-else-if="info.players.length === 1" class="text-lg">{{ info.players[0].name }}</span>
+      <span v-else-if="info.name" class="text-lg font-semibold">{{ info.name }}</span>
       <!-- Mostrar todos los nombres de los jugadores si no hay nombre de equipo -->
       <span v-else>
         <span v-for="(player, i) in info.players" :key="player.id">
@@ -22,9 +24,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useReplicant } from 'nodecg-vue-composable';
 import { Timer, Team } from '@sre-frontend-layout/types/schemas';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
+import StopButton from './StopButton.vue';
+import UndoButton from './UndoButton.vue';
 
 // Props
 const props = defineProps<{
@@ -33,23 +38,26 @@ const props = defineProps<{
 }>();
 
 // Replicants
-const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
+// const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
+const timerReplicant = ref<ReplicantBrowser<Timer>>()
 
 // Estado del equipo en base al replicante 'timer'
-const state = computed(() => {
-  if (timerReplicant?.data?.teamFinishTimes?.[props.info.id]) {
-    return timerReplicant.data.teamFinishTimes[props.info.id].state;
-  }
-  return undefined;
-});
+const state = ref<"forfeit" | "completed">();
 
-// Tiempo de finalización del equipo
-const finishTime = computed(() => {
-  if (timerReplicant?.data?.teamFinishTimes?.[props.info.id]) {
-    return timerReplicant.data.teamFinishTimes[props.info.id].time;
-  }
-  return undefined;
-});
+const finishTime = ref<string>()
+
+onMounted(() => {
+  timerReplicant.value = nodecg.Replicant<Timer>('timer');
+
+  NodeCG.waitForReplicants(timerReplicant.value).then(() => {
+    timerReplicant.value?.on('change', (newValue, oldValue) => {
+      if (newValue.teamFinishTimes[props.info.id]) {
+        state.value = newValue.teamFinishTimes[props.info.id].state;
+        finishTime.value = newValue.teamFinishTimes[props.info.id].time
+      }
+    });
+  });
+})
 </script>
 
 <style scoped>

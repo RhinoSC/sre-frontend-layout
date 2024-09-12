@@ -2,8 +2,9 @@
   <div class="relative w-full group">
     <!-- Tooltip activator -->
     <input v-model="time" type="text"
-      class="w-full p-2 text-xl text-center bg-gray-700 border rounded-md shadow-xl outline-none focus:outline-none text-white-smoke focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      :class="bgColour" :readonly="disableEditing" @blur="abandonEdit" @keyup.enter="finishEdit" />
+      class="w-full p-2 text-xl text-center bg-gray-700 border border-gray-800 rounded-md shadow-xl outline-none focus:outline-none text-white-smoke focus:ring-1 focus:ring-white focus:border-white"
+      :class="bgColour, disableEditing ? 'focus:ring-0 focus:border-gray-800' : ''" :readonly="disableEditing"
+      @blur="abandonEdit" @keyup.enter="finishEdit" />
     <!-- Tooltip -->
     <div
       class="absolute p-2 mb-2 text-xs text-white transition-opacity transform -translate-x-1/2 bg-gray-700 rounded opacity-0 bottom-1/3 left-1/4 group-hover:opacity-100"
@@ -15,7 +16,6 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
-import { useReplicant } from 'nodecg-vue-composable';
 import { Timer } from '@sre-frontend-layout/types/schemas';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
 
@@ -34,10 +34,11 @@ if (timerReplicant && timerReplicant.value) {
 
 const bgColour = ref<string>("")
 
-const disableEditing = computed(() => {
-  if (timerReplicant && timerReplicant.value)
-    return ['running', 'finished'].includes(timerReplicant.value.state || '');
-});
+const disableEditing = ref<boolean>(false)
+// const disableEditing = computed(() => {
+//   if (timerReplicant && timerReplicant.value)
+//     return ['running', 'finished'].includes(timerReplicant.value.state || '');
+// });
 
 // Watchers
 watch(serverTime, (newVal) => {
@@ -82,6 +83,8 @@ onMounted(() => {
           bgColour.value = 'bg-gray-800';
           break
       }
+
+      ['running', 'finished'].includes(newValue.state || '') ? disableEditing.value = true : disableEditing.value = false
     });
   });
 })

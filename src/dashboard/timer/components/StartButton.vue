@@ -1,10 +1,10 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <button @mouseenter="showTooltip = true" @mouseleave="showTooltip = false" :disabled="state === 'finished'"
       @click="handleButtonClick"
-      class="flex items-center justify-center p-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
-      <PlayIcon v-if="state !== 'paused'" class="w-6 h-6" />
-      <PauseIcon v-else class="w-6 h-6" />
+      class="flex items-center justify-center w-full p-2 text-white bg-gray-900 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed">
+      <PauseIcon v-if="state === 'running'" class="w-6 h-6" />
+      <PlayIcon v-else class="w-6 h-6" />
     </button>
 
     <div v-if="state !== 'finished'" :class="showTooltip ? 'opacity-100 visible' : 'opacity-0 invisible'"
