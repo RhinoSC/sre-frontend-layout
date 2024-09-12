@@ -6,12 +6,14 @@
         class="w-full p-2 text-white bg-gray-800 rounded-md focus:outline-none focus:ring focus:ring-violet-500" />
       <MagnifyIcon class="absolute transform translate-x-[350px]"></MagnifyIcon>
     </div>
-    <div class="w-full overflow-y-auto max-h-96" v-if="filteredRuns && filteredRuns.length">
+
+    <!-- Lista de runs -->
+    <div class="w-full overflow-y-auto max-h-96" v-if="filteredRuns && filteredRuns.length" ref="runsContainer">
       <ul class="space-y-2">
-        <li v-for="run in filteredRuns" :key="run.id">
+        <li v-for="run in filteredRuns" :key="run.id" :ref="el => runRefs[run.id] = el as HTMLElement">
           <div
             class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 shadow-md cursor-pointer rounded-t-md"
-            @click="toggleAccordion(run.id)">
+            :class="{ 'bg-teal-600': run.id === activeRunReplicant?.data?.id }" @click="toggleAccordion(run.id)">
             <h3 class="text-lg font-bold">{{ run.name }}</h3>
             <ChevronDownIcon :class="isOpen(run.id) ? 'rotate-180' : 'rotate-0'" />
           </div>
@@ -44,12 +46,19 @@ import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue';
 import PlayIcon from 'vue-material-design-icons/Play.vue';
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue';
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useReplicant } from 'nodecg-vue-composable';
-import { RunArray } from '@sre-frontend-layout/types/schemas';
+import { ActiveRun, RunArray } from '@sre-frontend-layout/types/schemas';
 import { msToTimeStr, getRunnerString } from '../helpers';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
+
+// Refs para almacenar las referencias de los elementos DOM de cada run
+const runRefs = ref<Record<string, HTMLElement | null>>({});
+const runsContainer = ref<HTMLElement | null>(null);
 
 const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
+const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
+const activeRunRep1 = ref<ReplicantBrowser<ActiveRun>>()
 
 // Estado para rastrear el acordeón actualmente abierto
 const openAccordionId = ref<string | null>(null);
@@ -81,6 +90,24 @@ const filteredRuns = computed(() => {
     );
   }
 });
+
+onMounted(() => {
+  activeRunRep1.value = nodecg.Replicant<ActiveRun>('activeRun');
+
+  // const list = document.getElementById("list")
+  NodeCG.waitForReplicants(activeRunRep1.value).then(() => {
+    activeRunRep1.value?.on('change', (newValue, oldValue) => {
+      if (newValue && newValue.id && runRefs.value[newValue.id]) {
+        const runElement = runRefs.value[newValue.id];
+        runElement?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      }
+      // runArrayReplicant?.data?.find
+      // if (list) {
+      //   list.scrollTop = 
+      // }
+    });
+  });
+})
 </script>
 
 <style scoped></style>
