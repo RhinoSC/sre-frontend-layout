@@ -33,7 +33,7 @@ async function loadLogin(): Promise<void> {
 }
 
 async function loadSchedule(): Promise<RunArray> {
-  const response = await apiGetScheduleByID("schedule1")
+  const response = await apiGetScheduleByID(config.API_SCHEDULE_ID)
 
   runArray.value = response.data.ordered_runs
   // runArray.value = []
@@ -53,7 +53,7 @@ async function loadPrizes(): Promise<Prize[]> {
 }
 
 async function loadTotalDonated(): Promise<number> {
-  const response: APIResponse<number> = await apiGetTotalDonatedByEventID("event1")
+  const response: APIResponse<number> = await apiGetTotalDonatedByEventID(config.API_EVENT_ID)
 
   totalDonated.value = response.data
 

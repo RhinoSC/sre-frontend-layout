@@ -11,4 +11,5 @@ export interface Configschema {
 	API_USERNAME: string;
 	API_PASSWORD: string;
 	API_SCHEDULE_ID: string;
+	API_EVENT_ID: string;
 }
