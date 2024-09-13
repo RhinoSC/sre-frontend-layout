@@ -17,7 +17,7 @@ export const defaultSetupTime = nodecg().Replicant<DefaultSetupTime>('defaultSet
 export const activeRun = nodecg().Replicant<ActiveRun>('activeRun') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRun>;
 export const activeRunSurroundingRuns = nodecg().Replicant<ActiveRunSurroundingRuns>('activeRunSurroundingRuns') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRunSurroundingRuns>;
 export const activeRunNextRuns = nodecg().Replicant<ActiveRunNextRuns>('activeRunNextRuns') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRunNextRuns>;
-export const runArray = nodecg().Replicant<RunArray>('runArray') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunArray>;
+export const runArray = nodecg().Replicant<RunArray>('runArray', { defaultValue: [] }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunArray>;
 export const runFinishTimes = nodecg().Replicant<RunFinishTimes>('runFinishTimes') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunFinishTimes>;
 export const timer = nodecg().Replicant<Timer>('timer', {
   persistenceInterval: 100, defaultValue: {
