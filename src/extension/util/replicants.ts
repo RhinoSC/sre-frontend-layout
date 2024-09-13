@@ -19,7 +19,15 @@ export const activeRunSurroundingRuns = nodecg().Replicant<ActiveRunSurroundingR
 export const activeRunNextRuns = nodecg().Replicant<ActiveRunNextRuns>('activeRunNextRuns') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ActiveRunNextRuns>;
 export const runArray = nodecg().Replicant<RunArray>('runArray') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunArray>;
 export const runFinishTimes = nodecg().Replicant<RunFinishTimes>('runFinishTimes') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunFinishTimes>;
-export const timer = nodecg().Replicant<Timer>('timer', { persistenceInterval: 100 }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<Timer>;
+export const timer = nodecg().Replicant<Timer>('timer', {
+  persistenceInterval: 100, defaultValue: {
+    time: '00:00:00',
+    state: 'stopped',
+    milliseconds: 0,
+    timestamp: 0,
+    teamFinishTimes: {},
+  }
+}) as unknown as NodeCG.ServerReplicantWithSchemaDefault<Timer>;
 export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled') as unknown as NodeCG.ServerReplicantWithSchemaDefault<TimerChangesDisabled>;
 export const totalDonated = nodecg().Replicant<number>('totalDonated');
 export const bids = nodecg().Replicant<Bid[]>('bids');
