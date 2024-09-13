@@ -8,3 +8,4 @@ export * from './Prize';
 export * from './Schedule';
 export * from './Alert';
 export * from './Dialog';
+export * from './Donation';

@@ -98,6 +98,13 @@
         "workspace": "Bids & Prizes"
       },
       {
+        "name": "prizes",
+        "title": "Prizes",
+        "file": "prizes.html",
+        "width": 4,
+        "workspace": "Bids & Prizes"
+      },
+      {
         "name": "alert_dialog",
         "title": "",
         "width": 3,

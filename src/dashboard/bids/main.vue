@@ -151,7 +151,7 @@ onMounted(() => {
   NodeCG.waitForReplicants(bidsReplicant.value).then(() => {
     bidsReplicant.value?.on('change', (newValue, oldValue) => {
       // console.log("cambie")
-      console.log(newValue)
+      // console.log(newValue)
       if (newValue) {
         activeBids.value = []
         newValue.forEach(bid => {

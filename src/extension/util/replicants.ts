@@ -20,12 +20,13 @@ export const activeRunNextRuns = nodecg().Replicant<ActiveRunNextRuns>('activeRu
 export const runArray = nodecg().Replicant<RunArray>('runArray') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunArray>;
 export const runFinishTimes = nodecg().Replicant<RunFinishTimes>('runFinishTimes') as unknown as NodeCG.ServerReplicantWithSchemaDefault<RunFinishTimes>;
 export const timer = nodecg().Replicant<Timer>('timer', { persistenceInterval: 100 }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<Timer>;
-export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled')  as unknown as NodeCG.ServerReplicantWithSchemaDefault<TimerChangesDisabled>;
+export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled') as unknown as NodeCG.ServerReplicantWithSchemaDefault<TimerChangesDisabled>;
 export const totalDonated = nodecg().Replicant<number>('totalDonated');
 export const bids = nodecg().Replicant<Bid[]>('bids');
 export const prizes = nodecg().Replicant<Prize[]>('prizes');
+export const activePrizes = nodecg().Replicant<Prize[]>('activePrizes');
 export const currentSong = nodecg().Replicant<string>('currentSong');
-export const apiToken = nodecg().Replicant<string>('apiToken', {persistent: true, persistenceInterval: 8.64e+7})
+export const apiToken = nodecg().Replicant<string>('apiToken', { persistent: true, persistenceInterval: 8.64e+7 })
 
 
 
