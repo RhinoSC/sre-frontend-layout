@@ -24,7 +24,10 @@
             <div v-if="run.bids && run.bids.length > 0" class="p-4 bg-gray-700">
               <ul class="space-y-2">
                 <li v-for="bid in run.bids" :key="bid.id" class="flex items-center justify-between">
-                  <div class="text-sm text-white">{{ bid.bidname }}</div>
+                  <div class="text-white">
+                    <p class="text-sm">{{ bid.bidname }}</p>
+                    <p class="text-sm">{{ currencyFormat(bid.current_amount) }}</p>
+                  </div>
                   <button @click="toggleBid(bid)"
                     class="px-3 py-1 text-white bg-gray-900 rounded hover:bg-gray-800 focus:outline-none">
                     <span v-if="isBidActive(bid)">Hide</span>
@@ -42,10 +45,14 @@
     <!-- Columna derecha: Bids activos -->
     <div class="w-1/2 p-4">
       <h2 class="mb-4 text-xl font-bold text-white">Active Bids</h2>
-      <div v-if="activeBids.length > 0" class="space-y-2">
+      <div v-if="activeBids.length > 0" class="space-y-2 overflow-y-auto max-h-[435px]">
         <div v-for="bid in activeBids" :key="bid.id"
           class="flex items-center justify-between p-4 bg-gray-800 rounded-md">
-          <div class="text-white">{{ bid.bidname }}</div>
+          <div class="text-white">
+            <p class="text-lg font-semibold">{{ getRunBidName(bid) }}</p>
+            <p class="text-sm">{{ bid.bidname }}</p>
+            <p class="text-sm">{{ currencyFormat(bid.current_amount) }}</p>
+          </div>
           <button @click="removeBid(bid)"
             class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none">
             Remove
@@ -63,6 +70,7 @@ import { ReplicantBrowser } from 'nodecg-types/types/browser';
 import { useReplicant } from 'nodecg-vue-composable';
 import { ref, computed, onMounted } from 'vue';
 import { klona } from 'klona';
+import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue';
 
 const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
@@ -81,31 +89,6 @@ const filteredRuns = computed(() => {
   }
 });
 
-// Mock data for runs and bids
-const runs = ref([
-  {
-    id: '1',
-    name: 'Run 1',
-    bids: [
-      { id: 'bid1', name: 'Bid 1' },
-      { id: 'bid2', name: 'Bid 2' }
-    ]
-  },
-  {
-    id: '2',
-    name: 'Run 2',
-    bids: []
-  },
-  {
-    id: '3',
-    name: 'Run 3',
-    bids: [
-      { id: 'bid3', name: 'Bid 3' },
-      { id: 'bid4', name: 'Bid 4' }
-    ]
-  }
-]);
-
 // State to handle accordion open/close
 const openAccordionId = ref<string | null>(null);
 
@@ -116,6 +99,19 @@ const activeBids = ref<Bid[]>([]);
 const toggleAccordion = (runId: string) => {
   openAccordionId.value = openAccordionId.value === runId ? null : runId;
 };
+
+const getRunBidName = (bid: Bid): string => {
+  if (runArrayReplicant) {
+    const run = runArrayReplicant.data?.find(run => {
+      const bd = run.bids?.find(bd => bd.id === bid.id)
+      if (bd) {
+        return run
+      }
+    })
+    return run ? run.name : ""
+  }
+  return ""
+}
 
 // Function to check if a run accordion is open
 const isOpen = (runId: string) => {
@@ -128,8 +124,11 @@ const toggleBid = (bid: Bid) => {
     removeBid(bid);
   } else {
     activeBids.value.push(bid);
-    console.log("hola")
-    // bidsReplicant.value?.value?.push({ bidname: "gola" } as Bid)
+    if (bidsReplicant.value) {
+      if (bidsReplicant.value.value) {
+        bidsReplicant.value?.value?.push(bid)
+      }
+    }
   }
 };
 
@@ -139,14 +138,10 @@ const removeBid = (bid: Bid) => {
     activeBids.value = activeBids.value.filter(activeBid => activeBid.id !== bid.id);
     bidsReplicant.value.value = activeBids.value
   }
-  // if (bidsReplicant.value) {
-  //   bidsReplicant.value.value = bidsReplicant.value.value?.filter(activeBid => activeBid.id !== bid.id);
-  // }
 };
 
 // Function to check if a bid is active
 const isBidActive = (bid: Bid) => {
-  console.log(activeBids.value.some(activeBid => activeBid.id === bid.id))
   return activeBids.value.some(activeBid => activeBid.id === bid.id);
 };
 
@@ -155,7 +150,8 @@ onMounted(() => {
 
   NodeCG.waitForReplicants(bidsReplicant.value).then(() => {
     bidsReplicant.value?.on('change', (newValue, oldValue) => {
-      console.log("cambie")
+      // console.log("cambie")
+      console.log(newValue)
       if (newValue) {
         activeBids.value = []
         newValue.forEach(bid => {
