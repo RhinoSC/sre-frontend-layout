@@ -73,6 +73,7 @@ import { klona } from 'klona';
 import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue';
 
+const totalDonatedReplicant = useReplicant<number>('totalDonated', 'sre-frontend-layout');
 const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
 const bidsReplicant = ref<ReplicantBrowser<Bid[]>>()
 

@@ -7,6 +7,8 @@ import { apiGetPrizes } from "./util/api/prize/prize";
 import { Prize } from "@sre-frontend-layout/types";
 import { apiGetTotalDonatedByEventID } from "./util/api/donation/donation";
 import { APIResponse } from "@sre-frontend-layout/types/Api";
+import bodyParser from "body-parser";
+import { RequestHandler } from "express";
 
 
 const nodecg = get();
@@ -66,3 +68,25 @@ nodecg.listenFor('importSchedule', (data: any, ack: any) => {
     .then((data_) => ack(null, data_))
     .catch((err) => ack(err));
 });
+
+const app = nodecg.Router();
+
+app.use(bodyParser.json({ limit: '50mb' }) as RequestHandler)
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }) as RequestHandler)
+
+// API to show or hide the lower third
+// USAGE: query /bundles/mybundle/api/lowerThird?action=show|hide
+app.get(`/test`, (req, res) => {
+  res.send(`done!`);
+});
+
+app.post('/total-donated', (req, res) => {
+  try {
+    loadTotalDonated()
+    nodecg.log.debug(`[Event] Get total donated from api`);
+    res.json({ message: 'success' });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
+nodecg.mount(app);
