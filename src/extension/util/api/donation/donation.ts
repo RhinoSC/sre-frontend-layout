@@ -8,6 +8,7 @@ export const apiGetTotalDonatedByEventID = async <T>(id: string): Promise<APIRes
     const apiResponse: APIResponse = response.data
     return apiResponse
   } catch (error) {
-    throw new Error("Failed to delete donation");
+    console.log(error)
+    throw new Error("Failed to get total donated");
   }
 }
