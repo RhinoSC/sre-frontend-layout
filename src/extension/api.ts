@@ -17,22 +17,20 @@ const config = nodecg.bundleConfig as Configschema;
 
 
 async function start() {
-  const response = await login(config.API_USERNAME, config.API_PASSWORD)
+  await loadLogin()
   await loadPrizes()
-  // await loadTotalDonated()
+  await loadTotalDonated()
 }
 
-start()
-// start().then(() => {
-//   setTimeout(async () => {
-//     // const response = await apiGetSchedules()
-//     // nodecg.sendMessage("apiSetSchedule")
-//     // const response = await apiGetScheduleByID(`${config.API_SCHEDULE_ID}`)
-//     // nodecg.log.info('[api]', response.data)
-//     await loadSchedule()
-//   }, 3000);
-// })
 
+start()
+setInterval(() => {
+  start()
+}, 8.28e+7);
+
+async function loadLogin(): Promise<void> {
+  await login(config.API_USERNAME, config.API_PASSWORD)
+}
 
 async function loadSchedule(): Promise<RunArray> {
   const response = await apiGetScheduleByID("schedule1")
