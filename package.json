@@ -36,7 +36,8 @@
     "livesplit-core": "^0.10.2",
     "module-alias": "^2.2.2",
     "oh-vue-icons": "^1.0.0-rc3",
-    "vue-material-design-icons": "^5.3.0"
+    "vue-material-design-icons": "^5.3.0",
+    "vue-plugin-load-script": "^2.1.1"
   },
   "devDependencies": {
     "@nodecg/types": "^2.1.12",
@@ -74,11 +75,6 @@
     "compatibleRange": "^2.2.0",
     "dashboardPanels": [
       {
-        "name": "example",
-        "title": "Example",
-        "file": "example.html"
-      },
-      {
         "name": "run_player",
         "title": "Run Player",
         "file": "run_player.html",
@@ -88,6 +84,12 @@
         "name": "timer",
         "title": "Timer",
         "file": "timer.html",
+        "width": 3
+      },
+      {
+        "name": "music",
+        "title": "Music",
+        "file": "music.html",
         "width": 3
       },
       {
@@ -117,6 +119,11 @@
         "file": "example.html",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "file": "music.html",
+        "width": 560,
+        "height": 315
       }
     ]
   }
