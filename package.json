@@ -121,6 +121,11 @@
         "height": 1080
       },
       {
+        "file": "bar.html",
+        "width": 1920,
+        "height": 77
+      },
+      {
         "file": "music.html",
         "width": 560,
         "height": 315
