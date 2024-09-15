@@ -6,94 +6,92 @@
       class="w-[1920px] h-[1004px] absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_SoftLight_Raya_tele.png')] before:bg-cover before:bg-center before:opacity-20">
     </div>
     <div
-      class="z-20 w-[1920px] h-[1004px] absolute inset-0 after:content-[''] after:absolute after:inset-0 after:bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_16-9-Frame.png')] after:bg-cover after:bg-center">
+      class="z-20 w-[1920px] h-[1004px] absolute inset-0 after:content-[''] after:absolute after:inset-0 after:bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Frame.png')] after:bg-cover after:bg-center">
     </div>
     <!-- Aquí va tu contenido encima de los fondos -->
     <div class="relative z-10 w-[1920px] h-[1004px]">
       <!-- div-game -->
       <div
-        class="absolute left-[369px] w-[1551px] h-[866px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_NormalBackground.png')]">
+        class="absolute left-[586px] w-[1323px] h-[994px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_NormalBackground_1.png')]">
       </div>
       <!-- div-cam -->
       <div
-        class="absolute left-[0px] w-[369px] h-[282px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_NormalBackground_2.png')]">
+        class="absolute left-[0px] w-[586px] h-[277px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_NormalBackground_4.png')]">
 
       </div>
       <!-- div-coms -->
       <div
-        class="absolute top-[292px] left-[0px] w-[369px] h-[712px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_NormalBackground_3.png')]">
+        class="absolute top-[486px] left-[0px] w-[586px] h-[514px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_NormalBackground_3_4_3.png')]">
         <!-- div-runner -->
         <div
-          class="absolute top-[4px] left-[19px] w-[341px] h-[63px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_16-9-Runner.png')]">
+          class="absolute top-[4px] left-[19px] w-[570px] h-[64px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Runner_1.png')]">
           <div class="flex flex-col items-center justify-center w-full h-full">
             <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
               v-if="activeRunReplicant && activeRunReplicant.data">{{
                 getRunnerString(activeRunReplicant.data) }}</p>
           </div>
         </div>
-        <!-- div-logos -->
+        <!-- Flash div -->
+        <div v-if="timerReplicant && timerReplicant.data?.state === 'finished'"
+          class="absolute top-0 left-0 w-full h-full flash-div"></div>
+        <!-- div-time -->
         <div
-          class="absolute top-[403px] left-[19px] w-[341px] h-[227px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_16-9-Logos_1.png')]">
-
+          class="relative top-[59px] left-[19px] w-[570px] h-[73px] flex flex-col items-center justify-center text-white bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Timer_1.png')]">
+          <p class="mb-3 text-5xl font-bold [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+            :class="[
+              timerReplicant?.data?.state === 'finished' ? 'animate-finished text-teal-600' : 'animate-start',
+              'transition-all duration-500 ease-in-out',
+            ]">
+            {{ timerReplicant?.data?.time }}
+          </p>
         </div>
         <!-- div-host -->
         <div
-          class="absolute top-[620px] left-[19px] w-[341px] h-[73px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_16-9-Host_1.png')]">
+          class="absolute top-[226px] left-[19px]  w-[285px] h-[106px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Host_1.png')]">
           <div class="flex flex-col items-center justify-center w-full h-full">
-            <p class="text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] uppercase">{{
+            <p class="text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] uppercase pb-7">{{
               hostReplicant?.data }}
             </p>
           </div>
         </div>
+        <!-- div-logos -->
+        <div
+          class="absolute top-[303px] left-[19px] w-[570px] h-[194px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Logos_1.png')]">
+
+        </div>
       </div>
       <!-- div-info -->
       <div
-        class="absolute top-[885px] left-[378px] w-[800px] h-[97px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_Game_1.png')]">
+        class="absolute top-[15px] left-[10px] w-[586px] h-[108px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_Game_1_4_3.png')]">
         <!-- div-run -->
-        <div class="absolute bottom-[10px] left-[0px] w-[790px] h-[100px] flex flex-col items-center justify-center">
-          <p class="mb-3 text-[2em] font-bold text-[#FFCA6A] [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+        <div class="absolute bottom-[10px] left-[0px] w-[586px] h-[108px] flex flex-col items-center justify-center">
+          <p class="mb-3 text-[2em] font-bold text-[#FFCA6A] [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2 leading-8"
             v-if="activeRunReplicant && activeRunReplicant.data">{{
               activeRunReplicant.data.name }}</p>
         </div>
         <div
-          class="absolute top-[68px] left-[70px] w-[229px] h-[29px] bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_Icon_Platform_2.png')]">
+          class="absolute top-[73px] left-[35px] w-[155px] h-[20px] bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_Icon_Platform_2.png')] bg-cover">
         </div>
-        <div class="absolute top-[68px] left-[280px] w-[229px] h-[29px] flex flex-col items-center justify-center">
+        <div class="absolute top-[73px] left-[180px] w-[229px] h-[29px] flex flex-col items-center justify-center">
           <p class="mb-3 text-base font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] uppercase text-center pt-2"
             v-if="activeRunReplicant && activeRunReplicant.data">{{
               activeRunReplicant.data.run_metadata.platform }}</p>
         </div>
         <div
-          class="absolute top-[68px] left-[495px] w-[229px] h-[29px] bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_Icon_Platform_1.png')]">
+          class="absolute top-[73px] left-[390px] w-[155px] h-[20px] bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_Icon_Platform_1.png')] bg-cover">
 
         </div>
       </div>
       <!-- div-timer -->
       <div v-if="timerReplicant && timerReplicant.data" :class="[
-        'absolute top-[885px] left-[1190px] w-[721px] h-[110px] bg-[url(/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_Timer_1.png)]',
+        'absolute top-[125px] left-[10px] w-[586px] h-[81px] bg-[url(/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_Timer_1_4_3.png)]',
         timerReplicant.data.state === 'running' ? 'animate-flash' : '',
         timerReplicant.data.state === 'finished' ? 'flash-container' : ''
       ]">
-        <!-- Flash div -->
-        <div v-if="timerReplicant && timerReplicant.data.state === 'finished'"
-          class="absolute top-0 left-0 w-full h-full flash-div"></div>
-
-        <!-- div-time -->
-        <div
-          class="relative top-[10px] left-[0px] w-[721px] h-[47px] flex flex-col items-center justify-center text-white">
-          <p class="mb-3 text-5xl font-bold [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
-            :class="[
-              timerReplicant.data.state === 'finished' ? 'animate-finished text-teal-600' : 'animate-start',
-              'transition-all duration-500 ease-in-out',
-            ]">
-            {{ timerReplicant.data.time }}
-          </p>
-        </div>
-
         <!-- div-run-info -->
-        <div class="relative top-[5px] left-[0px] w-[721px] h-[47px] flex flex-row items-center justify-center">
+        <div class="relative top-[0px] left-[0px] w-[586px] h-[81px] flex flex-row items-center justify-center">
           <!-- div-category -->
-          <div class="flex flex-row items-center justify-center w-[550px] gap-2">
+          <div class="flex flex-row items-center justify-start w-[550px] gap-2 pl-8">
             <img src="./assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
             <p class="mb-2 text-xl font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
               v-if="activeRunReplicant && activeRunReplicant.data">{{
