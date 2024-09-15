@@ -5,7 +5,7 @@ import { createHead } from '@vueuse/head';
 import { Dark, Quasar } from 'quasar';
 import 'quasar/dist/quasar.css';
 import { createApp } from 'vue';
-import App from './music/main.vue';
+import App from './misc/main.vue';
 import './index.css'
 
 const app = createApp(App);
