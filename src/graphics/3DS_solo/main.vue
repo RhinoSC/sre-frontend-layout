@@ -31,7 +31,7 @@
         <div
           class="absolute top-[7px] left-[1px] w-[437px] h-[63px] bg-[url('/src/graphics/3DS_solo/assets/SRE-X_Layout_3.Juego_3DS-Runner_1.png')]">
           <div class="flex flex-col items-center justify-center w-full h-full">
-            <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
+            <p class="mb-3 text-3xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
               v-if="activeRunReplicant && activeRunReplicant.data">{{
                 getRunnerString(activeRunReplicant.data) }}</p>
           </div>
@@ -64,7 +64,7 @@
           class="absolute top-[68px] left-[50px] w-[229px] h-[29px] bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_Icon_Platform_2.png')]">
         </div>
         <div class="absolute top-[68px] left-[240px] w-[229px] h-[29px] flex flex-col items-center justify-center">
-          <p class="mb-3 text-base font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] uppercase text-center pt-2"
+          <p class="mb-3 text-lg font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] uppercase text-center pt-2"
             v-if="activeRunReplicant && activeRunReplicant.data">{{
               activeRunReplicant.data.run_metadata.platform }}</p>
         </div>
