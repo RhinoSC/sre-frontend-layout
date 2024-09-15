@@ -94,14 +94,14 @@
         <div class="relative top-[5px] left-[0px] w-[721px] h-[47px] flex flex-row items-center justify-center">
           <!-- div-category -->
           <div class="flex flex-row items-center justify-center w-[550px] gap-2">
-            <img src="./assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
-            <p class="mb-2 text-xl font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+            <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
+            <p class="mb-2 text-2xl font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
               v-if="activeRunReplicant && activeRunReplicant.data">{{
                 activeRunReplicant.data.run_metadata.category }}</p>
           </div>
           <!-- div-estimate -->
           <div class="flex flex-row items-center justify-center w-1/2 gap-2">
-            <img src="./assets/timer/SRE-X_Layout_Icon_Estimate.png" alt="" class="w-[26px] h-[31px]">
+            <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Estimate.png" alt="" class="w-[26px] h-[31px]">
             <p class="mb-2 text-xl font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
               v-if="activeRunReplicant && activeRunReplicant.data">{{
                 activeRunReplicant.data.estimate_string }}</p>
