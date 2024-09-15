@@ -34,6 +34,7 @@ export const bids = nodecg().Replicant<Bid[]>('bids');
 export const prizes = nodecg().Replicant<Prize[]>('prizes');
 export const activePrizes = nodecg().Replicant<Prize[]>('activePrizes');
 export const currentSong = nodecg().Replicant<string>('currentSong');
+export const host = nodecg().Replicant<string>('host', { defaultValue: "nombremuy largisimo" });
 export const apiToken = nodecg().Replicant<string>('apiToken', { persistent: true, persistenceInterval: 8.64e+7 })
 
 
