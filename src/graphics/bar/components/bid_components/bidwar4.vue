@@ -91,22 +91,22 @@ function createAnimation() {
     translateX: '0px'
   })
 
-  // animeTL.value.add({
-  //   targets: '#option-div',
-  //   duration: 2000,
-  //   easing: 'easeOutElastic(1, 1)',
-  //   // delay: anime.stagger(500),
-  //   translateY: ['60px', '0px']
-  // })
-
   animeTL.value.add({
-    targets: '.bar-container .bar-over-bg',
-    duration: 1000,
+    targets: '#option-div',
+    duration: 2000,
     easing: 'easeOutElastic(1, 1)',
-    opacity: '0',
-    // delay: 1000 
-    delay: 100000
+    // delay: anime.stagger(500),
+    translateY: ['60px', '0px']
   })
+
+  // animeTL.value.add({
+  //   targets: '.bar-container .bar-over-bg',
+  //   duration: 1000,
+  //   easing: 'easeOutElastic(1, 1)',
+  //   opacity: '0',
+  //   // delay: 1000 
+  //   delay: 100000
+  // })
 
   // animeTL.value.finished.then(() => {
   //   emit('animationEnd')
