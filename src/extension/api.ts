@@ -35,8 +35,8 @@ async function loadLogin(): Promise<void> {
 async function loadSchedule(): Promise<RunArray> {
   const response = await apiGetScheduleByID(config.API_SCHEDULE_ID)
 
+  runArray.value = []
   runArray.value = response.data.ordered_runs
-  // runArray.value = []
 
   nodecg.log.info("[schedule] imported")
   return response.data.ordered_runs

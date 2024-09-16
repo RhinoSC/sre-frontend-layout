@@ -1,4 +1,6 @@
-import type { Alert, Dialog, Run, Team, User } from '@sre-frontend-layout/types';
+import type { Alert, Bid, Dialog, Run, Team, User } from '@sre-frontend-layout/types';
+import { RunArray } from '@sre-frontend-layout/types/schemas';
+import { useReplicant } from 'nodecg-vue-composable';
 
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
@@ -84,4 +86,19 @@ export const currencyFormat = (amount: number, currency?: string) => {
   })
 
   return formatter.format(amount)
+}
+
+export const getRunBidName = (bid: Bid): string => {
+  const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
+
+  if (runArrayReplicant) {
+    const run = runArrayReplicant.data?.find(run => {
+      const bd = run.bids?.find(bd => bd.id === bid.id)
+      if (bd) {
+        return run
+      }
+    })
+    return run ? run.name : ""
+  }
+  return ""
 }
