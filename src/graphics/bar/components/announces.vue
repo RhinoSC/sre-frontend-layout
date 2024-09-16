@@ -14,6 +14,12 @@
 import { onMounted } from 'vue';
 import anime from 'animejs';
 
+const emit = defineEmits(['animationEnded'])
+
+function animationEnd() {
+  emit('animationEnded')
+}
+
 onMounted(() => {
   // Primera animación para el donate-container
   anime({
@@ -47,6 +53,9 @@ onMounted(() => {
                 duration: 1000,
                 easing: 'easeInQuad',
                 delay: 5000, // Espera 1 segundo antes de la transición
+                complete: () => {
+                  animationEnd()
+                }
               })
             }
           });
