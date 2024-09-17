@@ -18,14 +18,14 @@
       <template v-for="(option, index) in options" :key="index">
         <div class="bar-container">
           <div class="bar-over-bg w-[345px] h-[38px] bg-[#00FFFF]"
-            style="clip-path: polygon(0px 0px, 97.38% 1px, 100% 95%, 1.86% 95.00%);">
+            style="clip-path: polygon(0px 0px, 93.85% 0px, 100% 95%, 5.66% 95%);">
             <div class="w-[335px] h-[34px] bg-[#0E8D9B] text-start pl-8 relative top-[2px] left-[4px]"
-              style="clip-path: polygon(1px 1px, 97.54% 2px, 99.58% 89.12%, 2.10% 89.12%);">
-              <div class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[38px] transition-all pl-3 flex items-center">
+              style="clip-path: polygon(2px 1px, 94.9% 1px, 99.96% 92.38%, 5.2% 92.38%);">
+              <div class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[38px] transition-all pl-4 flex items-center">
                 {{ option.name }}
               </div>
               <div class="bg-end-bar relative w-[130px] left-[181px] bg-[#D1559E] transition-all"
-                style="clip-path: polygon(24px 0px, 87.62% 1px, 92.73% 82.5%, 26.66% 82.5%);">
+                style="clip-path: polygon(22px 0px, 81.47% 0px, 94.27% 80%, 28.2% 80%);">
                 <h3 class="pl-[48px] percentage relative bottom-[4px]">{{
                   currencyFormat(option.current_amount) }}
                 </h3>
@@ -108,7 +108,7 @@ function createAnimation() {
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
-    delay: 10000
+    delay: 100000000
   })
 
   animeTL.value.finished.then(() => {
