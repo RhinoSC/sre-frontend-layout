@@ -17,16 +17,16 @@
     <div id="option-div" class="flex flex-row items-center w-full h-[38px] gap-2 pl-[14px]">
       <template v-for="(option, index) in options" :key="index">
         <div class="bar-container">
-          <div class="bar-over-bg w-[345px] h-[38px] bg-[#00FFFF]"
-            style="clip-path: polygon(0px 0px, 97.38% 1px, 100% 95%, 1.86% 95.00%);">
-            <div class="w-[335px] h-[34px] bg-[#0E8D9B] text-start pl-8 relative top-[2px] left-[4px]"
-              style="clip-path: polygon(1px 1px, 97.54% 2px, 99.58% 89.12%, 2.10% 89.12%);">
-              <div class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[38px] transition-all pl-3 flex items-center">
+          <div class="bar-over-bg w-[535px] h-[38px] bg-[#00FFFF]"
+            style="clip-path: polygon(0px 0px, 95.88% 0px, 100% 95%, 3.92% 95%);">
+            <div class="w-[533px] h-[36px] bg-[#0E8D9B] text-start pl-8 relative top-[1px] left-[1px]"
+              style="clip-path: polygon(5px 2px, 95.50% 2px, 99.06% 89.44%, 4.3% 89.44%);">
+              <div class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[38px] transition-all pl-6 flex items-center">
                 {{ option.name }}
               </div>
-              <div class="bg-end-bar relative w-[130px] left-[181px] bg-[#D1559E] transition-all"
-                style="clip-path: polygon(24px 0px, 87.62% 1px, 92.73% 82.5%, 26.66% 82.5%);">
-                <h3 class="pl-[48px] percentage relative bottom-[4px]">{{
+              <div class="bg-end-bar relative w-[140px] left-[361px] bg-[#D1559E] transition-all"
+                style="clip-path: polygon(25px 1px, 83.33% 1px, 97.73% 82.5%, 30.95% 82.50%);">
+                <h3 class="pl-[53px] percentage relative bottom-[2px]">{{
                   currencyFormat(option.current_amount) }}
                 </h3>
               </div>
@@ -108,7 +108,7 @@ function createAnimation() {
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
-    delay: 10000
+    delay: 10000000
   })
 
   animeTL.value.finished.then(() => {
@@ -124,7 +124,7 @@ watch(() => props.bid, (newVal) => {
 
 onMounted(async () => {
   // console.log(props.bid)
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     options.value.push(props.bid.bid_options[i])
   }
   await nextTick()
