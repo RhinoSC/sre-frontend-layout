@@ -143,8 +143,8 @@ function createAnimation() {
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
-    // delay: 1000 
-    delay: 100000000000
+    delay: 1000
+    // delay: 10000
   })
 
   animeTL.value.finished.then(() => {

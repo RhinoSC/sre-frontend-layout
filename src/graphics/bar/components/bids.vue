@@ -64,7 +64,7 @@ function changeBid() {
     bidIndex.value += 1
     changeBid()
   }
-  console.log(showBidType.value)
+  // console.log(showBidType.value)
 
   bidIndex.value += 1
   return selectedBid.value
@@ -91,6 +91,7 @@ onMounted(() => {
       bidsArray.value = newValue
       // console.log(newValue)
       if (newValue.length > 0) {
+        bidIndex.value = 0
         changeBid()
         ready.value = true
       }

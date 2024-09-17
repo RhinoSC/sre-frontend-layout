@@ -1,6 +1,6 @@
 <template>
   <div class="w-[1920px] h-[77px] flex flex-row items-start bg-[url('/src/graphics/bar/bar_bg.png')]">
-  <!-- <div class="w-[1920px] h-[77px] flex flex-row items-start bg-black"> -->
+    <!-- <div class="w-[1920px] h-[77px] flex flex-row items-start bg-black"> -->
     <div class="w-[466px] h-[77px] flex">
       <div class="w-[360px] bg-lime-600 h-[77px]" style="clip-path: polygon(0 0, 87% 0, 100% 100%, 0% 100%);">
       </div>
@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="relative -left-[112px] w-[1200px] h-[77px] flex items-end pl-[50px] text-white">
-      <!-- <AnnounceComponent v-if="generalAnimNumber === 1" @animationEnded="animationEnd($event)" /> -->
-      <BidsComponent v-if="generalAnimNumber === 1" @animationEnded="animationEnd($event)"></BidsComponent>
+      <AnnounceComponent v-if="generalAnimNumber === 1" @animationEnded="animationEnd($event)" />
+      <BidsComponent v-if="generalAnimNumber === 2" @animationEnded="animationEnd($event)"></BidsComponent>
     </div>
     <div>
 
@@ -42,6 +42,7 @@ function nextAnimation() {
     // setMusicAnimation()
     // setSocialAnimation()
   } else {
+    // console.log("next animation", generalAnimNumber.value, bidAnimationEnded.value)
     if (bidAnimationEnded) {
       if (generalAnimNumber.value > 1) generalAnimNumber.value = 0
 

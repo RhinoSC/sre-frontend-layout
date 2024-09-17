@@ -52,7 +52,7 @@ onMounted(() => {
                 opacity: [1, 0], // Se desvanece
                 duration: 1000,
                 easing: 'easeInQuad',
-                delay: 5000, // Espera 1 segundo antes de la transición
+                delay: 1000, // Espera 1 segundo antes de la transición
                 complete: () => {
                   animationEnd()
                 }
