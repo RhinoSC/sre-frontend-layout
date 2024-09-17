@@ -20,13 +20,13 @@
             currencyFormat(props.bid.goal)
           }}</h2>
       <div id="bar-bg" class="bar-over-bg w-[860px] h-[38px] bg-[#00FFFF]"
-        style="clip-path: polygon(0px 0px, 97% 0px, 100% 95%, 3% 95%);">
-        <div class="w-[856px] h-[34px] bg-[#0E8D9B] text-start pl-8 relative top-[2px] left-[4px]"
-          style="clip-path: polygon(3px 1px, 96.76% 1px, 99.19% 92.06%, 2.88% 92.06%);">
-          <div id="bg-bar" class="absolute w-[856px] bg-[#49226B] h-[38px] transition-all">
+        style="clip-path: polygon(7px 0px, 97.70% 0px, 100% 95%, 3% 95%);">
+        <div class="w-[856px] h-[34px] bg-transparent text-start pl-8 relative top-[2px] left-[4px]"
+          style="clip-path: polygon(9px 1px, 97.46% 1px, 99.31% 92.06%, 2.88% 92.06%);">
+          <div id="bg-bar" class="absolute w-[856px] bg-[#0E8D9B] h-[38px]">
           </div>
-          <div id="bg-end-bar" class="relative w-[85px] bg-[#D1559E] transition-all"
-            style="clip-path: polygon(0px 0px, 68.53% 0px, 100% 95%, 30.3% 95%)">
+          <div id="bg-end-bar" class="relative w-[85px] bg-[#D1559E]"
+            style="clip-path: polygon(8px 0px, 76.77% 0px, 100% 95%, 30.3% 95%);">
             <h3 class="pl-[22px] percentage relative bottom-[2px]">{{ barPercentage }}%</h3>
           </div>
         </div>
@@ -63,7 +63,7 @@ function createAnimation() {
   animeTL.value = anime.timeline();
   // Calcular el porcentaje para animar
   // const percentage = props.bid.current_amount / props.bid.goal;
-  const percentage = 1;
+  const percentage = 0.5;
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
 
@@ -76,11 +76,23 @@ function createAnimation() {
   })
 
   anime.set('#bg-bar', {
-    translateX: `-${barWidth - bgWidth}px`
+    translateX: `-856px`
   })
 
+  anime.set('#bg-bar', {
+    translateX: `-856px`
+  })
+
+  // anime.set('#bg-bar', {
+  //   translateX: `-${barWidth - bgWidth}px`
+  // })
+
+  // anime.set('#bg-end-bar', {
+  //   translateX: `${endWidth - 85}px`
+  // })
+
   anime.set('#bg-end-bar', {
-    translateX: `${endWidth - 118}px`
+    translateX: `-90px`
   })
 
   anime.set('.current-amounts', {
@@ -109,7 +121,21 @@ function createAnimation() {
     targets: '#bar-bg',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
-    translateY: '0px'
+    translateY: '0px',
+  }, '-=2000')
+
+  animeTL.value.add({
+    targets: '#bg-bar',
+    duration: 2000,
+    easing: 'easeOutElastic(1, 1)',
+    translateX: `-${barWidth - bgWidth - 30}px`
+  }, '-=2000')
+
+  animeTL.value.add({
+    targets: '#bg-end-bar',
+    duration: 2000,
+    easing: 'easeOutElastic(1, 1)',
+    translateX: `${endWidth - 85}px`
   }, '-=2000')
 
   animeTL.value.add({
@@ -118,7 +144,7 @@ function createAnimation() {
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
     // delay: 1000 
-    delay: 10000
+    delay: 100000000000
   })
 
   animeTL.value.finished.then(() => {

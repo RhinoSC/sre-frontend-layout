@@ -9,8 +9,8 @@
       </Bidwar2Component>
       <Bidwar4Component v-if="showBidType === 1 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
       </Bidwar4Component>
-      <!-- <GoalComponent v-if="showBidType === 2 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
-      </GoalComponent> -->
+      <GoalComponent v-if="showBidType === 2 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
+      </GoalComponent>
     </div>
   </div>
 </template>
