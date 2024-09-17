@@ -14,18 +14,21 @@
         <!-- <h1>Filename</h1> -->
       </div>
     </div>
-    <div id="option-div" class="flex flex-row items-center w-full h-[38px] gap-2 pl-3">
+    <div id="option-div" class="flex flex-row items-center w-full h-[38px] gap-2 pl-[14px]">
       <template v-for="(option, index) in options" :key="index">
         <div class="bar-container">
-          <div class="bar-over-bg w-[265px] h-[38px] bg-[#00FFFF]"
+          <div class="bar-over-bg w-[345px] h-[38px] bg-[#00FFFF]"
             style="clip-path: polygon(0px 0px, 97.38% 1px, 100% 95%, 1.86% 95.00%);">
-            <div class="w-[255px] h-[34px] bg-[#0E8D9B] text-start pl-8 relative top-[2px] left-[4px]"
+            <div class="w-[335px] h-[34px] bg-[#0E8D9B] text-start pl-8 relative top-[2px] left-[4px]"
               style="clip-path: polygon(1px 1px, 97.54% 2px, 99.58% 89.12%, 2.10% 89.12%);">
-              <div class="bg-bar absolute w-[255px] bg-[#49226B] h-[38px] transition-all">
+              <div class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[38px] transition-all pl-3 flex items-center">
+                {{ option.name }}
               </div>
-              <div class="bg-end-bar relative w-[110px] left-[120px] bg-[#D1559E] transition-all"
+              <div class="bg-end-bar relative w-[130px] left-[181px] bg-[#D1559E] transition-all"
                 style="clip-path: polygon(24px 0px, 87.62% 1px, 92.73% 82.5%, 26.66% 82.5%);">
-                <h3 class="pl-[38px] percentage relative bottom-[4px]">{{ currencyFormat(option.current_amount) }}</h3>
+                <h3 class="pl-[48px] percentage relative bottom-[4px]">{{
+                  currencyFormat(option.current_amount) }}
+                </h3>
               </div>
             </div>
           </div>
@@ -39,7 +42,7 @@
 import { currencyFormat, getRunBidName } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { Bid, BidOption } from '@sre-frontend-layout/types';
 import anime, { AnimeTimelineInstance } from 'animejs';
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 // Props
 const props = defineProps<{
@@ -59,7 +62,7 @@ function createAnimation() {
   animeTL.value = anime.timeline();
   // Calcular el porcentaje para animar
   // const percentage = props.bid.current_amount / props.bid.goal;
-  
+
   const percentage = 1;
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
@@ -68,8 +71,9 @@ function createAnimation() {
     opacity: '1',
   })
 
-  anime.set('.bar-over-bg', {
-    opacity: `0`
+
+  anime.set('.bar-container', {
+    translateY: `40px`
   })
 
   anime.set('#bg-bar', {
@@ -92,21 +96,20 @@ function createAnimation() {
   })
 
   animeTL.value.add({
-    targets: '#option-div',
+    targets: '.bar-container',
     duration: 2000,
-    easing: 'easeOutElastic(1, 1)',
-    // delay: anime.stagger(500),
-    translateY: ['60px', '0px']
-  })
+    easing: 'easeOutElastic(1, 1.5)',
+    delay: anime.stagger(500),
+    translateY: ['40px', '0px']
+  });
 
-  // animeTL.value.add({
-  //   targets: '.bar-container .bar-over-bg',
-  //   duration: 1000,
-  //   easing: 'easeOutElastic(1, 1)',
-  //   opacity: '0',
-  //   // delay: 1000 
-  //   delay: 100000
-  // })
+  animeTL.value.add({
+    targets: '.goal-bids-container',
+    duration: 1000,
+    easing: 'easeOutElastic(1, 1)',
+    opacity: '0',
+    delay: 100000
+  })
 
   // animeTL.value.finished.then(() => {
   //   emit('animationEnd')
@@ -119,11 +122,12 @@ watch(() => props.bid, (newVal) => {
   createAnimation()
 });
 
-onMounted(() => {
+onMounted(async () => {
   // console.log(props.bid)
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     options.value.push(props.bid.bid_options[i])
   }
+  await nextTick()
   createAnimation()
 })
 </script>
