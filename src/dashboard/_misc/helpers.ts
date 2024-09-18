@@ -110,3 +110,26 @@ export const getRunBidName = (bid: Bid): string => {
   }
   return ""
 }
+
+export const getTimeDifferenceString = (startTimeMili: number): string => {
+  // const currentTimeMili = Date.now(); // Obtén la hora actual en milisegundos
+  const currentTimeMili = new Date(1727017200000); // Obtén la hora actual en milisegundos
+  const diffInMili = startTimeMili - currentTimeMili.getTime(); // Diferencia en milisegundos
+
+  if (diffInMili <= 0) {
+    return '0m';
+  }
+
+  const diffInMinutes = Math.ceil(diffInMili / (1000 * 60)); // Convertir la diferencia en minutos
+  const roundedMinutes = Math.ceil(diffInMinutes / 10) * 10; // Redondear a 10 minutos más cercano
+
+  if (roundedMinutes >= 60) {
+    const diffInHours = Math.ceil(roundedMinutes / 60); // Convertir a horas si son más de 60 minutos
+    // if (diffInHours > 8) {
+    //   return `en ZZZ...`
+    // }
+    return `${diffInHours}h`; // Retornar el formato en horas
+  } else {
+    return `${roundedMinutes}m`; // Retornar el formato en minutos
+  }
+};
