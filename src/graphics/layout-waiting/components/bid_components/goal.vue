@@ -18,22 +18,23 @@
       </div>
     </div>
     <!-- bids-info -->
-    <div class="relative right-[40px] flex flex-row items-center w-full h-[300px] gap-2">
-      <div id="bar-bg" class="bar-over-bg w-[856px] h-[300px] bg-[#00FFFF]">
-        <div class="w-[856px] h-[300px] bg-transparent text-start relative">
-          <div id="bg-bar" class="absolute w-[848px] bg-[#0E8D9B] h-[284px] mt-[8px]">
+    <div class="relative right-[40px] flex flex-row items-center w-full h-[280px] gap-2 mt-[10px]">
+      <div id="bar-bg" class="bar-over-bg w-[856px] h-[220px] bg-[#F0B140]">
+        <div class="w-[856px] h-[220px] bg-transparent text-start relative">
+          <div id="bg-bar" class="absolute w-[848px] bg-[#967742] h-[205px] mt-[8px]">
           </div>
-          <div id="bg-end-bar" class="absolute w-[100px] left-[100px] h-[284px] bg-[#D1559E] mt-[8px]">
+          <div id="bg-end-bar"
+            class="absolute w-[100px] left-[100px] h-[205px] bg-[#6B707B] mt-[8px] border-l-[6px] border-[#F0B140]">
             <div class="relative flex flex-col justify-between h-full px-2 py-4 percentage">
               <div>
-                <span class="text-2xl font-thin">{{ currencyFormat(props.bid.current_amount) }}</span>
-                <!-- <span class="text-xl font-thin">100,00$</span> -->
+                <!-- <span class="text-2xl font-thin">{{ currencyFormat(props.bid.current_amount) }}</span> -->
+                <span class="text-xl font-thin">100,00$</span>
               </div>
               <div>
               </div>
               <div class="w-full text-end">
-                <span class="text-4xl"> {{ barPercentage }}% </span>
-                <!-- <span class="text-4xl"> 100% </span> -->
+                <!-- <span class="text-4xl"> {{ barPercentage }}% </span> -->
+                <span class="text-4xl"> 100% </span>
               </div>
             </div>
           </div>
@@ -52,6 +53,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 
 const barPercentage = computed(() => {
   // console.log(props.bid.current_amount, props.bid.goal)
+  if (props.bid.goal === 0) return 0
   return ((props.bid.current_amount / props.bid.goal) * 100).toFixed(0)
 })
 
@@ -138,14 +140,15 @@ function createAnimation() {
     targets: '.title',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
+    delay: 10000,
     opacity: `0`
   })
 
   animeTL.value.add({
     targets: '#bar-bg',
-    duration: 2000,
-    easing: 'easeOutElastic(1, 1)',
-    opacity: `0`
+    duration: 1000,
+    easing: 'linear',
+    opacity: `0`,
   }, '-=2000')
 
   animeTL.value.add({
@@ -153,7 +156,7 @@ function createAnimation() {
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
-    delay: 2000
+    delay: 500
     // delay: 10000
   })
 
@@ -162,11 +165,11 @@ function createAnimation() {
   })
 }
 
-// watch(() => props.bid, (newVal) => {
-//   animeTL.value.pause()
-//   animeTL.value = {} as AnimeTimelineInstance
-//   createAnimation()
-// });
+watch(() => props.bid, (newVal) => {
+  animeTL.value.pause()
+  animeTL.value = {} as AnimeTimelineInstance
+  createAnimation()
+});
 
 onMounted(() => {
   createAnimation()

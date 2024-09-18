@@ -2,10 +2,10 @@
   <div
     class="w-[875px] h-[380px] font-bold text-4xl flex flex-row flex-nowrap items-center text-center overflow-hidden">
     <div class="charts-container w-[855px] h-[380px]" v-if="ready">
-      <!-- <Bidwar2Component v-if="showBidType === 0 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
+      <Bidwar2Component v-if="showBidType === 0 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
       </Bidwar2Component>
       <Bidwar4Component v-if="showBidType === 1 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
-      </Bidwar4Component> -->
+      </Bidwar4Component>
       <GoalComponent v-if="showBidType === 2 && selectedBid" :bid="selectedBid" @animationEnd="animationEnd($event)">
       </GoalComponent>
     </div>
