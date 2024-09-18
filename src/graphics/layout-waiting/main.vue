@@ -97,27 +97,34 @@
             <!-- later -->
             <div class="flex flex-col gap-4">
               <div v-for="run in nextRunsArray" :key="run.id"
-                class="w-[781px] h-[168px] bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2._Espera_Cola_1.png')] flex flex-col items-center">
-                <!-- runner -->
-                <div class="flex flex-row items-center justify-start w-[581px] px-6 pb-2 text-[1.6em] h-1/3">
-                  {{
-                    getRunnerString(run) }} <span>{{ }}</span></div>
-                <div
-                  class="flex flex-row items-center justify-start w-[581px] px-6 pb-1 text-[1.6em] h-1/3 [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">
-                  {{ run.name }}</div>
-                <!-- div-run-info -->
-                <div class="flex flex-row items-center justify-end w-[781px] pl-[120px] pr-6 pt-1 text-[1.6em] h-1/3">
-                  <!-- div-category -->
-                  <div class="flex flex-row items-center justify-start w-3/4 gap-2 ">
-                    <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
-                    <p class="pt-2 mb-2 text-2xl font-bold text-center text-white">
-                      {{ run.run_metadata.category }}</p>
-                  </div>
-                  <!-- div-estimate -->
-                  <div class="flex flex-row items-center justify-end w-1/4 gap-2">
-                    <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Estimate.png" alt="" class="w-[26px] h-[31px]">
-                    <p class="pt-2 mb-2 text-xl font-bold text-center text-white">
-                      {{ run.estimate_string }}</p>
+                class="w-[781px] h-[168px] bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2._Espera_Cola_1.png')] flex flex-row">
+                <!-- time -->
+                <div class="w-[100px] h-2/3 flex flex-col items-center justify-center px-4">
+                  <span class="normal-case text-1xl">en</span>
+                  <h1 class="text-3xl text-center">{{ getTimeDifferenceString(run.start_time_mili) }}</h1>
+                </div>
+                <div class="w-[681px] flex flex-col items-start h-full">
+                  <!-- runner -->
+                  <div class="flex flex-row items-center justify-start w-[681px] px-6 pb-2 text-[1.6em] h-1/3">
+                    {{
+                      getRunnerString(run) }} <span>{{ }}</span></div>
+                  <div
+                    class="flex flex-row items-center justify-start w-[681px] px-6 pb-1 text-[1.6em] h-1/3 [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">
+                    {{ run.name }}</div>
+                  <!-- div-run-info -->
+                  <div class="flex flex-row items-center justify-end w-[681px] pl-[20px] pr-6 pt-1 text-[1.6em] h-1/3">
+                    <!-- div-category -->
+                    <div class="flex flex-row items-center justify-start w-3/4 gap-2 ">
+                      <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
+                      <p class="pt-2 mb-2 text-2xl font-bold text-center text-white">
+                        {{ run.run_metadata.category }}</p>
+                    </div>
+                    <!-- div-estimate -->
+                    <div class="flex flex-row items-center justify-end w-1/4 gap-2">
+                      <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Estimate.png" alt="" class="w-[26px] h-[31px]">
+                      <p class="pt-2 mb-2 text-xl font-bold text-center text-white">
+                        {{ run.estimate_string }}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -131,7 +138,7 @@
 </template>
 
 <script lang="ts" setup>
-import { currencyFormat, getRunnerString } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { currencyFormat, getRunnerString, getTimeDifferenceString } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { ActiveRun, ActiveRunNextRuns, Run, RunArray } from '@sre-frontend-layout/types/schemas';
 import anime, { AnimeTimelineInstance } from 'animejs';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
@@ -192,6 +199,7 @@ onMounted(() => {
       }
 
       animeTL.restart()
+      console.log(nextRunsArray.value)
     });
 
     createAnimation()
