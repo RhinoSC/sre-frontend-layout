@@ -112,9 +112,9 @@ export const getRunBidName = (bid: Bid): string => {
 }
 
 export const getTimeDifferenceString = (startTimeMili: number): string => {
-  // const currentTimeMili = Date.now(); // Obtén la hora actual en milisegundos
-  const currentTimeMili = new Date(1727017200000); // Obtén la hora actual en milisegundos
-  const diffInMili = startTimeMili - currentTimeMili.getTime(); // Diferencia en milisegundos
+  const currentTimeMili = Date.now(); // Obtén la hora actual en milisegundos
+  // const currentTimeMili = 1727017200000; // Obtén la hora actual en milisegundos
+  const diffInMili = startTimeMili - currentTimeMili; // Diferencia en milisegundos
 
   if (diffInMili <= 0) {
     return '0m';
