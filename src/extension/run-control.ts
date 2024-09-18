@@ -10,7 +10,7 @@ import { activeRun, activeRunSurroundingRuns, runArray, activeRunNextRuns, timer
 const nodecg = get();
 
 function changeNextRuns(): void {
-  const quantity = 3
+  const quantity = 4
   let nextRunsArray: string[] | undefined = []
   if (!activeRun.value) {
     // No current run set, we must be at the start an get 4 runs.

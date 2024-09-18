@@ -80,12 +80,20 @@ export const getRunnerString = (item: Run) => {
 }
 
 export const currencyFormat = (amount: number, currency?: string) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency || 'EUR'
-  })
+  if (currency === "USD") {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency || 'USD'
+    })
+    return formatter.format(amount)
+  } else {
+    const formatter = new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: currency || 'EUR'
+    })
+    return formatter.format(amount)
+  }
 
-  return formatter.format(amount)
 }
 
 export const getRunBidName = (bid: Bid): string => {
