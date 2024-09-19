@@ -72,7 +72,7 @@ export function getDialog(name: string): Window | null {
 
 export const getRunnerString = (item: Run) => {
   const runnerArr = item.teams.map((team: Team) => {
-    let teamString = team.players.map((player: User) => { return player.name })
+    let teamString = team.players.map((player: User) => { return player.socials.twitch })
     const teamAsString = teamString.join(', ')
     return teamAsString
   })
