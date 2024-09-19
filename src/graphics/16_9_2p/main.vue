@@ -111,7 +111,7 @@
             class="relative top-[10px] left-[0px] w-[466px] h-[47px] flex flex-col items-center justify-center text-white">
             <p class="mb-3 text-5xl font-bold [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
               :class="[
-                timerReplicant.data.state === 'finished' ? 'animate-finished text-teal-600' : 'animate-start',
+                timerReplicant.data.state === 'finished' ? 'animate-finished text-[#FFCA6A]' : 'animate-start',
                 'transition-all duration-500 ease-in-out',
               ]">
               {{ timerReplicant.data.time }}
