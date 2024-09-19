@@ -37,16 +37,8 @@
             <BidsComponent></BidsComponent>
           </div>
           <!-- prizes -->
-          <div class="mt-[20px]">
-            <!-- deco 2 -->
-            <div class=" w-[415px] h-[46px] flex flex-row justify-end">
-              <img src="./assets/SRE-X_Layout_2._Espera_Price-Deco_1.png" alt="">
-            </div>
-            <!-- prize-info -->
-            <div
-              class="relative right-[10px] w-[402px] h-[188px] flex flex-col bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2._Espera_Price_1.png')]">
-
-            </div>
+          <div>
+            <PrizesComponent></PrizesComponent>
           </div>
         </div>
         <!-- up next -->
@@ -61,6 +53,7 @@
 </template>
 
 <script lang="ts" setup>
+import PrizesComponent from './components/prizes.vue'
 import RunsComponent from './components/runs.vue'
 import BidsComponent from './components/bids.vue'
 import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
