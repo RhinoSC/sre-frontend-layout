@@ -18,9 +18,37 @@ export function msToTimeStr(ms: number): string {
   const seconds = Math.floor((ms / 1000) % 60);
   const minutes = Math.floor((ms / (1000 * 60)) % 60);
   const hours = Math.floor(ms / (1000 * 60 * 60));
-  return `${padTimeNumber(hours)
-    }:${padTimeNumber(minutes)
-    }:${padTimeNumber(seconds)}`;
+
+  let result
+  if (hours > 9) {
+    result = `${padTimeNumber(hours)}:${padTimeNumber(minutes)}:${padTimeNumber(seconds)}`;
+  } else if (hours === 0) {
+    result = `${padTimeNumber(minutes)}:${padTimeNumber(seconds)}`;
+  } else if (hours <= 9) {
+    result = `${hours}:${padTimeNumber(minutes)}:${padTimeNumber(seconds)}`;
+  }
+  else {
+    result = `${padTimeNumber(minutes)}:${padTimeNumber(seconds)}`;
+  }
+  return result
+  // return `${padTimeNumber(hours)
+  //   }:${padTimeNumber(minutes)
+  //   }:${padTimeNumber(seconds)}`;
+}
+
+export const stringTimeToMS = (timeString: string): number => {
+  let milliseconds = 0
+  if (timeString.split(":").length > 2) {
+    milliseconds =
+      Number(timeString.split(":")[0]) * 3600000 +
+      Number(timeString.split(":")[1]) * 60000 +
+      Number(timeString.split(":")[2]) * 1000;
+  } else {
+    milliseconds =
+      Number(timeString.split(":")[0]) * 60000 +
+      Number(timeString.split(":")[1]) * 1000;
+  }
+  return milliseconds
 }
 
 export function checkDialog(name: string): Promise<void> {

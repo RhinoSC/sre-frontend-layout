@@ -5,9 +5,9 @@
     <div
       class="w-[1920px] h-[1004px] absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_SoftLight_Raya_tele.png')] before:bg-cover before:bg-center before:opacity-20">
     </div>
-    <div
+    <!-- <div
       class="z-20 w-[1920px] h-[1004px] absolute inset-0 after:content-[''] after:absolute after:inset-0 after:bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Frame_1.png')] after:bg-cover after:bg-center">
-    </div>
+    </div> -->
     <!-- Aquí va tu contenido encima de los fondos -->
     <div class="relative z-10 w-[1920px] h-[1004px]">
       <!-- player-1 -->
@@ -26,7 +26,7 @@
           class="absolute top-[568px] left-[0px] w-[715px] h-[416px] overflow-hidden">
           <!-- div-runner -->
           <div
-            class="absolute top-[7px] left-[374px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
+            class="z-20 absolute top-[7px] left-[374px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
             <div class="flex flex-col items-center justify-center w-full h-full">
               <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{{
                 activeRunReplicant.data.teams[0].players[0].socials.twitch }}</p>
@@ -34,14 +34,32 @@
           </div>
           <div
             class="team team-1-1ro absolute -top-[70px] left-[374px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/1ro.png')]">
-            <div v-if="first !== '' && first === activeRunReplicant.data.teams[0].id">
-              <h1>{{ timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].time }}</h1>
+            <div class="h-full" v-if="first !== '' && first === activeRunReplicant.data.teams[0].id">
+              <div class="flex flex-row items-center h-full gap-2 pt-2 text-white">
+                <div class=" w-[120px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold ">1</h1>
+                </div>
+                <div class="w-[200px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold">{{
+                    msToTimeStr(timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].milliseconds)
+                  }}</h1>
+                </div>
+              </div>
             </div>
           </div>
           <div
             class="team team-1-2ro absolute -top-[70px] left-[374px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/2ro.png')]">
-            <div v-if="second !== '' && second === activeRunReplicant.data.teams[0].id">
-              <h1>{{ timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].time }}</h1>
+            <div class="h-full" v-if="second !== '' && second === activeRunReplicant.data.teams[0].id">
+              <div class="flex flex-row items-center h-full gap-2 pt-2 text-white">
+                <div class=" w-[120px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold ">2</h1>
+                </div>
+                <div class="w-[200px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold">{{
+                    msToTimeStr(timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].milliseconds)
+                  }}</h1>
+                </div>
+              </div>
             </div>
           </div>
           <!-- div-logos -->
@@ -49,7 +67,7 @@
             class="absolute top-[277px] left-[19px] w-[334px] h-[139px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Logo_16_2p_1.png')]">
             <div class="w-[334px] h-[139px] flex flex-row items-center justify-center">
               <img src="../_misc/assets/SRE-X_color_1.png" alt="" class="absolute bg-cover sre-img">
-              <!-- <img src="../_misc/assets/save-one-ong-color_1.png" alt="" class="absolute bg-cover one-img"> -->
+              <img src="../_misc/assets/save-one-ong-color_1.png" alt="" class="absolute bg-cover one-img">
             </div>
           </div>
         </div>
@@ -132,18 +150,48 @@
         <!-- div-cam -->
         <div
           class="absolute left-[1545px] top-[568px] w-[369px] h-[282px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_2p_4.png')]">
-
         </div>
         <!-- div-coms -->
-        <div class="absolute top-[568px] left-[1195px] w-[715px] h-[416px]">
+        <div class="absolute top-[568px] left-[1195px] w-[715px] h-[416px] overflow-hidden"
+          v-if="activeRunReplicant && activeRunReplicant.data && timerReplicant?.data">
           <!-- div-runner -->
           <div
-            class="absolute top-[7px] left-[11px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
+            class="z-20 absolute top-[7px] left-[11px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
             <div class="flex flex-col items-center justify-center w-full h-full">
               <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
                 v-if="activeRunReplicant && activeRunReplicant.data">{{
                   activeRunReplicant.data.teams[1] ? activeRunReplicant.data.teams[1].players[0].socials.twitch : "" }}
               </p>
+            </div>
+          </div>
+          <div
+            class="team team-2-1ro absolute -top-[70px] left-[11px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/1ro.png')]">
+            <div class="h-full" v-if="first !== '' && first === activeRunReplicant.data.teams[1].id">
+              <div class="flex flex-row items-center h-full gap-2 pt-2 text-white">
+                <div class=" w-[120px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold ">1</h1>
+                </div>
+                <div class="w-[200px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold">{{
+                    msToTimeStr(timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[1].id].milliseconds)
+                  }}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="team team-2-2ro absolute -top-[70px] left-[11px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/2ro.png')]">
+            <div class="h-full" v-if="second !== '' && second === activeRunReplicant.data.teams[1].id">
+              <div class="flex flex-row items-center h-full gap-2 pt-2 text-white">
+                <div class=" w-[120px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold ">2</h1>
+                </div>
+                <div class="w-[200px] h-full flex flex-row items-center justify-center">
+                  <h1 class="text-4xl font-bold">{{
+                    msToTimeStr(timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[1].id].milliseconds)
+                  }}</h1>
+                </div>
+              </div>
             </div>
           </div>
           <!-- div-host -->
@@ -167,7 +215,7 @@
 import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
 import { ActiveRun, RunFinishTimes, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
-import { getRunnerString } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { getRunnerString, msToTimeStr } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { nextTick, onMounted, ref } from 'vue';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
 import anime from 'animejs';
@@ -184,6 +232,49 @@ const timerReplicant1 = ref<ReplicantBrowser<Timer>>()
 const first = ref("")
 const second = ref("")
 
+function animateLogos() {
+  let logosTL = anime.timeline({
+    loop: true,
+    easing: 'linear',
+  });
+
+  // Inicializar con opacidades diferentes
+  anime.set('.sre-img', { opacity: 1 });
+  anime.set('.one-img', { opacity: 0 });
+
+  // Alternar las opacidades con más tiempo visible para cada logo
+  logosTL
+    .add({
+      targets: '.sre-img',
+      opacity: 0,  // Desaparece
+      duration: 2000,
+      delay: 2000  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.one-img',
+      opacity: 1,  // Aparece
+      duration: 2000,
+      // offset: '-=2000',  // Inicia al mismo tiempo que el desvanecimiento de .sre-img
+      delay: 2000  // Se queda visible por 2 segundos
+    }, '-=2000')
+    .add({
+      targets: '.one-img',
+      opacity: 0,  // Desaparece
+      duration: 2000,
+      // offset: '-=2000',
+      delay: 2000  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.sre-img',
+      opacity: 1,  // Vuelve a aparecer
+      duration: 2000,
+      // offset: '-=2000',
+      delay: 2000  // Se queda visible por 2 segundos
+    }, '-=2000')
+}
+
+
+
 function animateFinish(team: string, pos: string) {
   // Generar el selector de la clase
   const teamString = `team-${team}-${pos}ro`;
@@ -195,7 +286,33 @@ function animateFinish(team: string, pos: string) {
     // Aplicar la animación
     anime({
       targets: `.${teamString}`,
-      translateY: `120px`,
+      translateY: `130px`,
+      duration: 2000,
+      easing: 'easeOutElastic(1, 1)',
+      begin: () => {
+        console.log('Animación iniciada para:', teamString);
+      },
+      complete: () => {
+        console.log('Animación completada para:', teamString);
+      }
+    });
+  } else {
+    console.error(`Elemento con clase .${teamString} no encontrado`);
+  }
+}
+
+function animateReset(team: string, pos: string) {
+  // Generar el selector de la clase
+  const teamString = `team-${team}-${pos}ro`;
+  console.log(`Animando: .${teamString}`);
+
+  // Asegúrate de que el elemento existe
+  const element = document.querySelector(`.${teamString}`);
+  if (element) {
+    // Aplicar la animación
+    anime({
+      targets: `.${teamString}`,
+      translateY: `-120px`,
       duration: 2000,
       easing: 'easeOutElastic(1, 1)',
       begin: () => {
@@ -211,6 +328,7 @@ function animateFinish(team: string, pos: string) {
 }
 
 onMounted(() => {
+
   activeRunReplicant1.value = nodecg.Replicant<ActiveRun>('activeRun');
   timerReplicant1.value = nodecg.Replicant<Timer>('timer');
 
@@ -251,32 +369,47 @@ onMounted(() => {
         }
       }
     });
+    animateLogos()
   })
 
-  nodecg.listenFor('timerReset', () => {
+  nodecg.listenFor('timerReset', async () => {
     console.log("reinicie")
+    await nextTick()
+    if (first.value !== "") {
+      if (first.value === activeRunReplicant1.value?.value?.teams[0].id) {
+        animateReset("1", "1")
+      } else {
+        animateReset("1", "2")
+      }
+    }
+
+    if (second.value !== "") {
+      if (second.value === activeRunReplicant1.value?.value?.teams[0].id) {
+        animateReset("2", "1")
+      } else {
+        animateReset("2", "2")
+      }
+    }
 
     first.value = ""
     second.value = ""
-    anime({
-      targets: `.team`,
-      translateY: `-60px`
-    })
   })
 
   nodecg.listenFor('timerUndo', (team_id: string) => {
     if (team_id === activeRunReplicant1.value?.value?.teams[0].id) {
       if (team_id === first.value) {
-
+        animateReset("1", "1")
         first.value = ""
       } else {
+        animateReset("1", "2")
         second.value = ""
       }
     } else {
       if (team_id === first.value) {
-
+        animateReset("2", "1")
         first.value = ""
       } else {
+        animateReset("2", "2")
         second.value = ""
       }
     }
