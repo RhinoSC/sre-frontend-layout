@@ -47,12 +47,14 @@
           <RunsComponent></RunsComponent>
         </div>
       </div>
-      <!-- bot bar -->
     </div>
   </div>
+  <!-- bot bar -->
+  <BarComponent :wait="true"></BarComponent>
 </template>
 
 <script lang="ts" setup>
+import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
 import PrizesComponent from './components/prizes.vue'
 import RunsComponent from './components/runs.vue'
 import BidsComponent from './components/bids.vue'
