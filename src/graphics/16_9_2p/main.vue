@@ -22,14 +22,26 @@
 
         </div>
         <!-- div-coms -->
-        <div class="absolute top-[568px] left-[0px] w-[715px] h-[416px]">
+        <div v-if="activeRunReplicant && activeRunReplicant.data && timerReplicant?.data"
+          class="absolute top-[568px] left-[0px] w-[715px] h-[416px] overflow-hidden">
           <!-- div-runner -->
           <div
             class="absolute top-[7px] left-[374px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
             <div class="flex flex-col items-center justify-center w-full h-full">
-              <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
-                v-if="activeRunReplicant && activeRunReplicant.data">{{
-                  activeRunReplicant.data.teams[0].players[0].socials.twitch }}</p>
+              <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{{
+                activeRunReplicant.data.teams[0].players[0].socials.twitch }}</p>
+            </div>
+          </div>
+          <div
+            class="team team-1-1ro absolute -top-[70px] left-[374px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/1ro.png')]">
+            <div v-if="first !== '' && first === activeRunReplicant.data.teams[0].id">
+              <h1>{{ timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].time }}</h1>
+            </div>
+          </div>
+          <div
+            class="team team-1-2ro absolute -top-[70px] left-[374px] w-[341px] h-[73px] bg-[url('/src/graphics/_misc/assets/timer/2ro.png')]">
+            <div v-if="second !== '' && second === activeRunReplicant.data.teams[0].id">
+              <h1>{{ timerReplicant.data.teamFinishTimes[activeRunReplicant.data.teams[0].id].time }}</h1>
             </div>
           </div>
           <!-- div-logos -->
@@ -153,16 +165,123 @@
 
 <script lang="ts" setup>
 import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
-import { ActiveRun, Timer } from '@sre-frontend-layout/types/schemas';
+import { ActiveRun, RunFinishTimes, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
 import { getRunnerString } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { nextTick, onMounted, ref } from 'vue';
+import { ReplicantBrowser } from 'nodecg-types/types/browser';
+import anime from 'animejs';
 
 
 const hostReplicant = useReplicant<string>('host', 'sre-frontend-layout');
 const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
 const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
 
+const activeRunReplicant1 = ref<ReplicantBrowser<ActiveRun>>()
+const timerReplicant1 = ref<ReplicantBrowser<Timer>>()
 
+
+const first = ref("")
+const second = ref("")
+
+function animateFinish(team: string, pos: string) {
+  // Generar el selector de la clase
+  const teamString = `team-${team}-${pos}ro`;
+  console.log(`Animando: .${teamString}`);
+
+  // Asegúrate de que el elemento existe
+  const element = document.querySelector(`.${teamString}`);
+  if (element) {
+    // Aplicar la animación
+    anime({
+      targets: `.${teamString}`,
+      translateY: `120px`,
+      duration: 2000,
+      easing: 'easeOutElastic(1, 1)',
+      begin: () => {
+        console.log('Animación iniciada para:', teamString);
+      },
+      complete: () => {
+        console.log('Animación completada para:', teamString);
+      }
+    });
+  } else {
+    console.error(`Elemento con clase .${teamString} no encontrado`);
+  }
+}
+
+onMounted(() => {
+  activeRunReplicant1.value = nodecg.Replicant<ActiveRun>('activeRun');
+  timerReplicant1.value = nodecg.Replicant<Timer>('timer');
+
+  NodeCG.waitForReplicants(timerReplicant1.value, activeRunReplicant1.value).then(() => {
+    timerReplicant1.value?.on('change', async (newValue, oldValue) => {
+      if (newValue && newValue && newValue.teamFinishTimes && activeRunReplicant1.value && activeRunReplicant1.value.value) {
+        const team1Id = activeRunReplicant1.value?.value.teams[0].id;
+        const team2Id = activeRunReplicant1.value?.value.teams[1].id;
+
+        // Verificar si el equipo 1 terminó
+        if (newValue.teamFinishTimes[team1Id]) {
+          if (first.value === '') {
+            // Si no hay ganador aún, el equipo 1 es el primero
+            first.value = team1Id;
+            await nextTick()
+            animateFinish("1", "1")
+          } else if (first.value !== team1Id && second.value === '') {
+            // Si ya hay un ganador y no hay segundo, el equipo 1 es el segundo
+            second.value = team1Id;
+            await nextTick()
+            animateFinish("1", "2")
+          }
+        }
+
+        // Verificar si el equipo 2 terminó
+        if (newValue.teamFinishTimes[team2Id]) {
+          if (first.value === '') {
+            // Si no hay ganador aún, el equipo 2 es el primero
+            first.value = team2Id;
+            await nextTick()
+            animateFinish("2", "1")
+          } else if (first.value !== team2Id && second.value === '') {
+            // Si ya hay un ganador y no hay segundo, el equipo 2 es el segundo
+            second.value = team2Id;
+            await nextTick()
+            animateFinish("2", "2")
+          }
+        }
+      }
+    });
+  })
+
+  nodecg.listenFor('timerReset', () => {
+    console.log("reinicie")
+
+    first.value = ""
+    second.value = ""
+    anime({
+      targets: `.team`,
+      translateY: `-60px`
+    })
+  })
+
+  nodecg.listenFor('timerUndo', (team_id: string) => {
+    if (team_id === activeRunReplicant1.value?.value?.teams[0].id) {
+      if (team_id === first.value) {
+
+        first.value = ""
+      } else {
+        second.value = ""
+      }
+    } else {
+      if (team_id === first.value) {
+
+        first.value = ""
+      } else {
+        second.value = ""
+      }
+    }
+  })
+})
 
 </script>
 
