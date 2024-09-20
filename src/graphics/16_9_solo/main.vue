@@ -26,9 +26,17 @@
         <div
           class="absolute top-[4px] left-[19px] w-[341px] h-[63px] bg-[url('/src/graphics/16_9_solo/assets/SRE-X_Layout_3.Juego_16-9-Runner.png')]">
           <div class="flex flex-col items-center justify-center w-full h-full">
-            <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
-              v-if="activeRunReplicant && activeRunReplicant.data">{{
-                getRunnerString(activeRunReplicant.data) }}</p>
+            <div class="absolute flex flex-row items-center justify-center w-full h-full mb-1 flex-nowrap"
+              v-if="activeRunReplicant && activeRunReplicant.data">
+              <p class="username absolute pb-1 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">
+                {{ activeRunReplicant.data.teams[0].players[0].username }}</p>
+              <div class="absolute flex flex-row items-center justify-center w-full h-full mt-0 twitch flex-nowrap">
+                <TwitchIcon fillColor="#FFFFFF"></TwitchIcon>
+                <p class="text-2xl font-bold pb-1 text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] text-nowrap">
+                  {{ activeRunReplicant.data.teams[0].players[0].socials.twitch }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <!-- div-logos -->
@@ -115,15 +123,79 @@
 </template>
 
 <script lang="ts" setup>
+import TwitchIcon from 'vue-material-design-icons/Twitch.vue';
 import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
 import { ActiveRun, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
 import { getRunnerString } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { nextTick, onMounted } from 'vue';
+import anime, { AnimeTimelineInstance } from 'animejs';
 
 
 const hostReplicant = useReplicant<string>('host', 'sre-frontend-layout');
 const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
 const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
+
+let namesTL = anime.timeline({
+  loop: true,
+  easing: 'linear',
+});
+
+function animateNames() {
+  namesTL = anime.timeline({
+    loop: true,
+    easing: 'linear',
+  });
+
+  // Inicializar con opacidades diferentes
+  anime.set('.username', { opacity: 1 });
+  anime.set('.twitch', { opacity: 0 });
+
+  const delay = 20000
+  // Alternar las opacidades con más tiempo visible para cada logo
+  namesTL
+    .add({
+      targets: '.username',
+      opacity: 0,  // Desaparece
+      duration: 1000,
+      endDelay: delay  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.twitch',
+      opacity: 1,  // Aparece
+      duration: 1000,
+      // offset: '-=2000',  // Inicia al mismo tiempo que el desvanecimiento de .username
+      endDelay: delay  // Se queda visible por 2 segundos
+    }, `-=${delay} + 800`)
+    .add({
+      targets: '.twitch',
+      opacity: 0,  // Desaparece
+      duration: 1000,
+      // offset: '-=2000',
+      endDelay: delay  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.username',
+      opacity: 1,  // Vuelve a aparecer
+      duration: 1000,
+      // offset: '-=2000',
+      endDelay: delay  // Se queda visible por 2 segundos
+    }, `-=${delay} + 800`)
+}
+
+
+onMounted(() => {
+  const activeRunReplicant1 = nodecg.Replicant<ActiveRun>('activeRun');
+  NodeCG.waitForReplicants(activeRunReplicant1).then(() => {
+    activeRunReplicant1.on('change', async (newValue, oldValue) => {
+      namesTL.pause()
+      namesTL = {} as AnimeTimelineInstance
+      await nextTick();
+      await nextTick();
+      animateNames();
+    })
+  })
+})
 </script>
 
 <style scoped>
