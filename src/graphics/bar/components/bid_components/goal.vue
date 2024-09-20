@@ -96,7 +96,7 @@ function createAnimation() {
   })
 
   anime.set('.current-amounts', {
-    translateX: '-220px'
+    translateX: '-225px'
   })
 
   anime.set('.goal-bids-container', {
