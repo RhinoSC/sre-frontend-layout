@@ -91,7 +91,7 @@
       <div>
         <!-- div-game -->
         <div
-          class="absolute left-[0px] top-[550px] w-[771px] h-[437px] bg-[url('/src/graphics/16_9_3p/assets/SRE-X_Layout_3.Juego_NormalBackground_16_9_3p_2.png')]">
+          class="absolute left-[600px] top-[545px] w-[806px] h-[441px] bg-[url('/src/graphics/16_9_3p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_3p_2.png')]">
         </div>
         <!-- div-coms -->
         <div
@@ -268,7 +268,7 @@
       <div>
         <!-- div-game -->
         <div
-          class="absolute left-[1150px] w-[771px] h-[437px] bg-[url('/src/graphics/16_9_3p/assets/SRE-X_Layout_3.Juego_NormalBackground_16_9_3p_2.png')]">
+          class="absolute left-[1100px] w-[806px] h-[441px] bg-[url('/src/graphics/16_9_3p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_3p_2.png')]">
         </div>
         <!-- div-coms -->
         <div
