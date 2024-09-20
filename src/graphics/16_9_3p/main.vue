@@ -570,6 +570,7 @@ onMounted(() => {
       namesTL.pause()
       namesTL = {} as AnimeTimelineInstance
       await nextTick();
+      await nextTick();
       animateNames();
     })
     timerReplicant1.value?.on('change', async (newValue, oldValue) => {
