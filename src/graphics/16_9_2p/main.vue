@@ -5,16 +5,16 @@
     <div
       class="w-[1920px] h-[1004px] absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_SoftLight_Raya_tele.png')] before:bg-cover before:bg-center before:opacity-20">
     </div>
-    <!-- <div
+    <div
       class="z-20 w-[1920px] h-[1004px] absolute inset-0 after:content-[''] after:absolute after:inset-0 after:bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Frame_1.png')] after:bg-cover after:bg-center">
-    </div> -->
+    </div>
     <!-- Aquí va tu contenido encima de los fondos -->
     <div class="relative z-10 w-[1920px] h-[1004px]">
       <!-- player-1 -->
       <div>
         <!-- div-game -->
         <div
-          class="absolute left-[0px] w-[1920px] h-[558px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_2p_2.png')]">
+          class="absolute left-[0px] w-[959px] h-[558px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_2p_2.png')]">
         </div>
         <!-- div-cam -->
         <div
@@ -28,8 +28,14 @@
           <div
             class="z-20 absolute top-[7px] left-[374px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
             <div class="flex flex-col items-center justify-center w-full h-full">
-              <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{{
-                activeRunReplicant.data.teams[0].players[0].socials.twitch }}</p>
+              <p class="username absolute text-2xl mb-3 font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{{
+                activeRunReplicant.data.teams[0].players[0].username }}</p>
+              <div class="absolute flex flex-row items-center justify-center w-full h-full mb-1 twitch flex-nowrap">
+                <TwitchIcon fillColor="#FFFFFF"></TwitchIcon>
+                <p class="text-2xl font-bold pb-2 text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] text-nowrap">
+                  {{ activeRunReplicant.data.teams[0].players[0].socials.twitch }}
+                </p>
+              </div>
             </div>
           </div>
           <div
@@ -104,12 +110,12 @@
         ]">
           <!-- Flash div -->
           <div v-if="timerReplicant && timerReplicant.data.state === 'finished'"
-            class="relative top-0 left-0 w-[466px] h-[143px] flash-div"></div>
+            class="absolute top-0 left-0 w-[466px] h-[143px] flash-div"></div>
 
           <!-- div-time -->
           <div
             class="relative top-[10px] left-[0px] w-[466px] h-[47px] flex flex-col items-center justify-center text-white">
-            <p class="mb-3 text-5xl font-bold [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+            <p class="mb-3 text-6xl font-bold [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
               :class="[
                 timerReplicant.data.state === 'finished' ? 'animate-finished text-[#FFCA6A]' : 'animate-start',
                 'transition-all duration-500 ease-in-out',
@@ -122,14 +128,14 @@
             <!-- div-category -->
             <div class="flex flex-row items-center justify-start w-2/3 h-[96px] pl-[10px] gap-2">
               <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Category.png" alt="" class="w-[26px] h-[31px]">
-              <p class="mb-2 text-[1em] font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+              <p class="mb-2 text-[1.2em] font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
                 v-if="activeRunReplicant && activeRunReplicant.data">{{
                   activeRunReplicant.data.run_metadata.category }}</p>
             </div>
             <!-- div-estimate -->
             <div class="flex flex-row items-center justify-center w-1/3 gap-2">
               <img src="../_misc/assets/timer/SRE-X_Layout_Icon_Estimate.png" alt="" class="w-[26px] h-[31px]">
-              <p class="mb-2 text-[1em] font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
+              <p class="mb-2 text-[1.1em] font-bold text-white [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)] uppercase text-center pt-2"
                 v-if="activeRunReplicant && activeRunReplicant.data">{{
                   activeRunReplicant.data.estimate_string }}</p>
             </div>
@@ -144,24 +150,31 @@
       <!-- player-2 -->
       <div>
         <!-- div-game -->
-        <!-- <div
+        <div
           class="absolute left-[959px] w-[959px] h-[558px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_2p_2.png')]">
-        </div> -->
+        </div>
         <!-- div-cam -->
         <div
           class="absolute left-[1545px] top-[568px] w-[369px] h-[282px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_3.Juego_NormalBackground16_9_2p_4.png')]">
         </div>
         <!-- div-coms -->
         <div class="absolute top-[568px] left-[1195px] w-[715px] h-[416px] overflow-hidden"
-          v-if="activeRunReplicant && activeRunReplicant.data && timerReplicant?.data">
+          v-if="activeRunReplicant && activeRunReplicant.data && activeRunReplicant.data.teams.length >= 2 && timerReplicant?.data">
           <!-- div-runner -->
           <div
             class="z-20 absolute top-[7px] left-[11px] w-[341px] h-[64px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Runner_16_2p_1.png')]">
             <div class="flex flex-col items-center justify-center w-full h-full">
-              <p class="mb-3 text-2xl font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]"
-                v-if="activeRunReplicant && activeRunReplicant.data">{{
-                  activeRunReplicant.data.teams[1] ? activeRunReplicant.data.teams[1].players[0].socials.twitch : "" }}
-              </p>
+              <div class="flex flex-col items-center justify-center w-full h-full">
+                <p class="username absolute text-2xl mb-3 font-bold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">
+                  {{
+                    activeRunReplicant.data.teams[1].players[0].username }}</p>
+                <div class="absolute flex flex-row items-center justify-center w-full h-full mb-1 twitch flex-nowrap">
+                  <TwitchIcon fillColor="#FFFFFF"></TwitchIcon>
+                  <p class="text-2xl font-bold pb-2 text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] text-nowrap">
+                    {{ activeRunReplicant.data.teams[1].players[0].socials.twitch }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div
@@ -213,12 +226,13 @@
 
 <script lang="ts" setup>
 import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
-import { ActiveRun, RunFinishTimes, Timer } from '@sre-frontend-layout/types/schemas';
+import { ActiveRun, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
-import { getRunnerString, msToTimeStr } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { msToTimeStr } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { nextTick, onMounted, ref } from 'vue';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
-import anime from 'animejs';
+import anime, { AnimeTimelineInstance } from 'animejs';
+import TwitchIcon from 'vue-material-design-icons/Twitch.vue';
 
 
 const hostReplicant = useReplicant<string>('host', 'sre-frontend-layout');
@@ -256,7 +270,7 @@ function animateLogos() {
       duration: 2000,
       // offset: '-=2000',  // Inicia al mismo tiempo que el desvanecimiento de .sre-img
       delay: 2000  // Se queda visible por 2 segundos
-    }, '-=2000')
+    }, '-=3000')
     .add({
       targets: '.one-img',
       opacity: 0,  // Desaparece
@@ -270,12 +284,59 @@ function animateLogos() {
       duration: 2000,
       // offset: '-=2000',
       delay: 2000  // Se queda visible por 2 segundos
-    }, '-=2000')
+    }, '-=3000')
+}
+
+let namesTL = anime.timeline({
+  loop: true,
+  easing: 'linear',
+});
+
+function animateNames() {
+  namesTL = anime.timeline({
+    loop: true,
+    easing: 'linear',
+  });
+
+  // Inicializar con opacidades diferentes
+  anime.set('.username', { opacity: 1 });
+  anime.set('.twitch', { opacity: 0 });
+
+  const delay = 20000
+  // Alternar las opacidades con más tiempo visible para cada logo
+  namesTL
+    .add({
+      targets: '.username',
+      opacity: 0,  // Desaparece
+      duration: 1000,
+      endDelay: delay  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.twitch',
+      opacity: 1,  // Aparece
+      duration: 1000,
+      // offset: '-=2000',  // Inicia al mismo tiempo que el desvanecimiento de .username
+      endDelay: delay  // Se queda visible por 2 segundos
+    }, `-=${delay} + 800`)
+    .add({
+      targets: '.twitch',
+      opacity: 0,  // Desaparece
+      duration: 1000,
+      // offset: '-=2000',
+      endDelay: delay  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.username',
+      opacity: 1,  // Vuelve a aparecer
+      duration: 1000,
+      // offset: '-=2000',
+      endDelay: delay  // Se queda visible por 2 segundos
+    }, `-=${delay} + 800`)
 }
 
 
 
-function animateFinish(team: string, pos: string) {
+function animateFinish(team: string, pos: string, fromBottom: boolean = false) {
   // Generar el selector de la clase
   const teamString = `team-${team}-${pos}ro`;
   console.log(`Animando: .${teamString}`);
@@ -284,24 +345,27 @@ function animateFinish(team: string, pos: string) {
   const element = document.querySelector(`.${teamString}`);
   if (element) {
     // Aplicar la animación
-    anime({
-      targets: `.${teamString}`,
-      translateY: `130px`,
-      duration: 2000,
-      easing: 'easeOutElastic(1, 1)',
-      begin: () => {
-        console.log('Animación iniciada para:', teamString);
-      },
-      complete: () => {
-        console.log('Animación completada para:', teamString);
-      }
-    });
+    if (fromBottom) {
+      anime({
+        targets: `.${teamString}`,
+        translateY: `-130px`,
+        duration: 2000,
+        easing: 'easeOutElastic(1, 1)',
+      });
+    } else {
+      anime({
+        targets: `.${teamString}`,
+        translateY: `130px`,
+        duration: 2000,
+        easing: 'easeOutElastic(1, 1)',
+      });
+    }
   } else {
     console.error(`Elemento con clase .${teamString} no encontrado`);
   }
 }
 
-function animateReset(team: string, pos: string) {
+function animateReset(team: string, pos: string, fromBottom: boolean = false) {
   // Generar el selector de la clase
   const teamString = `team-${team}-${pos}ro`;
   console.log(`Animando: .${teamString}`);
@@ -310,18 +374,21 @@ function animateReset(team: string, pos: string) {
   const element = document.querySelector(`.${teamString}`);
   if (element) {
     // Aplicar la animación
-    anime({
-      targets: `.${teamString}`,
-      translateY: `-120px`,
-      duration: 2000,
-      easing: 'easeOutElastic(1, 1)',
-      begin: () => {
-        console.log('Animación iniciada para:', teamString);
-      },
-      complete: () => {
-        console.log('Animación completada para:', teamString);
-      }
-    });
+    if (fromBottom) {
+      anime({
+        targets: `.${teamString}`,
+        translateY: `120px`,
+        duration: 2000,
+        easing: 'easeOutElastic(1, 1)',
+      });
+    } else {
+      anime({
+        targets: `.${teamString}`,
+        translateY: `-120px`,
+        duration: 2000,
+        easing: 'easeOutElastic(1, 1)',
+      });
+    }
   } else {
     console.error(`Elemento con clase .${teamString} no encontrado`);
   }
@@ -333,87 +400,105 @@ onMounted(() => {
   timerReplicant1.value = nodecg.Replicant<Timer>('timer');
 
   NodeCG.waitForReplicants(timerReplicant1.value, activeRunReplicant1.value).then(() => {
+    activeRunReplicant1.value?.on('change', async (newValue, oldValue) => {
+      namesTL.pause()
+      namesTL = {} as AnimeTimelineInstance
+      await nextTick();
+      await nextTick();
+      animateNames();
+    })
     timerReplicant1.value?.on('change', async (newValue, oldValue) => {
-      if (newValue && newValue && newValue.teamFinishTimes && activeRunReplicant1.value && activeRunReplicant1.value.value) {
+      if (newValue && newValue.teamFinishTimes && activeRunReplicant1.value && activeRunReplicant1.value.value) {
         const team1Id = activeRunReplicant1.value?.value.teams[0].id;
         const team2Id = activeRunReplicant1.value?.value.teams[1].id;
+        const team3Id = activeRunReplicant1.value?.value.teams[2]?.id;
+        const team4Id = activeRunReplicant1.value?.value.teams[3]?.id;
 
+        await nextTick();
         // Verificar si el equipo 1 terminó
         if (newValue.teamFinishTimes[team1Id]) {
-          if (first.value === '') {
-            // Si no hay ganador aún, el equipo 1 es el primero
-            first.value = team1Id;
-            await nextTick()
-            animateFinish("1", "1")
-          } else if (first.value !== team1Id && second.value === '') {
-            // Si ya hay un ganador y no hay segundo, el equipo 1 es el segundo
-            second.value = team1Id;
-            await nextTick()
-            animateFinish("1", "2")
+          // Solo proceder si team1Id aún no está en `first`, `second`, `third`, o `fourth`
+          if (![first.value, second.value].includes(team1Id)) {
+
+            if (first.value === '') {
+              first.value = team1Id;
+              animateFinish("1", "1");
+            } else if (second.value === '') {
+              second.value = team1Id;
+              animateFinish("1", "2");
+            }
           }
         }
 
         // Verificar si el equipo 2 terminó
         if (newValue.teamFinishTimes[team2Id]) {
-          if (first.value === '') {
-            // Si no hay ganador aún, el equipo 2 es el primero
-            first.value = team2Id;
-            await nextTick()
-            animateFinish("2", "1")
-          } else if (first.value !== team2Id && second.value === '') {
-            // Si ya hay un ganador y no hay segundo, el equipo 2 es el segundo
-            second.value = team2Id;
-            await nextTick()
-            animateFinish("2", "2")
+          // Solo proceder si team2Id aún no está en `first`, `second`, `third`, o `fourth`
+          if (![first.value, second.value].includes(team2Id)) {
+
+            if (first.value === '') {
+              first.value = team2Id;
+              animateFinish("2", "1");
+            } else if (second.value === '') {
+              second.value = team2Id;
+              animateFinish("2", "2");
+            }
           }
         }
       }
     });
-    animateLogos()
-  })
 
-  nodecg.listenFor('timerReset', async () => {
-    console.log("reinicie")
-    await nextTick()
-    if (first.value !== "") {
-      if (first.value === activeRunReplicant1.value?.value?.teams[0].id) {
-        animateReset("1", "1")
-      } else {
-        animateReset("1", "2")
-      }
+    animateLogos();
+  });
+})
+
+nodecg.listenFor('timerReset', async () => {
+  console.log("reinicie");
+  await nextTick();
+
+  const teams = activeRunReplicant1.value?.value?.teams;
+
+  // Reiniciar el primer lugar
+  if (first.value !== "") {
+    if (first.value === teams?.[0].id) {
+      animateReset("1", "1");
+    } else if (first.value === teams?.[1].id) {
+      animateReset("2", "1", true);
     }
+  }
 
-    if (second.value !== "") {
-      if (second.value === activeRunReplicant1.value?.value?.teams[0].id) {
-        animateReset("2", "1")
-      } else {
-        animateReset("2", "2")
-      }
+  // Reiniciar el segundo lugar
+  if (second.value !== "") {
+    if (second.value === teams?.[0].id) {
+      animateReset("1", "2");
+    } else if (second.value === teams?.[1].id) {
+      animateReset("2", "2");
     }
+  }
 
-    first.value = ""
-    second.value = ""
-  })
+  // Limpiar los valores
+  first.value = "";
+  second.value = "";
+});
 
-  nodecg.listenFor('timerUndo', (team_id: string) => {
-    if (team_id === activeRunReplicant1.value?.value?.teams[0].id) {
-      if (team_id === first.value) {
-        animateReset("1", "1")
-        first.value = ""
-      } else {
-        animateReset("1", "2")
-        second.value = ""
-      }
-    } else {
-      if (team_id === first.value) {
-        animateReset("2", "1")
-        first.value = ""
-      } else {
-        animateReset("2", "2")
-        second.value = ""
-      }
+
+nodecg.listenFor('timerUndo', (team_id: string) => {
+  if (team_id === first.value) {
+    if (first.value === activeRunReplicant1.value?.value?.teams[0].id) {
+      animateReset("1", "1");
+    } else if (first.value === activeRunReplicant1.value?.value?.teams[1].id) {
+      animateReset("2", "1");
     }
-  })
+    first.value = "";
+    return
+  } else if (team_id === second.value) {
+    if (second.value === activeRunReplicant1.value?.value?.teams[0].id) {
+      animateReset("1", "2");
+    } else if (second.value === activeRunReplicant1.value?.value?.teams[1].id) {
+      animateReset("2", "2");
+    }
+    second.value = "";
+    return
+  }
 })
 
 </script>
@@ -444,14 +529,14 @@ onMounted(() => {
 
 /* Contenedor que envuelve al flash */
 .flash-container {
-  position: relative;
+  position: absolute;
   overflow: hidden;
   /* Para que el flash se oculte cuando sale del div */
 }
 
 /* Div del flash */
 .flash-div {
-  position: absolute;
+  /* position: absolute; */
   opacity: 0.5;
   background: rgba(255, 255, 255, 0);
   animation: flash 1s ease-in-out forwards;

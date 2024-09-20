@@ -366,9 +366,9 @@
 
 <script lang="ts" setup>
 import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
-import { ActiveRun, RunFinishTimes, Timer } from '@sre-frontend-layout/types/schemas';
+import { ActiveRun, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
-import { getRunnerString, msToTimeStr } from '@sre-frontend-layout/dashboard/_misc/helpers'
+import { msToTimeStr } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { nextTick, onMounted, ref } from 'vue';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
 import anime, { AnimeTimelineInstance } from 'animejs';
