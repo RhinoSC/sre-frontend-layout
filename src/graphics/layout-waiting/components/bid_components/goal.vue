@@ -25,7 +25,7 @@
             class="absolute w-[848px] h-[189px] mt-[10px] border-t-[6px] border-b-[6px] border-[#FEF5D0] ">
           </div>
           <div id="bg-end-bar"
-            class="absolute w-[106px] left-[100px] h-[189px] bg-[#F0B140] mt-[10px] border-[6px] border-[#FEF5D0]">
+            class="absolute w-[136px] left-[100px] h-[189px] bg-[#F0B140] mt-[10px] border-[6px] border-[#FEF5D0]">
             <div class="relative flex flex-col justify-between h-full px-2 py-4 percentage">
               <div>
                 <span class="text-2xl font-thin [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">{{
@@ -77,11 +77,11 @@ function createAnimation() {
   let percentage = props.bid.current_amount / props.bid.goal;
   console.log(percentage)
 
-  if (percentage <= 0.1) {
-    percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
-  } else if (percentage >= 1) {
-    percentage = 1; // Limitar el porcentaje máximo a 100%
-  }
+  // if (percentage <= 0.1) {
+  //   percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
+  // } else if (percentage >= 1) {
+  //   percentage = 1; // Limitar el porcentaje máximo a 100%
+  // }
   // const percentage = 1;
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
@@ -145,7 +145,8 @@ function createAnimation() {
     targets: '#bg-end-bar',
     duration: 1800,  // Sincronizado con el anterior
     easing: 'easeOutElastic(1, 1.8)',  // Ajustado para consistencia
-    translateX: `${endWidth - 211}px`
+    translateX: `${endWidth - 211}px`,
+    endDelay: 10000
   }, '-=1800');  // Solapado ajustado para alinearse con el anterior
 
   animeTL.value.add({
