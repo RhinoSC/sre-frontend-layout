@@ -41,6 +41,12 @@
       </div>
       <div>
       </div>
+      <!-- total-donate -->
+      <div class="flex flex-row items-center justify-end w-[300px] h-full">
+        <div>
+          <h1 class="text-6xl text-white" id="total-donated">{{ currencyFormat(totalDonated) }}</h1>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +60,7 @@ import MicIcon from 'vue-material-design-icons/Bullhorn.vue';
 import MusicIcon from 'vue-material-design-icons/Music.vue';
 import anime from 'animejs';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
+import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 
 const hostReplicant = useReplicant<string>('host', 'sre-frontend-layout');
 const songReplicant = useReplicant<string>('currentSong', 'sre-frontend-layout');
@@ -140,16 +147,54 @@ function setMusicAnimation() {
 const hostReplicant1 = ref<ReplicantBrowser<string>>()
 const songReplicant1 = ref<ReplicantBrowser<string>>()
 
+const totalDonated = ref(0)
+
+function animateTotalDonated(oldValue: number, newValue: number) {
+  const totalElement = document.getElementById('total-donated');
+
+  totalDonated.value = oldValue
+  const animation = anime({
+    targets: totalElement,
+    innerText: [totalDonated.value, newValue],
+    easing: "easeInOutCubic",
+    duration: 2000,
+    round: 5,
+    update: function (a) {
+      const value = a.animations[0].currentValue;
+      if (totalElement)
+        totalElement.innerHTML = currencyFormat(Number(value));
+    },
+    autoplay: false
+  });
+
+
+  function loop(t: any) {
+    let newT = t * 0.6
+    animation.tick(newT);
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+}
+
 onMounted(async () => {
   hostReplicant1.value = nodecg.Replicant<string>('host');
   songReplicant1.value = nodecg.Replicant<string>('currentSong');
+  let totalDonatedReplicant1 = nodecg.Replicant<number>('totalDonated');
   await nextTick();
-  NodeCG.waitForReplicants(hostReplicant1.value, songReplicant1.value).then(() => {
+  NodeCG.waitForReplicants(hostReplicant1.value, songReplicant1.value, totalDonatedReplicant1).then(() => {
     songReplicant1.value
     songReplicant1.value?.on('change', async (newValue, oldValue) => {
       await nextTick();
       scrollingText()
     });
+
+    totalDonatedReplicant1.on('change', async (newValue, oldValue) => {
+      await nextTick()
+      animateTotalDonated(oldValue, newValue);
+      totalDonated.value = newValue
+    });
+
     if (props.wait) {
       setMusicAnimation();
     } else {

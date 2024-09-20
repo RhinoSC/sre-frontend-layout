@@ -17,7 +17,8 @@
         <img src="./assets/SRE-X_color_1.png" alt="">
         <!-- <div></div> -->
         <div class="flex flex-row items-center justify-end gap-4">
-          <h1 class=" text-7xl [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">{{ currencyFormat(totalDonated)
+          <h1 class=" text-7xl [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]" id="total-donated">{{
+            currencyFormat(totalDonated)
             }}</h1>
           <img src="./assets/save-one-ong-color_1.png" alt="">
         </div>
@@ -60,16 +61,48 @@ import BidsComponent from './components/bids.vue'
 import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { useReplicant } from 'nodecg-vue-composable';
 import { onMounted, nextTick, ref } from 'vue';
+import anime from 'animejs'
 
 // const totalDonatedReplicant = useReplicant<number>('totalDonated', 'sre-frontend-layout');
 
 const totalDonated = ref(0)
+
+function animateTotalDonated(oldValue: number, newValue: number) {
+  const totalElement = document.getElementById('total-donated');
+
+  totalDonated.value = oldValue
+  const animation = anime({
+    targets: totalElement,
+    innerText: [totalDonated.value, newValue],
+    easing: "easeInOutCubic",
+    duration: 2000,
+    round: 5,
+    update: function (a) {
+      const value = a.animations[0].currentValue;
+      if (totalElement)
+        totalElement.innerHTML = currencyFormat(Number(value));
+    },
+    autoplay: false
+  });
+
+
+  function loop(t: any) {
+    let newT = t * 0.6
+    animation.tick(newT);
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+}
+
+
 onMounted(() => {
   let totalDonatedReplicant1 = nodecg.Replicant<number>('totalDonated');
 
   NodeCG.waitForReplicants(totalDonatedReplicant1).then(() => {
     totalDonatedReplicant1.on('change', async (newValue, oldValue) => {
       await nextTick()
+      animateTotalDonated(oldValue, newValue);
       totalDonated.value = newValue
     });
   });
