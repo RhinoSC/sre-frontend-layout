@@ -1,10 +1,10 @@
 <template>
 
   <div
-    class="goal-bids-container pl-[40px] w-full h-[380px] text-[.5em] flex flex-col flex-nowrap items-start text-center overflow-hidden">
+    class="goal-bids-container pl-[40px] w-[950px] h-[380px] text-[.5em] flex flex-col flex-nowrap items-start text-center overflow-hidden">
     <!-- bids-title -->
     <div
-      class=" relative right-[50px] w-[866px] h-[75px] flex flex-row bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2_Espera_BidGoal_1.png')]">
+      class=" relative right-[50px] w-[876px] h-[75px] flex flex-row bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2_Espera_BidGoal_1.png')] bg-cover">
       <div class="title w-full pl-[40px] flex flex-col justify-start font-bold py-2">
         <div class="flex flex-row items-center justify-between pr-7 h-1/2">
           <p class="text-2xl">{{ getRunBidName(props.bid) }}</p>
@@ -18,8 +18,8 @@
       </div>
     </div>
     <!-- bids-info -->
-    <div class="relative right-[40px] flex flex-row items-center w-[940px] h-[240px] gap-2 mt-[10px]">
-      <div id="bar-bg" class="bar-over-bg w-[940px] h-[220px] bg-[#013938] border-[6px] border-[#4CA996]">
+    <div class="relative right-[40px] flex flex-row items-center w-[950px] h-[240px] gap-2 mt-[10px]">
+      <div id="bar-bg" class="bar-over-bg w-[950px] h-[220px] bg-[#013938] border-[6px] border-[#4CA996]">
         <div class="w-[856px] h-[220px] bg-transparent text-start relative">
           <div id="bg-bar"
             class="absolute w-[848px] h-[189px] mt-[10px] border-t-[6px] border-b-[6px] border-[#FEF5D0] ">
@@ -78,7 +78,7 @@ function createAnimation() {
   console.log(percentage)
 
   if (percentage <= 0.1) {
-    percentage = 0.2; // Un valor mínimo razonable para que siempre se vea la animación
+    percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
   } else if (percentage >= 1) {
     percentage = 1; // Limitar el porcentaje máximo a 100%
   }
@@ -117,7 +117,7 @@ function createAnimation() {
     targets: '.goal-bids-container',
     duration: 1500,  // Reducido para que no sea tan largo
     easing: 'easeOutElastic(1, 1.2)',  // Más suave
-    translateX: `-3px`
+    translateX: `-17px`
   });
 
   animeTL.value.add({
