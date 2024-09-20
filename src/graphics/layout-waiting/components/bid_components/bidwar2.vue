@@ -21,7 +21,6 @@
     <div class="relative flex flex-row pt-4 w-[940px] h-[300px] gap-2">
       <div id="option-div"
         class="flex flex-col w-[940px] h-[220px] pt-[12px] gap-2 bg-[#013938] border-[6px] border-[#4CA996]">
-        <h1></h1>
         <template v-for="(option, index) in options" :key="index">
           <template v-if="index === 0">
             <div class="first-bar-container">
@@ -29,7 +28,7 @@
                 <div
                   class="first-bg-bar-color w-[735px] h-[75px] bg-[#967742] text-start pl-8 relative top-[6px] left-[5px]">
                   <div
-                    class="first-bg-bar absolute w-[320px] text-lg left-[0px] h-[72px] transition-all  flex items-start justify-start">
+                    class="first-bg-bar absolute w-[320px] text-lg left-[0px] h-[72px] transition-all flex items-start justify-start">
                     <p class="bg-[#013938] border-r-[5px] border-b-[5px] border-[#FEF5D0] px-4 py-2">{{ option.name }}
                     </p>
                   </div>
