@@ -22,6 +22,12 @@ async function start() {
   await loadTotalDonated()
 }
 
+async function reload() {
+  await loadSchedule()
+  await loadPrizes()
+  await loadTotalDonated()
+}
+
 
 start()
 setInterval(() => {
@@ -35,8 +41,8 @@ async function loadLogin(): Promise<void> {
 async function loadSchedule(): Promise<RunArray> {
   const response = await apiGetScheduleByID(config.API_SCHEDULE_ID)
 
-  // runArray.value = []
   // runArray.value = response.data.ordered_runs
+  runArray.value = []
   runArray.value.splice(0, runArray.value.length, ...response.data.ordered_runs);
 
   nodecg.log.info("[schedule] imported")
@@ -46,6 +52,7 @@ async function loadSchedule(): Promise<RunArray> {
 async function loadPrizes(): Promise<Prize[]> {
   const response = await apiGetPrizes()
 
+  prizes.value = []
   prizes.value.splice(0, response.data.length, ...response.data)
 
   nodecg.log.info("[prizes] imported")
@@ -80,7 +87,7 @@ app.get(`/test`, (req, res) => {
 
 app.post('/total-donated', (req, res) => {
   try {
-    loadTotalDonated()
+    reload()
     nodecg.log.debug(`[Event] Get total donated from api`);
     res.json({ message: 'success' });
   } catch (error) {

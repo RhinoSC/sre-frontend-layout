@@ -22,7 +22,7 @@
       <div id="bar-bg" class="bar-over-bg w-[940px] h-[220px] bg-[#013938] border-[6px] border-[#4CA996]">
         <div class="w-[856px] h-[220px] bg-transparent text-start relative">
           <div id="bg-bar"
-            class="absolute w-[848px]  h-[189px] mt-[10px] border-t-[6px] border-b-[6px] border-[#FEF5D0] ">
+            class="absolute w-[848px] h-[189px] mt-[10px] border-t-[6px] border-b-[6px] border-[#FEF5D0] ">
           </div>
           <div id="bg-end-bar"
             class="absolute w-[106px] left-[100px] h-[189px] bg-[#F0B140] mt-[10px] border-[6px] border-[#FEF5D0]">
@@ -196,7 +196,6 @@ onMounted(() => {
     );
   background-blend-mode: hue;
   box-shadow: inset 0 0 10px #000000;
-  /* border-radius: 10px; */
 }
 
 #bg-end-bar {

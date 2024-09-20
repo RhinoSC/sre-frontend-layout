@@ -1,10 +1,10 @@
 <template>
 
   <div
-    class="goal-bids-container pl-[40px] w-full h-[380px] text-[.5em] flex flex-col flex-nowrap items-start text-center overflow-hidden">
+    class="goal-bids-container w-[940px] h-[380px] text-[.5em] flex flex-col flex-nowrap items-start text-center overflow-hidden">
     <!-- bids-title -->
     <div
-      class=" relative right-[50px] w-[866px] h-[75px] flex flex-row bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2_Espera_BidGoal_1.png')]">
+      class=" relative right-[50px] pl-[40px] w-[866px] h-[75px] flex flex-row bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2_Espera_BidGoal_1.png')]">
       <div class="title w-full pl-[40px] flex flex-col justify-start font-bold py-2">
         <div class="flex flex-row items-center justify-between pr-7 h-1/2">
           <p class="text-2xl">{{ getRunBidName(props.bid) }}</p>
@@ -18,19 +18,23 @@
       </div>
     </div>
     <!-- bids-info -->
-    <div class="relative flex flex-row pt-4 w-full h-[300px] gap-2">
-      <div id="option-div" class="flex flex-col w-full h-[38px] gap-2">
+    <div class="relative flex flex-row pt-4 w-[940px] h-[300px] gap-2">
+      <div id="option-div"
+        class="flex flex-col w-[940px] h-[220px] pt-[12px] gap-2 bg-[#013938] border-[6px] border-[#4CA996]">
+        <h1></h1>
         <template v-for="(option, index) in options" :key="index">
           <template v-if="index === 0">
             <div class="first-bar-container">
-              <div class="bar-over-bg w-[745px] h-[86px] bg-[#F0B140]">
-                <div class="w-[735px] h-[75px] bg-[#967742] text-start pl-8 relative top-[6px] left-[5px]">
+              <div class="bar-over-bg w-[745px] bg-[#FEF5D0] h-[86px]">
+                <div
+                  class="first-bg-bar-color w-[735px] h-[75px] bg-[#967742] text-start pl-8 relative top-[6px] left-[5px]">
                   <div
-                    class="first-bg-bar absolute w-[255px] text-lg left-[0px]  h-[72px] transition-all pl-4 flex items-center">
-                    {{ option.name }}
+                    class="first-bg-bar absolute w-[320px] text-lg left-[0px] h-[72px] transition-all  flex items-start justify-start">
+                    <p class="bg-[#013938] border-r-[5px] border-b-[5px] border-[#FEF5D0] px-4 py-2">{{ option.name }}
+                    </p>
                   </div>
                   <div
-                    class="first-bg-end-bar relative w-[100px] left-[603px] bg-[#38063A] transition-all flex flex-row justify-center items-center border-b-[5px] border-l-[5px] border-[#F0B140]">
+                    class="first-bg-end-bar relative w-[100px] left-[603px] bg-[#013938] transition-all flex flex-row justify-center items-center border-b-[5px] border-l-[5px] border-[#FEF5D0]">
                     <h3 class="relative percentage">{{
                       currencyFormat(option.current_amount) }}
                     </h3>
@@ -41,14 +45,15 @@
           </template>
           <template v-else>
             <div class="bar-container">
-              <div class="bar-over-bg w-[445px] h-[86px] bg-[#B0B0B0]">
-                <div class="w-[435px] h-[75px] bg-[#6B707B] text-start pl-8 relative top-[6px] left-[5px]">
+              <div class="bar-over-bg w-[445px] h-[86px] bg-[#d3d3d3]">
+                <div class="w-[435px] h-[75px] bg-bar-color text-start pl-8 relative top-[6px] left-[5px]">
                   <div
-                    class="bg-bar absolute w-[255px] text-lg left-[0px]  h-[72px] transition-all pl-4 flex items-center">
-                    {{ option.name }}
+                    class="bg-bar absolute w-[320px] text-lg left-[0px] h-[72px] transition-all flex items-start justify-start">
+                    <p class="bg-[#013938] border-r-[5px] border-b-[5px] border-[#d3d3d3] px-4 py-2">{{ option.name }}
+                    </p>
                   </div>
                   <div
-                    class="bg-end-bar relative w-[100px] left-[303px] bg-[#38063A] transition-all flex flex-row justify-center items-center border-b-[5px] border-l-[5px] border-[#B0B0B0]">
+                    class="bg-end-bar relative w-[100px] left-[303px] bg-[#013938] transition-all flex flex-row justify-center items-center border-b-[5px] border-l-[5px] border-[#d3d3d3]">
                     <h3 class="relative percentage">{{
                       currencyFormat(option.current_amount) }}
                     </h3>
@@ -94,10 +99,14 @@ function createAnimation() {
     opacity: '0',
   })
 
-  anime.set('.goal-bids-container', {
+  anime.set('#option-div', {
+    opacity: '1',
     translateX: `-848px`
   })
 
+  anime.set('.goal-bids-container', {
+    translateX: `-848px`
+  })
 
   anime.set('.first-bar-container', {
     translateX: `-785px`
@@ -106,28 +115,11 @@ function createAnimation() {
     translateX: `-485px`
   })
 
-  // anime.set('.first-bg-bar', {
-  //   translateX: `-${barWidth - bgWidth}px`
-  // })
-
-  // anime.set('.bg-bar', {
-  //   translateX: `-${barWidth - bgWidth}px`
-  // })
-
-  // anime.set('.first-bg-end-bar', {
-  //   translateX: `${endWidth - 118}px`
-  // })
-
-  // anime.set('.bg-end-bar', {
-  //   translateX: `${endWidth - 118}px`
-  // })
-
-
   animeTL.value.add({
     targets: '.goal-bids-container',
     duration: 2000,
     easing: 'easeOutElastic(1, 1.5)',
-    translateX: `0px`
+    translateX: `-3px`
   })
 
   animeTL.value.add({
@@ -138,12 +130,20 @@ function createAnimation() {
   })
 
   animeTL.value.add({
+    targets: '#option-div',
+    duration: 1500,
+    easing: 'easeOutElastic(1, 1)',
+    delay: anime.stagger(500),
+    translateX: '0px'
+  });
+
+  animeTL.value.add({
     targets: '.first-bar-container',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
     delay: anime.stagger(500),
     translateX: '0px'
-  });
+  }, '-=1400');
 
   animeTL.value.add({
     targets: '.bar-container',
@@ -161,9 +161,10 @@ function createAnimation() {
   })
 
   animeTL.value.add({
-    targets: '#bar-bg',
+    targets: '#option-div',
     duration: 1000,
     easing: 'linear',
+    delay: 1000,
     opacity: `0`
   }, '-=2000')
 
@@ -181,14 +182,18 @@ function createAnimation() {
   })
 }
 
-watch(() => props.bid, (newVal) => {
+watch(() => props.bid, async (newVal) => {
   animeTL.value.pause()
   animeTL.value = {} as AnimeTimelineInstance
+  options.value = []
+  for (let i = 0; i < 2; i++) {
+    options.value.push(newVal.bid_options[i])
+  }
+  await nextTick()
   createAnimation()
 });
 
 onMounted(async () => {
-  // console.log(props.bid)
   for (let i = 0; i < 2; i++) {
     options.value.push(props.bid.bid_options[i])
   }
@@ -196,3 +201,37 @@ onMounted(async () => {
   createAnimation()
 })
 </script>
+
+<style scoped>
+.first-bg-bar-color {
+  background: linear-gradient(to right, #967742, #967742), repeating-linear-gradient(90deg,
+      /* Ángulo de las líneas diagonales */
+      #F0B140,
+      /* Color de la primera línea */
+      #F0B140 50px,
+      /* Ancho de la primera línea */
+      #F0D080 50px,
+      /* Color del espacio entre las líneas */
+      #F0D080 100px
+      /* Ancho total del patrón */
+    );
+  background-blend-mode: hue;
+  box-shadow: inset 0 0 10px #000000;
+}
+
+.bg-bar-color {
+  background: linear-gradient(to right, #6B707B, #6B707B), repeating-linear-gradient(90deg,
+      /* Ángulo de las líneas diagonales */
+      #B0B0B0,
+      /* Color de la primera línea */
+      #B0B0B0 50px,
+      /* Ancho de la primera línea */
+      #6B707B 50px,
+      /* Color del espacio entre las líneas */
+      #6B707B 100px
+      /* Ancho total del patrón */
+    );
+  background-blend-mode: hue;
+  box-shadow: inset 0 0 10px #000000;
+}
+</style>
