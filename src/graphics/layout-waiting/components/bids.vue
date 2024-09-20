@@ -1,7 +1,7 @@
 <template>
   <div
-    class="w-[940px] h-[380px] font-bold text-4xl flex flex-row flex-nowrap items-center text-center overflow-hidden">
-    <div class="charts-container w-[940px] h-[380px]" v-if="ready">
+    class="w-[950px] h-[380px] font-bold text-4xl flex flex-row flex-nowrap items-center text-center overflow-hidden">
+    <div class="charts-container w-[950px] h-[380px]" v-if="ready">
       <Bidwar2Component v-if="selectedBid && showBidType === 0" :bid="selectedBid" @animationEnd="animationEnd($event)">
       </Bidwar2Component>
       <Bidwar4Component v-if="selectedBid && showBidType === 1" :bid="selectedBid" @animationEnd="animationEnd($event)">

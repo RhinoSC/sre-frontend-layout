@@ -74,8 +74,15 @@ function createAnimation() {
 
   animeTL.value = anime.timeline();
   // Calcular el porcentaje para animar
-  // const percentage = props.bid.current_amount / props.bid.goal;
-  const percentage = 1;
+  let percentage = props.bid.current_amount / props.bid.goal;
+  console.log(percentage)
+
+  if (percentage <= 0.1) {
+    percentage = 0.2; // Un valor mínimo razonable para que siempre se vea la animación
+  } else if (percentage >= 1) {
+    percentage = 1; // Limitar el porcentaje máximo a 100%
+  }
+  // const percentage = 1;
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
 
@@ -108,62 +115,61 @@ function createAnimation() {
 
   animeTL.value.add({
     targets: '.goal-bids-container',
-    duration: 2000,
-    easing: 'easeOutElastic(1, 1.5)',
+    duration: 1500,  // Reducido para que no sea tan largo
+    easing: 'easeOutElastic(1, 1.2)',  // Más suave
     translateX: `-3px`
-  })
+  });
 
   animeTL.value.add({
     targets: '.title',
-    duration: 2000,
-    easing: 'easeOutElastic(1, 1)',
+    duration: 1500,  // Más corto para que se integre mejor
+    easing: 'easeOutElastic(1, 1)',  // Sin cambio aquí
     opacity: `1`
-  })
+  });
 
   animeTL.value.add({
     targets: '#bar-bg',
-    duration: 1500,
+    duration: 1200,  // Reducido para hacerlo más ágil
     easing: 'easeOutElastic(1, 1.5)',
     translateX: '0px',
-  })
+  });
 
   animeTL.value.add({
     targets: '#bg-bar',
-    duration: 2000,
-    easing: 'easeOutElastic(1, 2)',
+    duration: 1800,  // Reducido un poco para sincronizar mejor
+    easing: 'easeOutElastic(1, 1.8)',  // Ajuste para suavidad
     translateX: `-${barWidth - bgWidth - 36}px`
-  }, '-=1400')
+  }, '-=1000');  // Solapado más corto para mayor fluidez
 
   animeTL.value.add({
     targets: '#bg-end-bar',
-    duration: 2000,
-    easing: 'easeOutElastic(1, 2)',
+    duration: 1800,  // Sincronizado con el anterior
+    easing: 'easeOutElastic(1, 1.8)',  // Ajustado para consistencia
     translateX: `${endWidth - 211}px`
-  }, '-=2000')
+  }, '-=1800');  // Solapado ajustado para alinearse con el anterior
 
   animeTL.value.add({
     targets: '.title',
-    duration: 2000,
+    duration: 1500,  // Un poco más corto para evitar que se sienta lento
     easing: 'easeOutElastic(1, 1)',
-    delay: 10000,
+    delay: 8000,  // Reducción del retraso para que no dure tanto en pantalla
     opacity: `0`
-  })
+  });
 
   animeTL.value.add({
     targets: '#bar-bg',
-    duration: 1000,
+    duration: 800,  // Más rápido para finalizar la animación
     easing: 'linear',
     opacity: `0`,
-  }, '-=2000')
+  }, '-=1500');  // Solapado ajustado
 
   animeTL.value.add({
     targets: '.goal-bids-container',
-    duration: 1000,
+    duration: 800,  // Similar al anterior para coherencia
     easing: 'easeOutElastic(1, 1)',
     opacity: '0',
-    delay: 500
-    // delay: 10000
-  })
+    delay: 300  // Un retraso breve para que la transición final sea natural
+  });
 
   animeTL.value.finished.then(() => {
     emit('animationEnd')
