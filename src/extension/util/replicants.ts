@@ -3,7 +3,7 @@
 import type { ActiveRun, ActiveRunNextRuns, ActiveRunSurroundingRuns, DefaultSetupTime, ExampleReplicant, RunArray, Timer, TimerChangesDisabled } from '@sre-frontend-layout/types/schemas';
 import type NodeCG from '@nodecg/types';
 import { get as nodecg } from './nodecg';
-import { Bid, Prize, RunFinishTimes } from '@sre-frontend-layout/types';
+import { Bid, Prize, Run, RunFinishTimes } from '@sre-frontend-layout/types';
 
 /**
  * This is where you can declare all your replicant to import easily into other files,
@@ -30,6 +30,7 @@ export const timer = nodecg().Replicant<Timer>('timer', {
 }) as unknown as NodeCG.ServerReplicantWithSchemaDefault<Timer>;
 export const timerChangesDisabled = nodecg().Replicant<TimerChangesDisabled>('timerChangesDisabled') as unknown as NodeCG.ServerReplicantWithSchemaDefault<TimerChangesDisabled>;
 export const totalDonated = nodecg().Replicant<number>('totalDonated');
+export const runsWithBids = nodecg().Replicant<Run[]>('runWithBids');
 export const bids = nodecg().Replicant<Bid[]>('bids');
 export const prizes = nodecg().Replicant<Prize[]>('prizes');
 export const activePrizes = nodecg().Replicant<Prize[]>('activePrizes');

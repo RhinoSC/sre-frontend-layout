@@ -65,26 +65,32 @@
 </template>
 
 <script setup lang="ts">
-import { Bid, RunArray } from '@sre-frontend-layout/types/schemas';
+import { Bid, Run, RunArray } from '@sre-frontend-layout/types/schemas';
 import { ReplicantBrowser } from 'nodecg-types/types/browser';
 import { useReplicant } from 'nodecg-vue-composable';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { klona } from 'klona';
 import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue';
+import deepEqual from 'deep-equal';
 
 const totalDonatedReplicant = useReplicant<number>('totalDonated', 'sre-frontend-layout');
-const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
+// const runArrayReplicant = useReplicant<RunArray>('runArray', 'sre-frontend-layout');
+const runsWithBids = ref<ReplicantBrowser<Run[]>>()
 const bidsReplicant = ref<ReplicantBrowser<Bid[]>>()
 
 // Estado para la barra de búsqueda
 const searchQuery = ref<string>('');
 
+const runsBidsServer = ref<Run[]>()
+
 // Computed para filtrar las runs basado en la búsqueda
 const filteredRuns = computed(() => {
-  if (runArrayReplicant) {
-    if (!runArrayReplicant.data) return [];
-    return runArrayReplicant.data.filter(run =>
+  console.log("aqui", runsBidsServer.value)
+  if (runsBidsServer) {
+    if (!runsBidsServer.value) return [];
+    if (!runsBidsServer.value) return [];
+    return runsBidsServer.value.filter(run =>
       run.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
@@ -102,14 +108,16 @@ const toggleAccordion = (runId: string) => {
 };
 
 const getRunBidName = (bid: Bid): string => {
-  if (runArrayReplicant) {
-    const run = runArrayReplicant.data?.find(run => {
-      const bd = run.bids?.find(bd => bd.id === bid.id)
-      if (bd) {
-        return run
-      }
-    })
-    return run ? run.name : ""
+  if (runsWithBids.value) {
+    if (runsWithBids.value.value) {
+      const run = runsWithBids.value.value?.find(run => {
+        const bd = run.bids?.find(bd => bd.id === bid.id)
+        if (bd) {
+          return run
+        }
+      })
+      return run ? run.name : ""
+    }
   }
   return ""
 }
@@ -148,11 +156,50 @@ const isBidActive = (bid: Bid) => {
 
 onMounted(() => {
   bidsReplicant.value = nodecg.Replicant<Bid[]>('bids');
+  runsWithBids.value = nodecg.Replicant<RunArray>('runWithBids');
 
-  NodeCG.waitForReplicants(bidsReplicant.value).then(() => {
-    bidsReplicant.value?.on('change', (newValue, oldValue) => {
-      // console.log("cambie")
-      // console.log(newValue)
+  // Espera a que ambos replicants estén listos antes de hacer algo
+  NodeCG.waitForReplicants(bidsReplicant.value, runsWithBids.value).then(() => {
+
+    // Función para actualizar activeBids basada en los replicants actuales
+    function updateActiveBids() {
+      const newBids: Bid[] = [];
+
+      if (runsWithBids.value?.value && bidsReplicant.value?.value) {
+        bidsReplicant.value.value.forEach(bid => {
+          // Encuentra la run asociada al bid
+          const run = runsWithBids.value?.value?.find(run => run.id === bid.run_id);
+          if (run) {
+            // Busca el bid en la lista de bids de la run
+            const matchingBid = run.bids?.find(newBid => newBid.id === bid.id);
+            if (matchingBid) {
+              newBids.push(matchingBid);
+            }
+          }
+        });
+      }
+
+
+      if (bidsReplicant.value && bidsReplicant.value.value) {
+        if (deepEqual(bidsReplicant.value.value, newBids)) return
+
+        bidsReplicant.value.value = newBids
+      }
+    }
+
+    // Observa cambios en runsWithBids y actualiza activeBids
+    runsWithBids.value?.on('change', async (newValue, oldValue) => {
+
+      updateActiveBids();
+
+      console.log("esto?:", newValue)
+      runsBidsServer.value = newValue.filter(run =>
+        run.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+      );
+    });
+
+    // Observa cambios en bidsReplicant y actualiza activeBids
+    bidsReplicant.value?.on('change', async (newValue, oldValue) => {
       if (newValue) {
         activeBids.value = []
         newValue.forEach(bid => {
@@ -160,8 +207,12 @@ onMounted(() => {
         })
       }
     });
+
+    // Llama la función de actualización inicialmente
+    updateActiveBids();
   });
-})
+});
+
 
 </script>
 

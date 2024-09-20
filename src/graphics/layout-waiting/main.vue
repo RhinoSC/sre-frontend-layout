@@ -16,9 +16,8 @@
       <div class="relative w-full h-[100px] flex flex-row items-center justify-between px-8">
         <img src="./assets/SRE-X_color_1.png" alt="">
         <!-- <div></div> -->
-        <div class="flex flex-row items-center justify-end gap-4"
-          v-if="totalDonatedReplicant && totalDonatedReplicant.data">
-          <h1 class=" text-7xl [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">{{ currencyFormat(totalDonatedReplicant?.data)
+        <div class="flex flex-row items-center justify-end gap-4">
+          <h1 class=" text-7xl [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">{{ currencyFormat(totalDonated)
             }}</h1>
           <img src="./assets/save-one-ong-color_1.png" alt="">
         </div>
@@ -60,17 +59,19 @@ import RunsComponent from './components/runs.vue'
 import BidsComponent from './components/bids.vue'
 import { currencyFormat } from '@sre-frontend-layout/dashboard/_misc/helpers'
 import { useReplicant } from 'nodecg-vue-composable';
-import { onMounted } from 'vue';
+import { onMounted, nextTick, ref } from 'vue';
 
-const totalDonatedReplicant = useReplicant<number>('totalDonated', 'sre-frontend-layout');
+// const totalDonatedReplicant = useReplicant<number>('totalDonated', 'sre-frontend-layout');
 
-
+const totalDonated = ref(0)
 onMounted(() => {
-  // activeRunNextRunsReplicant.value = nodecg.Replicant<ActiveRunNextRuns>('activeRunNextRuns');
+  let totalDonatedReplicant1 = nodecg.Replicant<number>('totalDonated');
 
-  // NodeCG.waitForReplicants(activeRunNextRunsReplicant.value, runArrayReplicant.value).then(() => {
-  //   activeRunNextRunsReplicant.value?.on('change', (newValue, oldValue) => {
-  //   });
-  // });
+  NodeCG.waitForReplicants(totalDonatedReplicant1).then(() => {
+    totalDonatedReplicant1.on('change', async (newValue, oldValue) => {
+      await nextTick()
+      totalDonated.value = newValue
+    });
+  });
 })
 </script>
