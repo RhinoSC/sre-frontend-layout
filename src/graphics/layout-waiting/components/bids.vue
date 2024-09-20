@@ -35,13 +35,7 @@ function changeBid() {
 
 
   if (bidIndex.value >= bidsArray.value.length) {
-    if (bidsArray.value[bidIndex.value]?.type === 'bidwar' && bidsArray.value[bidIndex.value].bid_options.length === 0) {
-      emit('animationEnded')
-      // changeBid()
-    } else {
-      // selectedBid.value.description = ""
-      bidIndex.value = 0
-    }
+    bidIndex.value = 0
   }
 
   if (bidsArray.value[bidIndex.value]?.type === 'bidwar' && bidsArray.value[bidIndex.value].bid_options.length === 0) {
@@ -67,17 +61,11 @@ function changeBid() {
   return selectedBid.value
 }
 
-const emit = defineEmits(['animationEnded'])
-
 function animationEnd($event: any) {
   if (!bidsReplicant) return
   if (!bidsReplicant.value?.value) return
 
-  if (bidIndex.value >= bidsReplicant.value.value.length) {
-    emit('animationEnded')
-  } else {
-    changeBid()
-  }
+  changeBid()
 }
 
 onMounted(() => {
