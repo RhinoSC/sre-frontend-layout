@@ -118,6 +118,21 @@
     ],
     "graphics": [
       {
+        "file": "start_timer.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "talk_solo.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "talk_prize.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "layout-waiting.html",
         "width": 1920,
         "height": 1080

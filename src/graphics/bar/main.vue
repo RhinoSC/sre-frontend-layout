@@ -1,36 +1,46 @@
 <template>
-  <div v-if="props.wait">
+  <div v-if="props.start">
     <div
       class="text-white w-[1920px] h-[77px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
-      <div class="ml-[120px] w-[430px] h-full flex flex-row items-center gap-2">
-        <MicIcon :size="48"></MicIcon>
-        <h1 class="text-3xl font-bold">
-          {{ hostReplicant?.data }}
-        </h1>
-      </div>
-      <div class="flex flex-row items-center gap-2 h-full w-[980px]">
-        <MusicIcon :size="48" class="music-icon"></MusicIcon>
-        <div class="overflow-hidden w-[940px]">
-          <h1 ref="songText" class="text-3xl font-bold current-song whitespace-nowrap">
-            {{ songReplicant?.data }}
-          </h1>
-        </div>
+      <div>
+        <img src="./assets/SRE-X_color_1.png" alt="">
       </div>
     </div>
   </div>
-  <div v-else class="w-[1920px] h-[77px] flex flex-row items-start bg-[url('/src/graphics/bar/bar_bg.png')]">
-    <div class="w-[466px] h-[77px] flex">
-      <div class="w-[360px] h-[77px]" style="clip-path: polygon(0 0, 87% 0, 100% 100%, 0% 100%);">
-      </div>
-      <div class="w-[106px] start-bar h-[77px] relative right-[15px]"
-        style="clip-path: polygon(0 0, 57% 0, 100% 100%, 43% 100%);">
+  <div v-else>
+    <div v-if="props.wait">
+      <div
+        class="text-white w-[1920px] h-[77px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
+        <div class="ml-[120px] w-[430px] h-full flex flex-row items-center gap-2">
+          <MicIcon :size="48"></MicIcon>
+          <h1 class="text-3xl font-bold">
+            {{ hostReplicant?.data }}
+          </h1>
+        </div>
+        <div class="flex flex-row items-center gap-2 h-full w-[980px]">
+          <MusicIcon :size="48" class="music-icon"></MusicIcon>
+          <div class="overflow-hidden w-[940px]">
+            <h1 ref="songText" class="text-3xl font-bold current-song whitespace-nowrap">
+              {{ songReplicant?.data }}
+            </h1>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="relative -left-[112px] w-[1200px] h-[77px] flex items-end pl-[50px] text-white">
-      <AnnounceComponent v-if="generalAnimNumber === 1" @animationEnded="animationEnd($event)" />
-      <BidsComponent v-if="generalAnimNumber === 2" @animationEnded="animationEnd($event)"></BidsComponent>
-    </div>
-    <div>
+    <div v-else class="w-[1920px] h-[77px] flex flex-row items-start bg-[url('/src/graphics/bar/bar_bg.png')]">
+      <div class="w-[466px] h-[77px] flex">
+        <div class="w-[360px] h-[77px]" style="clip-path: polygon(0 0, 87% 0, 100% 100%, 0% 100%);">
+        </div>
+        <div class="w-[106px] start-bar h-[77px] relative right-[15px]"
+          style="clip-path: polygon(0 0, 57% 0, 100% 100%, 43% 100%);">
+        </div>
+      </div>
+      <div class="relative -left-[112px] w-[1200px] h-[77px] flex items-end pl-[50px] text-white">
+        <AnnounceComponent v-if="generalAnimNumber === 1" @animationEnded="animationEnd($event)" />
+        <BidsComponent v-if="generalAnimNumber === 2" @animationEnded="animationEnd($event)"></BidsComponent>
+      </div>
+      <div>
+      </div>
     </div>
   </div>
 </template>
@@ -51,6 +61,7 @@ const songReplicant = useReplicant<string>('currentSong', 'sre-frontend-layout')
 // Props
 const props = defineProps<{
   wait?: boolean;
+  start?: boolean;
 }>();
 
 const bidAnimationEnded = ref(true)
