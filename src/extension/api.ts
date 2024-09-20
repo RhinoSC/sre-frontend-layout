@@ -46,8 +46,7 @@ async function loadSchedule(): Promise<RunArray> {
 async function loadPrizes(): Promise<Prize[]> {
   const response = await apiGetPrizes()
 
-  prizes.value = response.data
-  // prizes.value = []
+  prizes.value.splice(0, response.data.length, ...response.data)
 
   nodecg.log.info("[prizes] imported")
   return response.data

@@ -8,9 +8,9 @@
     <div
       class="w-[1920px] h-[1004px] absolute inset-0 before:content-[''] before:absolute before:inset-0 before:bg-[url('/src/graphics/_misc/assets/SRE-X_Layout_SoftLight_Raya_tele.png')] before:bg-cover before:bg-center before:opacity-20">
     </div>
-    <div
+    <!-- <div
       class="z-20 w-[1920px] h-[904px] top-[100px] absolute inset-0 after:content-[''] after:absolute after:inset-0 after:bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2.Espera_Frame_1.png')] after:bg-cover after:bg-center">
-    </div>
+    </div> -->
     <div class="relative z-10 w-[1920px] h-[1004px] flex flex-col">
       <!-- top bar -->
       <div class="relative w-full h-[100px] flex flex-row items-center justify-between px-8">

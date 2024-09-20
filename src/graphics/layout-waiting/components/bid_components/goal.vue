@@ -18,23 +18,25 @@
       </div>
     </div>
     <!-- bids-info -->
-    <div class="relative right-[40px] flex flex-row items-center w-full h-[280px] gap-2 mt-[10px]">
-      <div id="bar-bg" class="bar-over-bg w-[856px] h-[220px] bg-[#F0B140]">
+    <div class="relative right-[40px] flex flex-row items-center w-[940px] h-[240px] gap-2 mt-[10px]">
+      <div id="bar-bg" class="bar-over-bg w-[940px] h-[220px] bg-[#013938] border-[6px] border-[#4CA996]">
         <div class="w-[856px] h-[220px] bg-transparent text-start relative">
-          <div id="bg-bar" class="absolute w-[848px] bg-[#967742] h-[205px] mt-[8px]">
+          <div id="bg-bar"
+            class="absolute w-[848px]  h-[189px] mt-[10px] border-t-[6px] border-b-[6px] border-[#FEF5D0] ">
           </div>
           <div id="bg-end-bar"
-            class="absolute w-[100px] left-[100px] h-[205px] bg-[#6B707B] mt-[8px] border-l-[6px] border-[#F0B140]">
+            class="absolute w-[106px] left-[100px] h-[189px] bg-[#F0B140] mt-[10px] border-[6px] border-[#FEF5D0]">
             <div class="relative flex flex-col justify-between h-full px-2 py-4 percentage">
               <div>
-                <!-- <span class="text-2xl font-thin">{{ currencyFormat(props.bid.current_amount) }}</span> -->
-                <span class="text-xl font-thin">100,00$</span>
+                <span class="text-2xl font-thin [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]">{{
+                  currencyFormat(props.bid.current_amount) }}</span>
+                <!-- <span class="text-xl font-thin">100,00$</span> -->
               </div>
               <div>
               </div>
               <div class="w-full text-end">
-                <!-- <span class="text-4xl"> {{ barPercentage }}% </span> -->
-                <span class="text-4xl"> 100% </span>
+                <span class="text-4xl [text-shadow:_0_5px_4px_rgb(0_0_0_/_50%)]"> {{ barPercentage }}% </span>
+                <!-- <span class="text-4xl"> 100% </span> -->
               </div>
             </div>
           </div>
@@ -86,26 +88,29 @@ function createAnimation() {
   })
 
   anime.set('.goal-bids-container', {
-    translateX: `-848px`
+    translateX: `-848px`,
   })
 
   anime.set('#bar-bg', {
-    translateX: `-858px`
+    translateX: `-858px`,
+    opacity: '1'
   })
 
   anime.set('#bg-bar', {
-    translateX: `-858px`
+    translateX: `-858px`,
+    opacity: '1'
   })
 
   anime.set('#bg-end-bar', {
-    translateX: `-90px`
+    translateX: `-90px`,
+    opacity: '1'
   })
 
   animeTL.value.add({
     targets: '.goal-bids-container',
     duration: 2000,
     easing: 'easeOutElastic(1, 1.5)',
-    translateX: `0px`
+    translateX: `-3px`
   })
 
   animeTL.value.add({
@@ -117,7 +122,7 @@ function createAnimation() {
 
   animeTL.value.add({
     targets: '#bar-bg',
-    duration: 2000,
+    duration: 1500,
     easing: 'easeOutElastic(1, 1.5)',
     translateX: '0px',
   })
@@ -126,14 +131,14 @@ function createAnimation() {
     targets: '#bg-bar',
     duration: 2000,
     easing: 'easeOutElastic(1, 2)',
-    translateX: `-${barWidth - bgWidth - 30}px`
-  }, '-=2000')
+    translateX: `-${barWidth - bgWidth - 36}px`
+  }, '-=1400')
 
   animeTL.value.add({
     targets: '#bg-end-bar',
     duration: 2000,
     easing: 'easeOutElastic(1, 2)',
-    translateX: `${endWidth - 205}px`
+    translateX: `${endWidth - 211}px`
   }, '-=2000')
 
   animeTL.value.add({
@@ -175,3 +180,26 @@ onMounted(() => {
   createAnimation()
 })
 </script>
+
+<style scoped>
+#bg-bar {
+  background: linear-gradient(to right, #967742, #967742), repeating-linear-gradient(90deg,
+      /* Ángulo de las líneas diagonales */
+      #F0B140,
+      /* Color de la primera línea */
+      #F0B140 50px,
+      /* Ancho de la primera línea */
+      #F0D080 50px,
+      /* Color del espacio entre las líneas */
+      #F0D080 100px
+      /* Ancho total del patrón */
+    );
+  background-blend-mode: hue;
+  box-shadow: inset 0 0 10px #000000;
+  /* border-radius: 10px; */
+}
+
+#bg-end-bar {
+  /* box-shadow: inset 0 0 2px #000000; */
+}
+</style>
