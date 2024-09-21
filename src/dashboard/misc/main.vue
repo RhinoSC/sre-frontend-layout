@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center justify-center gap-2 py-2 text-white bg-gray-800 rounded-md w-96">
       <div class="flex flex-col items-center justify-center gap-2">
         <h1 class="text-lg font-bold">🎶Now playing:🎶</h1>
-        <h2 class="font-bold text-md">{{ songReplicant?.data }}</h2>
+        <h2 class="text-sm font-bold">{{ songReplicant?.data }}</h2>
       </div>
       <div class="flex flex-row items-center justify-between gap-2">
         <button @click="play" class="px-2 py-1 bg-gray-900 rounded hover:bg-gray-800">
