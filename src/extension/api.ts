@@ -94,12 +94,18 @@ async function loadPrizes(): Promise<Prize[]> {
 }
 
 async function loadTotalDonated(): Promise<number> {
-  const response: APIResponse<number> = await apiGetTotalDonatedByEventID(config.API_EVENT_ID)
+  try {
+    const response: APIResponse<number> = await apiGetTotalDonatedByEventID(config.API_EVENT_ID)
 
-  totalDonated.value = response.data
+    totalDonated.value = response.data
 
-  nodecg.log.info("[donation] total donated imported")
-  return response.data
+    nodecg.log.info("[donation] total donated imported")
+    return response.data
+  } catch (error) {
+    totalDonated.value = 0
+    return 0
+  }
+
 }
 
 nodecg.listenFor('importSchedule', (data: any, ack: any) => {
