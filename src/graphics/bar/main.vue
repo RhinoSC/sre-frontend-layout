@@ -42,7 +42,7 @@
       <div>
       </div>
       <!-- total-donate -->
-      <div class="flex flex-row items-center justify-end w-[300px] h-full">
+      <div class="flex flex-row items-center justify-end w-[300px] h-full pr-4">
         <div>
           <h1 class="text-6xl text-white" id="total-donated">{{ currencyFormat(totalDonated) }}</h1>
         </div>
