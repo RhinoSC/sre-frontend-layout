@@ -8,7 +8,8 @@
     <div v-if="activeRunReplicant && activeRunReplicant.data"
       class="w-[773px] h-[192px] bg-[url('/src/graphics/layout-waiting/assets/SRE-X_Layout_2._Espera_Ahora_1.png')] flex flex-col items-center">
       <!-- runner -->
-      <div class="flex flex-row items-center justify-start w-full px-6 pb-2 text-[1.8em] h-1/3">
+      <div
+        class="flex flex-row items-center justify-start w-full px-6 pb-2 text-[1.6em] h-1/3 text-nowrap overflow-hidden">
         {{
           getRunnerString(activeRunReplicant.data) }} <span>{{ }}</span></div>
       <div
@@ -48,7 +49,8 @@
         </div>
         <div class="w-[681px] flex flex-col items-start h-full">
           <!-- runner -->
-          <div class="flex flex-row items-center justify-start w-[681px] px-6 pb-2 text-[1.6em] h-1/3">
+          <div
+            class="flex flex-row items-center justify-start w-[681px] px-6 pb-2 text-[1.4em] h-1/3 text-nowrap overflow-hidden">
             {{
               getRunnerString(run) }} <span>{{ }}</span></div>
           <div
