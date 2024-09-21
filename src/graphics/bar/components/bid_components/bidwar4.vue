@@ -47,19 +47,20 @@ import { nextTick, onMounted, ref, watch } from 'vue';
 // Props
 const props = defineProps<{
   bid: Bid;
+  animeTL: AnimeTimelineInstance;
 }>();
 
 const emit = defineEmits(['animationEnd'])
 
 const barWidth = 856;
 
-let animeTL = ref(anime.timeline());
+// let animeTL = ref(anime.timeline());
 
 const options = ref<BidOption[]>([])
 
 function createAnimation() {
 
-  animeTL.value = anime.timeline();
+  // props.animeTL = anime.timeline();
   // Calcular el porcentaje para animar
   // const percentage = props.bid.current_amount / props.bid.goal;
 
@@ -88,47 +89,14 @@ function createAnimation() {
     translateX: '-1138px'
   })
 
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(0)', 'brightness(1)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(2)', 'brightness(0.5)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(0.5)', 'brightness(2.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0.5],  // Reducción leve de opacidad
-    filter: ['brightness(2.5)', 'brightness(1)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgb(0, 255, 255)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
-  });
-
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 4000,
     easing: 'easeOutElastic(1, 1)',
     translateX: '0px'
   })
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.bar-container',
     duration: 2000,
     easing: 'easeOutElastic(1, 1.5)',
@@ -136,7 +104,7 @@ function createAnimation() {
     translateY: ['40px', '0px']
   });
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
@@ -144,49 +112,16 @@ function createAnimation() {
     delay: 1000
   })
 
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(2)', 'brightness(0)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(0.5)', 'brightness(2)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(2.5)', 'brightness(0.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0.5, 1],  // Reducción leve de opacidad
-    filter: ['brightness(1)', 'brightness(2.5)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgba(255, 0, 0, 0.0)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
-  });
-
-  animeTL.value.finished.then(() => {
+  props.animeTL.finished.then(() => {
     emit('animationEnd')
   })
 }
 
-watch(() => props.bid, (newVal) => {
-  animeTL.value.pause()
-  animeTL.value = {} as AnimeTimelineInstance
-  createAnimation()
-});
+// watch(() => props.bid, (newVal) => {
+//   props.animeTL.pause()
+//   props.animeTL = {} as AnimeTimelineInstance
+//   createAnimation()
+// });
 
 onMounted(async () => {
   // console.log(props.bid)

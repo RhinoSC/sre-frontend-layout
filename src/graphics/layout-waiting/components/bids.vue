@@ -17,7 +17,6 @@
 
 <script lang="ts" setup>
 import { Bid } from '@sre-frontend-layout/types';
-import { klona } from 'klona';
 import { nextTick, onMounted, ref } from 'vue';
 import Bidwar2Component from './bid_components/bidwar2.vue'
 import Bidwar4Component from './bid_components/bidwar4.vue'

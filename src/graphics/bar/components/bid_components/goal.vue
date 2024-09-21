@@ -25,9 +25,9 @@
           style="clip-path: polygon(9px 1px, 97.46% 1px, 99.31% 92.06%, 2.88% 92.06%);">
           <div id="bg-bar" class="absolute w-[856px] bg-[#0E8D9B] h-[38px]">
           </div>
-          <div id="bg-end-bar" class="relative w-[85px] bg-[#D1559E]"
+          <div id="bg-end-bar" class="relative w-[85px] bg-[#D1559E] flex flex-row items-center justify-center"
             style="clip-path: polygon(8px 0px, 76.77% 0px, 100% 95%, 30.3% 95%);">
-            <h3 class="pl-[22px] percentage relative bottom-[2px]">{{ barPercentage }}%</h3>
+            <h3 class="pl-[2px] percentage relative bottom-[4px]">{{ barPercentage }}%</h3>
           </div>
         </div>
       </div>
@@ -50,20 +50,32 @@ const barPercentage = computed(() => {
 // Props
 const props = defineProps<{
   bid: Bid;
+  animeTL: AnimeTimelineInstance;
 }>();
 
 const emit = defineEmits(['animationEnd'])
 
 const barWidth = 856;
 
-let animeTL = ref(anime.timeline());
+// let animeTL = ref(anime.timeline());
 
 function createAnimation() {
 
-  animeTL.value = anime.timeline();
+  // props.animeTL = anime.timeline();
   // Calcular el porcentaje para animar
-  // const percentage = props.bid.current_amount / props.bid.goal;
-  const percentage = 0.5;
+  let percentage = 0.25
+
+  if (props.bid.goal > 0) {
+    percentage = props.bid.current_amount / props.bid.goal;
+  }
+  // console.log(percentage)
+
+  if (percentage <= 0.1) {
+    percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
+  } else if (percentage >= 1) {
+    percentage = 1; // Limitar el porcentaje máximo a 100%
+  }
+
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
 
@@ -96,82 +108,49 @@ function createAnimation() {
   })
 
   anime.set('.current-amounts', {
-    translateX: '-225px'
+    translateX: '-300px'
   })
 
   anime.set('.goal-bids-container', {
     translateX: '-1138px'
   })
 
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(0)', 'brightness(1)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(2)', 'brightness(0.5)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(0.5)', 'brightness(2.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0.5],  // Reducción leve de opacidad
-    filter: ['brightness(2.5)', 'brightness(1)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgb(0, 255, 255)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
-  });
-
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 4000,
     easing: 'easeOutElastic(1, 1)',
     translateX: '0px'
   })
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.current-amounts',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
     translateX: '0px'
   })
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#bar-bg',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
     translateY: '0px',
   }, '-=2000')
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#bg-bar',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
     translateX: `-${barWidth - bgWidth - 30}px`
   }, '-=2000')
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#bg-end-bar',
     duration: 2000,
     easing: 'easeOutElastic(1, 1)',
     translateX: `${endWidth - 85}px`
   }, '-=2000')
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 1000,
     easing: 'easeOutElastic(1, 1)',
@@ -180,49 +159,16 @@ function createAnimation() {
     // delay: 10000
   })
 
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(2)', 'brightness(0)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(0.5)', 'brightness(2)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(2.5)', 'brightness(0.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0.5, 1],  // Reducción leve de opacidad
-    filter: ['brightness(1)', 'brightness(2.5)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgba(255, 0, 0, 0.0)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
-  });
-
-  animeTL.value.finished.then(() => {
+  props.animeTL.finished.then(() => {
     emit('animationEnd')
   })
 }
 
-watch(() => props.bid, (newVal) => {
-  animeTL.value.pause()
-  animeTL.value = {} as AnimeTimelineInstance
-  createAnimation()
-});
+// watch(() => props.bid, (newVal) => {
+//   props.animeTL.pause()
+//   props.animeTL = {} as AnimeTimelineInstance
+//   createAnimation()
+// });
 
 onMounted(() => {
   createAnimation()
