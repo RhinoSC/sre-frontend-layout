@@ -77,11 +77,11 @@ function createAnimation() {
   let percentage = props.bid.current_amount / props.bid.goal;
   console.log(percentage)
 
-  // if (percentage <= 0.1) {
-  //   percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
-  // } else if (percentage >= 1) {
-  //   percentage = 1; // Limitar el porcentaje máximo a 100%
-  // }
+  if (percentage <= 0.1) {
+    percentage = 0.25; // Un valor mínimo razonable para que siempre se vea la animación
+  } else if (percentage >= 1) {
+    percentage = 1; // Limitar el porcentaje máximo a 100%
+  }
   // const percentage = 1;
   const endWidth = barWidth * percentage;
   const bgWidth = barWidth * percentage - 85; // Restar la anchura de #bg-end-bar
