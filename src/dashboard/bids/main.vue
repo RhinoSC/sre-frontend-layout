@@ -86,7 +86,7 @@ const runsBidsServer = ref<Run[]>()
 
 // Computed para filtrar las runs basado en la búsqueda
 const filteredRuns = computed(() => {
-  console.log("aqui", runsBidsServer.value)
+  // console.log("aqui", runsBidsServer.value)
   if (runsBidsServer) {
     if (!runsBidsServer.value) return [];
     if (!runsBidsServer.value) return [];

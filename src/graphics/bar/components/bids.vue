@@ -42,6 +42,39 @@ function changeBid() {
   animeTL.value = {} as AnimeTimelineInstance
   animeTL.value = anime.timeline()
 
+  animeTL.value.add({
+    targets: '.start-bar',
+    duration: 50,  // Parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [0, 1],  // Primer parpadeo a 100% de opacidad
+    filter: ['brightness(0)', 'brightness(1)'],  // Aumento de brillo más notorio
+  }).add({
+    targets: '.start-bar',
+    duration: 100,  // Duración corta para el siguiente parpadeo
+    easing: 'easeInOutSine',
+    opacity: [1, 0],  // Vuelve a apagarse rápidamente
+    filter: ['brightness(2)', 'brightness(0.5)'],  // Baja el brillo bruscamente
+  }).add({
+    targets: '.start-bar',
+    duration: 100,  // Otro parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [0, 1],  // Parpadeo nuevamente a encendido
+    filter: ['brightness(0.5)', 'brightness(2.5)'],  // Aumento más extremo en el brillo
+  }).add({
+    targets: '.start-bar',
+    duration: 50,  // Último parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [1, 0.5],  // Reducción leve de opacidad
+    filter: ['brightness(2.5)', 'brightness(1)'],  // Ajuste a brillo normal
+  }).add({
+    targets: '.start-bar',
+    duration: 2000,  // Cambio más suave al estado final
+    easing: 'easeOutElastic(1, 0.5)',
+    backgroundColor: 'rgb(0, 255, 255)',  // El color final cuando el "foco" está encendido
+    opacity: 1,  // Asegura que esté completamente visible
+    filter: 'brightness(1)',  // Brillo normalizado
+  });
+
   if (bidIndex.value >= bidsArray.value.length) {
     bidIndex.value = 0
   }
@@ -79,6 +112,7 @@ async function animationEnd($event: any) {
   if (!bidsReplicant.value?.value) return
 
   if (bidIndex.value >= bidsReplicant.value.value.length) {
+
     emit('animationEnded')
   } else {
     await nextTick()
@@ -88,39 +122,6 @@ async function animationEnd($event: any) {
 
 onMounted(() => {
   bidsReplicant.value = nodecg.Replicant<Bid[]>('bids');
-
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(0)', 'brightness(1)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(2)', 'brightness(0.5)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(0.5)', 'brightness(2.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0.5],  // Reducción leve de opacidad
-    filter: ['brightness(2.5)', 'brightness(1)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgb(0, 255, 255)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
-  });
 
   NodeCG.waitForReplicants(bidsReplicant.value).then(() => {
     bidsReplicant.value?.on('change', async (newValue, oldValue) => {
@@ -151,41 +152,6 @@ onMounted(() => {
       }
       await nextTick()
     });
-  });
-})
-
-onUnmounted(() => {
-  animeTL.value.add({
-    targets: '.start-bar',
-    duration: 50,  // Parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Primer parpadeo a 100% de opacidad
-    filter: ['brightness(2)', 'brightness(0)'],  // Aumento de brillo más notorio
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Duración corta para el siguiente parpadeo
-    easing: 'easeInOutSine',
-    opacity: [0, 1],  // Vuelve a apagarse rápidamente
-    filter: ['brightness(0.5)', 'brightness(2)'],  // Baja el brillo bruscamente
-  }).add({
-    targets: '.start-bar',
-    duration: 100,  // Otro parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [1, 0],  // Parpadeo nuevamente a encendido
-    filter: ['brightness(2.5)', 'brightness(0.5)'],  // Aumento más extremo en el brillo
-  }).add({
-    targets: '.start-bar',
-    duration: 50,  // Último parpadeo rápido
-    easing: 'easeInOutSine',
-    opacity: [0.5, 1],  // Reducción leve de opacidad
-    filter: ['brightness(1)', 'brightness(2.5)'],  // Ajuste a brillo normal
-  }).add({
-    targets: '.start-bar',
-    duration: 2000,  // Cambio más suave al estado final
-    easing: 'easeOutElastic(1, 0.5)',
-    backgroundColor: 'rgba(255, 0, 0, 0.0)',  // El color final cuando el "foco" está encendido
-    opacity: 1,  // Asegura que esté completamente visible
-    filter: 'brightness(1)',  // Brillo normalizado
   });
 })
 </script>
