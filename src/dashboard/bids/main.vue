@@ -189,7 +189,7 @@ onMounted(() => {
 
     // Observa cambios en runsWithBids y actualiza activeBids
     runsWithBids.value?.on('change', async (newValue, oldValue) => {
-
+      searchQuery.value = ""
       updateActiveBids();
 
       console.log("esto?:", newValue)
@@ -200,6 +200,7 @@ onMounted(() => {
 
     // Observa cambios en bidsReplicant y actualiza activeBids
     bidsReplicant.value?.on('change', async (newValue, oldValue) => {
+      searchQuery.value = ""
       if (newValue) {
         activeBids.value = []
         newValue.forEach(bid => {

@@ -76,17 +76,16 @@ import { nextTick, onMounted, ref, watch } from 'vue';
 // Props
 const props = defineProps<{
   bid: Bid;
+  animeTL: AnimeTimelineInstance;
 }>();
 
 const emit = defineEmits(['animationEnd'])
-
-let animeTL = ref(anime.timeline());
 
 const options = ref<BidOption[]>([])
 
 function createAnimation() {
 
-  animeTL.value = anime.timeline();
+  // props.animeTL = anime.timeline();
   // Calcular el porcentaje para animar
   // const percentage = props.bid.current_amount / props.bid.goal;
 
@@ -114,21 +113,21 @@ function createAnimation() {
     translateX: `-485px`
   })
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 1200, // Reducido para hacerla más rápida y fluida
     easing: 'easeOutElastic(1, 1.2)', // Menos elástica para evitar saltos fuertes
     translateX: `-17px`
   });
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.title',
     duration: 1500, // Duración ajustada para coincidir mejor con la animación del contenedor
     easing: 'easeOutQuad', // Cambio a 'easeOutQuad' para una entrada más fluida
     opacity: `1`
   });
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#option-div',
     duration: 1200, // Tiempo más rápido para darle dinamismo
     easing: 'easeOutElastic(1, 1)',
@@ -136,7 +135,7 @@ function createAnimation() {
     translateX: '15px'
   });
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.first-bar-container',
     duration: 1500, // Sincronizado con la entrada del div de opciones
     easing: 'easeOutElastic(1, 1.1)', // Ligeramente menos elástico para suavizar
@@ -144,7 +143,7 @@ function createAnimation() {
     translateX: '0px'
   }, '-=1000'); // Reducimos el solapamiento para suavizar la transición
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.bar-container',
     duration: 1500,
     easing: 'easeOutElastic(1, 1.3)', // Mantiene cierta elasticidad pero más moderada
@@ -154,21 +153,21 @@ function createAnimation() {
   }, '-=1200'); // Sincronización ajustada para mejor fluidez
 
   // Ocultar título de manera más fluida
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.title',
     duration: 1000, // Disminuido para que desaparezca más rápido
     easing: 'easeInQuad', // Suaviza la salida
     opacity: `0`
   });
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#bar-bg',
     duration: 800, // Reducido para una salida más rápida
     easing: 'linear',
     opacity: `0`
   }, '-=1500'); // Reducido el solapamiento para suavizar la transición
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '#option-div',
     duration: 800, // Sincronizado con el background
     easing: 'linear',
@@ -176,7 +175,7 @@ function createAnimation() {
     opacity: `0`
   }, '-=1200'); // Menos superposición para fluidez
 
-  animeTL.value.add({
+  props.animeTL.add({
     targets: '.goal-bids-container',
     duration: 800, // Reducido para mayor agilidad
     easing: 'linear',
@@ -184,16 +183,16 @@ function createAnimation() {
     delay: 300, // Tiempo ajustado para hacer desaparecer todo de forma ordenada
   });
 
-  animeTL.value.finished.then(() => {
+  props.animeTL.finished.then(() => {
     emit('animationEnd')
   })
 }
 
-watch(() => props.bid, (newVal) => {
-  animeTL.value.pause()
-  animeTL.value = {} as AnimeTimelineInstance
-  createAnimation()
-});
+// watch(() => props.bid, (newVal) => {
+//   props.animeTL.pause()
+//   props.animeTL = {} as AnimeTimelineInstance
+//   createAnimation()
+// });
 
 onMounted(async () => {
   // console.log(props.bid)

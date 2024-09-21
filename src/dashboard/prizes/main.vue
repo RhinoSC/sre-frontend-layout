@@ -134,7 +134,8 @@ onMounted(() => {
   activePrizesReplicant.value = nodecg.Replicant<Prize[]>('activePrizes');
   NodeCG.waitForReplicants(activePrizesReplicant.value).then(() => {
     activePrizesReplicant.value?.on('change', (newValue, oldValue) => {
-      console.log(newValue)
+      // console.log(newValue)
+      searchQuery.value = ""
       if (newValue) {
         activePrizes.value = [];
         newValue.forEach(prize => {
