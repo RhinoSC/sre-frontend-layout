@@ -72,8 +72,10 @@
           <div
             class="absolute top-[277px] left-[19px] w-[334px] h-[139px] bg-[url('/src/graphics/16_9_2p/assets/SRE-X_Layout_4.Juego2_16-9_Logo_16_2p_1.png')]">
             <div class="w-[334px] h-[139px] flex flex-row items-center justify-center">
-              <img src="../_misc/assets/SRE-X_color_1.png" alt="" class="absolute bg-cover sre-img">
-              <img src="../_misc/assets/save-one-ong-color_1.png" alt="" class="absolute bg-cover one-img">
+              <img src="../_misc/assets/SRE-X_color_1.png" alt=""
+                class="absolute object-contain w-[90%] h-full sre-img">
+              <img src="../_misc/assets/save-one-ong-color_1.png" alt=""
+                class="absolute object-contain w-[45%] h-full one-img">
             </div>
           </div>
         </div>

@@ -72,7 +72,11 @@
         <!-- div-logos -->
         <div
           class="absolute top-[303px] left-[20px] w-[570px] h-[194px] bg-[url('/src/graphics/4_3_solo/assets/SRE-X_Layout_3.Juego_4-3-Logos_1.png')]">
-
+          <div class="w-[570px] h-[194px] flex flex-row items-center justify-center">
+            <img src="../_misc/assets/SRE-X_color_1.png" alt="" class="absolute object-contain w-[70%] h-full sre-img">
+            <img src="../_misc/assets/save-one-ong-color_1.png" alt=""
+              class="absolute object-contain w-[35%] h-full one-img">
+          </div>
         </div>
       </div>
       <!-- div-info -->
@@ -140,6 +144,48 @@ const hostReplicant = useReplicant<string>('host', 'sre-frontend-layout');
 const activeRunReplicant = useReplicant<ActiveRun>('activeRun', 'sre-frontend-layout');
 const timerReplicant = useReplicant<Timer>('timer', 'sre-frontend-layout');
 
+
+function animateLogos() {
+  let logosTL = anime.timeline({
+    loop: true,
+    easing: 'linear',
+  });
+
+  // Inicializar con opacidades diferentes
+  anime.set('.sre-img', { opacity: 1 });
+  anime.set('.one-img', { opacity: 0 });
+
+  // Alternar las opacidades con más tiempo visible para cada logo
+  logosTL
+    .add({
+      targets: '.sre-img',
+      opacity: 0,  // Desaparece
+      duration: 2000,
+      delay: 2000  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.one-img',
+      opacity: 1,  // Aparece
+      duration: 2000,
+      // offset: '-=2000',  // Inicia al mismo tiempo que el desvanecimiento de .sre-img
+      delay: 2000  // Se queda visible por 2 segundos
+    }, '-=3000')
+    .add({
+      targets: '.one-img',
+      opacity: 0,  // Desaparece
+      duration: 2000,
+      // offset: '-=2000',
+      delay: 2000  // Espera 2 segundos antes de desaparecer
+    })
+    .add({
+      targets: '.sre-img',
+      opacity: 1,  // Vuelve a aparecer
+      duration: 2000,
+      // offset: '-=2000',
+      delay: 2000  // Se queda visible por 2 segundos
+    }, '-=3000')
+}
+
 let namesTL = anime.timeline({
   loop: true,
   easing: 'linear',
@@ -197,6 +243,7 @@ onMounted(() => {
       await nextTick();
       await nextTick();
       animateNames();
+      animateLogos();
     })
   })
 })
