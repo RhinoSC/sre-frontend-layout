@@ -123,10 +123,12 @@
       </div>
     </div>
   </div>
-
+  <!-- bot bar -->
+  <BarComponent :wait="false"></BarComponent>
 </template>
 
 <script lang="ts" setup>
+import BarComponent from '@sre-frontend-layout/graphics/bar/main.vue'
 import TwitchIcon from 'vue-material-design-icons/Twitch.vue';
 import { ActiveRun, Timer } from '@sre-frontend-layout/types/schemas';
 import { useReplicant } from 'nodecg-vue-composable';
