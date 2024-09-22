@@ -108,6 +108,12 @@ onMounted(() => {
 
         ready.value = true
       }
+      if (newValue.length === 0) {
+        animeTL.value = {} as AnimeTimelineInstance
+        animeTL.value = anime.timeline()
+        selectedBid.value = undefined
+        await nextTick()
+      }
       await nextTick()
     });
   });
