@@ -1,7 +1,7 @@
 <template>
   <div v-if="props.start">
     <div
-      class="text-white w-[1920px] h-[77px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
+      class="text-white w-[1920px] h-[79px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
       <div>
         <img src="./assets/SRE-X_color_1.png" alt="">
       </div>
@@ -10,7 +10,7 @@
   <div v-else>
     <div v-if="props.wait">
       <div
-        class="text-white w-[1920px] h-[77px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
+        class="text-white w-[1920px] h-[78px] flex flex-row items-start justify-between bg-[url('/src/graphics/bar/assets/Barra_Inferior.png')]">
         <div class="ml-[120px] w-[430px] h-full flex flex-row items-center gap-2">
           <MicIcon :size="48"></MicIcon>
           <h1 class="text-3xl font-bold">
