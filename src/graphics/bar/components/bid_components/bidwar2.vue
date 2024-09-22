@@ -60,7 +60,6 @@ const options = ref<BidOption[]>([])
 
 function createAnimation() {
 
-  // props.animeTL = anime.timeline();
   // Calcular el porcentaje para animar
   // const percentage = props.bid.current_amount / props.bid.goal;
 
@@ -88,6 +87,39 @@ function createAnimation() {
   anime.set('.goal-bids-container', {
     translateX: '-1138px'
   })
+
+  props.animeTL.add({
+    targets: '.start-bar',
+    duration: 50,  // Parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [0, 1],  // Primer parpadeo a 100% de opacidad
+    filter: ['brightness(0)', 'brightness(1)'],  // Aumento de brillo más notorio
+  }).add({
+    targets: '.start-bar',
+    duration: 100,  // Duración corta para el siguiente parpadeo
+    easing: 'easeInOutSine',
+    opacity: [1, 0],  // Vuelve a apagarse rápidamente
+    filter: ['brightness(2)', 'brightness(0.5)'],  // Baja el brillo bruscamente
+  }).add({
+    targets: '.start-bar',
+    duration: 100,  // Otro parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [0, 1],  // Parpadeo nuevamente a encendido
+    filter: ['brightness(0.5)', 'brightness(2.5)'],  // Aumento más extremo en el brillo
+  }).add({
+    targets: '.start-bar',
+    duration: 50,  // Último parpadeo rápido
+    easing: 'easeInOutSine',
+    opacity: [1, 0.5],  // Reducción leve de opacidad
+    filter: ['brightness(2.5)', 'brightness(1)'],  // Ajuste a brillo normal
+  }).add({
+    targets: '.start-bar',
+    duration: 2000,  // Cambio más suave al estado final
+    easing: 'easeOutElastic(1, 0.5)',
+    backgroundColor: 'rgb(0, 255, 255)',  // El color final cuando el "foco" está encendido
+    opacity: 1,  // Asegura que esté completamente visible
+    filter: 'brightness(1)',  // Brillo normalizado
+  });
 
   props.animeTL.add({
     targets: '.goal-bids-container',
