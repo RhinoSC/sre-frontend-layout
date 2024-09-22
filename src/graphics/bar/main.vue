@@ -31,7 +31,7 @@
       <div class="w-[466px] h-[77px] flex">
         <div class="w-[360px] h-[77px]" style="clip-path: polygon(0 0, 87% 0, 100% 100%, 0% 100%);">
         </div>
-        <div class="z-20 w-[106px] start-bar h-[77px] relative right-[15px]"
+        <div class="z-20 w-[106px] start-bar h-[77px] relative right-[13px]"
           style="clip-path: polygon(0px 0px, 57% 0px, 100.94% 100.00%, 43% 100%);">
         </div>
       </div>
