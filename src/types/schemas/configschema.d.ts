@@ -6,5 +6,10 @@
  */
 
 export interface Configschema {
-	exampleProperty: string;
+	API_URL: string;
+	API_TOKEN?: string;
+	API_USERNAME: string;
+	API_PASSWORD: string;
+	API_SCHEDULE_ID: string;
+	API_EVENT_ID: string;
 }

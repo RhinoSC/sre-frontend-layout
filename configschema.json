@@ -3,11 +3,24 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "exampleProperty": {
+    "API_URL": {
+      "type": "string"
+    },
+    "API_TOKEN": {
+      "type": "string"
+    },
+    "API_USERNAME": {
+      "type": "string"
+    },
+    "API_PASSWORD": {
+      "type": "string"
+    },
+    "API_SCHEDULE_ID": {
+      "type": "string"
+    },
+    "API_EVENT_ID": {
       "type": "string"
     }
   },
-  "required": [
-    "exampleProperty"
-  ]
+  "required": ["API_URL", "API_USERNAME", "API_PASSWORD", "API_SCHEDULE_ID", "API_EVENT_ID"]
 }

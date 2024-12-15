@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "bidname": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "number"
+    },
+    "current_amount": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "create_new_options": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "string"
+    },
+    "bid_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "current_amount": {
+            "type": "number"
+          },
+          "bid_id": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name", "current_amount", "bid_id"]
+      },
+      "default": []
+    },
+    "run_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "bidname",
+    "goal",
+    "current_amount",
+    "description",
+    "type",
+    "create_new_options",
+    "status",
+    "bid_options",
+    "run_id"
+  ]
+}

@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@nodecg-vue-ts-template': `${__dirname}/src/`,
+      '@sre-frontend-layout': `${__dirname}/src/`,
     },
   },
 });
